@@ -1,0 +1,127 @@
+#include "CImage.h"
+
+namespace glliba
+{
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	CImage::CImage()
+		: m_iWidth(0)
+		, m_iHeight(0)
+		, m_iDepth(0)
+		, m_eFormat(IF_RGB)
+		, m_eType(IT_UNSIGNED_BYTE)
+		, m_data(NULL)
+		, m_imageFile("")
+		, m_iImageID(0)
+
+		, m_bIsLoaded(false)
+	{
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	CImage::~CImage()
+	{
+		clearData();
+		m_imageFile.clear();
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CImage::clearData()
+	{
+		if (m_data != NULL)
+		{
+			delete m_data;
+			m_data = NULL;
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CImage::getWidth() const
+	{
+		return m_iWidth;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CImage::getHeight() const
+	{
+		return m_iHeight;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CImage::getDepth() const
+	{
+		return m_iDepth;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CImage::getFormat() const
+	{
+		return m_eFormat;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CImage::getType() const
+	{
+		return m_eType;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void* CImage::getData() const
+	{
+		return m_data;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	bool CImage::loadImage( const std::string* _nameFile )
+	{
+		bool loaded = false;
+#ifdef _USE_DEVIL
+		loaded = loadImageDevil( _nameFile );
+#endif
+		return loaded;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#ifdef _USE_DEVIL
+	bool CImage::loadImageDevil( const std::string* _nameFile )
+	{
+		uint success = -1;
+
+		//http://content.gpwiki.org/index.php/DevIL:Tutorials:Basics
+
+		success = ilLoadImage( (char*)_nameFile->data() );
+		ASSERT( success == 1 && "Invalid Texture");
+		
+		m_iWidth  = ilGetInteger(IL_IMAGE_WIDTH);
+		m_iHeight = ilGetInteger(IL_IMAGE_HEIGHT);
+		m_iDepth  = ilGetInteger(IL_IMAGE_DEPTH);
+		m_eFormat = (IMAGE_FORMAT)ilGetInteger(IL_IMAGE_FORMAT);
+		m_eType   = (IMAGE_TYPE)ilGetInteger(IL_IMAGE_TYPE);
+
+		ilConvertImage(m_eFormat, m_eType);
+		
+		if (m_data != NULL)
+		{
+			delete m_data;
+			m_data = NULL;
+		}
+		
+		m_data = (ILubyte*)malloc(ilGetInteger(IL_IMAGE_SIZE_OF_DATA));
+		memcpy(m_data,ilGetData(),ilGetInteger(IL_IMAGE_SIZE_OF_DATA));
+
+		return (success == 1) ? true : false;
+	}
+#endif
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
