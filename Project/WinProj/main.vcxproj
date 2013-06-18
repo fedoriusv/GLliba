@@ -1,0 +1,335 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug GLSL_3.3|Win32">
+      <Configuration>Debug GLSL_3.3</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug OpenGL|Win32">
+      <Configuration>Debug OpenGL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Hybrid|Win32">
+      <Configuration>Hybrid</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release OpenGL|Win32">
+      <Configuration>Release OpenGL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName />
+    <SccLocalPath />
+    <ProjectName>main</ProjectName>
+    <ProjectGuid>{2D7B90D0-0075-83C6-BF67-8EFD1E495F32}</ProjectGuid>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release OpenGL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug OpenGL|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug GLSL_3.3|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v110</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release OpenGL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug OpenGL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug GLSL_3.3|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.Cpp.UpgradeFromVC60.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug OpenGL|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>D:\other\boost_1_53_0;..\..\Libs\Boost\boost_1_53_0;..\..\Libs\lib3ds\lib3ds-1.3.0;..\..\Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>D:\other\liba\Source;$(SourcePath)</SourcePath>
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <TargetName>$(ProjectName)_d</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\Libs\Boost\boost_1_53_0;..\..\Libs\lib3ds\lib3ds-1.3.0;..\..\Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>D:\other\liba\Source;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug GLSL_3.3|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\Libs\lib3ds\lib3ds-1.3.0;..\..\Libs;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Libs;$(LibraryPath)</LibraryPath>
+    <SourcePath>D:\other\liba\Source;$(SourcePath)</SourcePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release OpenGL|Win32'">
+    <OutDir>$(SolutionDir)bin\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>..\..\Libs;F:\Projects\GLib\Libs\lib3ds\lib3ds-1.3.0;..\..\Libs\Boost\boost_1_53_0;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\Libs;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug OpenGL|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_OPENGL;_USE_DEVIL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\main.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x1009</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\main.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <OutputFile>$(OutDir)$(ProjectName)_d.exe</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Hybrid|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\main.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x1009</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\main.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug GLSL_3.3|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <Optimization>Disabled</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <MinimalRebuild>true</MinimalRebuild>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_GLSL_3_3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Debug\main.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x1009</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug\main.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release OpenGL|Win32'">
+    <ClCompile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <StringPooling>true</StringPooling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <Optimization>MaxSpeed</Optimization>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_OPENGL;_USE_DEVIL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)vc$(PlatformToolsetVersion).pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <Midl>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <TypeLibraryName>.\Release\main.tlb</TypeLibraryName>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <TargetEnvironment>Win32</TargetEnvironment>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x1009</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release\main.bsc</OutputFile>
+    </Bscmake>
+    <Link>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <SubSystem>Console</SubSystem>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\CApplication.cpp" />
+    <ClCompile Include="..\..\Source\CCamera.cpp" />
+    <ClCompile Include="..\..\Source\CCubeShape.cpp" />
+    <ClCompile Include="..\..\Source\CCylinderShape.cpp" />
+    <ClCompile Include="..\..\Source\CDCCamera.cpp" />
+    <ClCompile Include="..\..\Source\CFog.cpp" />
+    <ClCompile Include="..\..\Source\CFPSCamera.cpp" />
+    <ClCompile Include="..\..\Source\CImage.cpp" />
+    <ClCompile Include="..\..\Source\CLight.cpp" />
+    <ClCompile Include="..\..\Source\CLogger.cpp" />
+    <ClCompile Include="..\..\Source\CMaterial.cpp" />
+    <ClCompile Include="..\..\Source\CMesh.cpp" />
+    <ClCompile Include="..\..\Source\CModel.cpp" />
+    <ClCompile Include="..\..\Source\CModel3DS.cpp" />
+    <ClCompile Include="..\..\Source\CModelF3D.cpp" />
+    <ClCompile Include="..\..\Source\CNode.cpp" />
+    <ClCompile Include="..\..\Source\CObject.cpp" />
+    <ClCompile Include="..\..\Source\CPlaneShape.cpp" />
+    <ClCompile Include="..\..\Source\CReciever.cpp" />
+    <ClCompile Include="..\..\Source\CRender.cpp" />
+    <ClCompile Include="..\..\Source\CRenderGL.cpp" />
+    <ClCompile Include="..\..\Source\CRenderTarget.cpp" />
+    <ClCompile Include="..\..\Source\CSceneManager.cpp" />
+    <ClCompile Include="..\..\Source\CShader.cpp" />
+    <ClCompile Include="..\..\Source\CShaderProgram.cpp" />
+    <ClCompile Include="..\..\Source\CShape.cpp" />
+    <ClCompile Include="..\..\Source\CSampler.cpp" />
+    <ClCompile Include="..\..\Source\CSkyBox.cpp" />
+    <ClCompile Include="..\..\Source\CSphereShape.cpp" />
+    <ClCompile Include="..\..\Source\CTexture.cpp" />
+    <ClCompile Include="..\..\Source\CTexture2D.cpp" />
+    <ClCompile Include="..\..\Source\CTextureCubeMap.cpp" />
+    <ClCompile Include="..\..\Source\CTimer.cpp" />
+    <ClCompile Include="..\..\Source\CTorusShape.cpp" />
+    <ClCompile Include="..\..\Source\CWinOpenGL.cpp" />
+    <ClCompile Include="..\..\Source\main.cpp" />
+    <ClCompile Include="..\..\Source\WinMain.cpp" />
+    <ClCompile Include="..\..\Source\CResourceManager.cpp" />
+    <ClCompile Include="..\..\Source\Vertex.cpp" />
+    <ClCompile Include="..\..\Source\CDiskShape.cpp" />
+    <ClCompile Include="..\..\Source\CHeightMap.cpp" />
+    <ClCompile Include="..\..\Source\CShaderUniform.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\CApplication.h" />
+    <ClInclude Include="..\..\Source\CCamera.h" />
+    <ClInclude Include="..\..\Source\CCubeShape.h" />
+    <ClInclude Include="..\..\Source\CCylinderShape.h" />
+    <ClInclude Include="..\..\Source\CDCCamera.h" />
+    <ClInclude Include="..\..\Source\CFog.h" />
+    <ClInclude Include="..\..\Source\CFPSCamera.h" />
+    <ClInclude Include="..\..\Source\CImage.h" />
+    <ClInclude Include="..\..\Source\CLight.h" />
+    <ClInclude Include="..\..\Source\CLogger.h" />
+    <ClInclude Include="..\..\Source\CMaterial.h" />
+    <ClInclude Include="..\..\Source\CMesh.h" />
+    <ClInclude Include="..\..\Source\CModel.h" />
+    <ClInclude Include="..\..\Source\CModel3DS.h" />
+    <ClInclude Include="..\..\Source\CModelF3D.h" />
+    <ClInclude Include="..\..\Source\CNode.h" />
+    <ClInclude Include="..\..\Source\CObject.h" />
+    <ClInclude Include="..\..\Source\CPlaneShape.h" />
+    <ClInclude Include="..\..\Source\CReciever.h" />
+    <ClInclude Include="..\..\Source\CRender.h" />
+    <ClInclude Include="..\..\Source\CRenderGL.h" />
+    <ClInclude Include="..\..\Source\CRenderTarget.h" />
+    <ClInclude Include="..\..\Source\CSampler.h" />
+    <ClInclude Include="..\..\Source\CSceneManager.h" />
+    <ClInclude Include="..\..\Source\CShaderProgram.h" />
+    <ClInclude Include="..\..\Source\CShape.h" />
+    <ClInclude Include="..\..\Source\CSkyBox.h" />
+    <ClInclude Include="..\..\Source\CSphereShape.h" />
+    <ClInclude Include="..\..\Source\CTexture.h" />
+    <ClInclude Include="..\..\Source\CTexture2D.h" />
+    <ClInclude Include="..\..\Source\CTextureCubeMap.h" />
+    <ClInclude Include="..\..\Source\CTimer.h" />
+    <ClInclude Include="..\..\Source\CTorusShape.h" />
+    <ClInclude Include="..\..\Source\CShader.h" />
+    <ClInclude Include="..\..\Source\CWinOpenGL.h" />
+    <ClInclude Include="..\..\Source\KeyCodes.h" />
+    <ClInclude Include="..\..\Source\CResourceManager.h" />
+    <ClInclude Include="..\..\Source\CSingleton.h" />
+    <ClInclude Include="..\..\Source\Types.h" />
+    <ClInclude Include="..\..\Source\Vertex.h" />
+    <ClInclude Include="..\..\Source\CDiskShape.h" />
+    <ClInclude Include="..\..\Source\CHeightMap.h" />
+    <ClInclude Include="..\..\Source\Param.h" />
+    <ClInclude Include="..\..\Source\CShaderUniform.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

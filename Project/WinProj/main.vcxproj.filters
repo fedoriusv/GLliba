@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{0c91ef36-5b5d-4dd3-aeea-f3a9d1109f67}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{b57e69ee-57bb-46c5-b95f-a695ac9a6a61}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{d6d38964-cf65-484e-a4f9-9921be4818fe}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GLLiba">
+      <UniqueIdentifier>{819e6d7a-8939-4ad7-a6b1-d95effe7d2ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\GraphLibs">
+      <UniqueIdentifier>{84f2cae5-8ed7-423b-930c-8c8a470b6a88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object">
+      <UniqueIdentifier>{78b77e28-cf4f-4d6c-8795-046a0837f7f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object\Nodes">
+      <UniqueIdentifier>{ae4705af-572f-4678-a993-67bb02d02e55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object\Nodes\Shapes">
+      <UniqueIdentifier>{fd047aac-e10f-4ed1-bdaa-4a73a424ccff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object\Nodes\Camera">
+      <UniqueIdentifier>{127d714d-a144-4cf2-898e-a96d425f448e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object\Nodes\Model">
+      <UniqueIdentifier>{d4f6affc-b8bc-4c34-a74c-939d837294fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Object\Texture">
+      <UniqueIdentifier>{57659566-8184-43cb-926c-bbc9c440eebd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Managers">
+      <UniqueIdentifier>{ae5459f0-798b-4f3c-9e9f-39919ef427c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba">
+      <UniqueIdentifier>{8812ec07-e7c1-4baa-ab54-ba29dcfbf056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object">
+      <UniqueIdentifier>{af79b60f-74be-4f2b-aae4-10bc548f80f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object\Nodes">
+      <UniqueIdentifier>{37070c4e-283a-4956-b27d-b72d9c06ee0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object\Nodes\Shapes">
+      <UniqueIdentifier>{0e5b3f85-9274-42c3-86fc-d7c663cdae99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object\Nodes\Camera">
+      <UniqueIdentifier>{d512f59a-99b7-409b-8780-da5d7459860b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object\Nodes\Model">
+      <UniqueIdentifier>{eb8aff33-7836-4f68-8dc9-6994429b1f58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Object\Texture">
+      <UniqueIdentifier>{205afc51-3899-4940-9932-d12a6103911a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\GraphLibs">
+      <UniqueIdentifier>{7e65d4b4-5864-441b-b0f4-d74be465ace2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Platform">
+      <UniqueIdentifier>{84998734-cf0d-43cb-91db-599f9d7b7c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GLLiba\Managers">
+      <UniqueIdentifier>{c80e01b8-8da2-4005-8384-299cfa4953c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GLLiba\Platform">
+      <UniqueIdentifier>{dfc65c71-fb31-4a7d-be82-efc3c7114d7e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\CRender.cpp">
+      <Filter>Source Files\GLLiba\GraphLibs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CRenderGL.cpp">
+      <Filter>Source Files\GLLiba\GraphLibs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\WinMain.cpp">
+      <Filter>Source Files\GLLiba\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CDCCamera.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CFPSCamera.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CCamera.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CCubeShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CCylinderShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CPlaneShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CSphereShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CTorusShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CLight.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CModel.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CTexture2D.cpp">
+      <Filter>Source Files\GLLiba\Object\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CTextureCubeMap.cpp">
+      <Filter>Source Files\GLLiba\Object\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CTexture.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CFog.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CNode.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CMaterial.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CMesh.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CObject.cpp">
+      <Filter>Source Files\GLLiba</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CReciever.cpp">
+      <Filter>Source Files\GLLiba</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CApplication.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CModel3DS.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CSceneManager.cpp">
+      <Filter>Source Files\GLLiba\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Vertex.cpp">
+      <Filter>Source Files\GLLiba</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CDiskShape.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CHeightMap.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CShader.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CResourceManager.cpp">
+      <Filter>Source Files\GLLiba\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CShaderUniform.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CModelF3D.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CImage.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CShaderProgram.cpp">
+      <Filter>Source Files\GLLiba\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CRenderTarget.cpp">
+      <Filter>Source Files\GLLiba\Object\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CWinOpenGL.cpp">
+      <Filter>Source Files\GLLiba\Platform</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CSampler.cpp">
+      <Filter>Source Files\GLLiba\Object\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CSkyBox.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\CRender.h">
+      <Filter>Header Files\GLLiba\GraphLibs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CRenderGL.h">
+      <Filter>Header Files\GLLiba\GraphLibs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CDCCamera.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CFPSCamera.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CCamera.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CCubeShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CCylinderShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CPlaneShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CSphereShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTorusShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CLight.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CModel.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTexture2D.h">
+      <Filter>Header Files\GLLiba\Object\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTextureCubeMap.h">
+      <Filter>Header Files\GLLiba\Object\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTexture.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CFog.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CNode.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CMaterial.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CMesh.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CObject.h">
+      <Filter>Header Files\GLLiba</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CReciever.h">
+      <Filter>Header Files\GLLiba</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CApplication.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\KeyCodes.h">
+      <Filter>Header Files\GLLiba</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CModel3DS.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CSceneManager.h">
+      <Filter>Header Files\GLLiba\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CSingleton.h">
+      <Filter>Header Files\GLLiba</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Vertex.h">
+      <Filter>Header Files\GLLiba</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CDiskShape.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Shapes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CHeightMap.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CShader.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Param.h">
+      <Filter>Header Files\GLLiba\GraphLibs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CResourceManager.h">
+      <Filter>Header Files\GLLiba\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CShaderUniform.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CModelF3D.h">
+      <Filter>Header Files\GLLiba\Object\Nodes\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CImage.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CShaderProgram.h">
+      <Filter>Header Files\GLLiba\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTimer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CRenderTarget.h">
+      <Filter>Header Files\GLLiba\Object\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CWinOpenGL.h">
+      <Filter>Header Files\GLLiba\Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CSampler.h">
+      <Filter>Header Files\GLLiba\Object\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CSkyBox.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
