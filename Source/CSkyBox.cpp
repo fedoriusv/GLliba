@@ -2,6 +2,9 @@
 #include "CRender.h"
 #include "CResourceManager.h"
 
+const std::string vertShaderSkyBox = "data/skybox.vsh";
+const std::string fragShaderSkyBox = "data/skybox.psh";
+
 namespace glliba
 {
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -9,6 +12,7 @@ namespace glliba
 	CSkyBox::CSkyBox()
 		: CNode(NULL)
 		, m_bIsLoad(false)
+		, m_pShader(nullptr)
 	{
 		m_eTypeNode = TN_SKYBOX;
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
@@ -17,6 +21,8 @@ namespace glliba
 		{
 			m_pSkyBoxTexture[texNo] = nullptr;
 		}
+
+		CSkyBox::init();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,9 +68,12 @@ namespace glliba
 
 	void CSkyBox::init()
 	{
+		m_pShader = new CShader();
+		m_pShader->loadShader(vertShaderSkyBox,fragShaderSkyBox);
+
 		m_vertices.malloc( 24, 36 );
 
-		float s = 0.5f;
+		float s = 50.0f;
 
 		float vertex[][3] = 
 		{
@@ -116,13 +125,47 @@ namespace glliba
 		m_vertices.clear();
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void CSkyBox::render()
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
 
+		GLint OldCullFaceMode;
+		glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
+		GLint OldDepthFuncMode;
+		glGetIntegerv(GL_DEPTH_FUNC, &OldDepthFuncMode);
+
+		glCullFace(GL_FRONT);
+		glDepthFunc(GL_LEQUAL);
+
+		RENDER->bindShader( m_pShader->getShaderID() );
+		RENDER->drawSimple( DM_TRIANGLES, m_vertices, 0 );
+
+		glCullFace(OldCullFaceMode);
+		glDepthFunc(OldDepthFuncMode);
 	}
 
-	void CSkyBox::update()
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CSkyBox::update( double _dDeltaTime )
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
 
+		if ( m_bNeedUpdate )
+		{
+			CNode::updateTransform( _dDeltaTime );
+			m_bNeedUpdate = false;
+		}
+
+		RENDER->updateTransform(m_worldMatrix, m_offset);
 	}
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

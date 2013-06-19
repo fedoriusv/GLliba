@@ -112,8 +112,8 @@ namespace glliba
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		
 		glClearDepth(1.0f);
 		//glEnable(GL_DEPTH);
@@ -645,7 +645,7 @@ namespace glliba
 		GLint positionLocation = glGetAttribLocation(_iShaderID, "position");
 		ASSERT( positionLocation == GL_ATTRIBUTE_VERTEX && "Invalid attribute vertex Index" );
 		GLint normalLocation =	glGetAttribLocation(_iShaderID, "normal");
-		ASSERT( normalLocation == GL_ATTRIBUTE_NORMAL && "Invalid attribute normal Index" );
+		//ASSERT( normalLocation == GL_ATTRIBUTE_NORMAL && "Invalid attribute normal Index" );
 		GLint texCoord0Location = glGetAttribLocation(_iShaderID, "texCoord0");
 		//ASSERT( texCoord0Location == GL_ATTRIBUTE_TEXTURE0 && "Invalid attribute texCoord0 Index" );
 
@@ -933,6 +933,8 @@ namespace glliba
 
 		printOpenGLError("GLError Draw Simple: ");
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CRenderGL::showFPS()
 	{

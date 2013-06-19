@@ -13,6 +13,7 @@
 #include "CShader.h"
 #include "CModel3DS.h"
 #include "CModelF3D.h"
+#include "CSkyBox.h"
 
 #include "CRender.h"
 
@@ -429,6 +430,16 @@ namespace glliba
 		obj->setParent(_pParent);
 		obj->setPosition( _pos );
 				
+		CSceneManager::addNode(obj);
+		return obj;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	CNode* CSceneManager::addSkyBox()
+	{
+		CNode* obj = new CSkyBox();
+
 		CSceneManager::addNode(obj);
 		return obj;
 	}

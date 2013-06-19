@@ -26,12 +26,13 @@ void CApplication::init()
 	
 	//TODO: Create objects--------------------------------------------------------------------
 	m_scene->setActiveDebug(true);
+	m_scene->addSkyBox();
 
-	CNode* cube0 = m_scene->addCube(0,Vector3(0.0f,0.0f,-6.0f),3);
+	/*CNode* cube0 = m_scene->addCube(0,Vector3(0.0f,0.0f,-6.0f),3);
 	cube0->setName("cube0");
 	static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 	static_cast<CShape*>(cube0)->getMaterial()->setTexture(1,"texture1","Data/box.jpg");
-	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/user.vsh","data/user.psh");
+	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/user.vsh","data/user.psh");*/
 	/*CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f),1);
 	cube1->setName("cube1");
 	static_cast<CShape*>(cube1)->getMaterial()->setSpecularColor(Vector4(1.0f));
