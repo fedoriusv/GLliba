@@ -141,12 +141,18 @@ namespace glliba
 
 		glCullFace(GL_FRONT);
 		glDepthFunc(GL_LEQUAL);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 
 		RENDER->bindShader( m_pShader->getShaderID() );
+
+		RENDER->updateTransform(m_worldMatrix, m_offset);
 		RENDER->drawSimple( DM_TRIANGLES, m_vertices, 0 );
 
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glCullFace(OldCullFaceMode);
 		glDepthFunc(OldDepthFuncMode);
+	
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,8 +169,6 @@ namespace glliba
 			CNode::updateTransform( _dDeltaTime );
 			m_bNeedUpdate = false;
 		}
-
-		RENDER->updateTransform(m_worldMatrix, m_offset);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

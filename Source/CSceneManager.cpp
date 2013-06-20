@@ -18,6 +18,7 @@
 #include "CRender.h"
 
 #include <time.h>
+#include <boost/bind.hpp>
 
 namespace glliba
 {
@@ -30,14 +31,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	uint	CSceneManager::s_iCount = 0;
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
 	CSceneManager::CSceneManager()
-		: m_pCamera(NULL)
-		, m_pFog(NULL)
-		, m_pShader(NULL)
+		: m_pCamera(nullptr)
+		, m_pFog(nullptr)
 
 		, m_dCurrentTime(0.0)
 		, m_dDeltaTime(0.0)
@@ -49,13 +45,7 @@ namespace glliba
 
 	CSceneManager::~CSceneManager()
 	{
-		for (std::vector<CNode*>::iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
-		{
-			delete (*iter);
-			(*iter) = NULL;
-		}
-
-		m_objects.clear();
+		CSceneManager::clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,7 +53,13 @@ namespace glliba
 	void CSceneManager::addNode( CNode* _pObject )
 	{
 		m_objects.push_back(_pObject);
-		++s_iCount;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CSceneManager::addLight( CLight* _pLight )
+	{
+		m_lights.push_back(_pLight);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +88,11 @@ namespace glliba
 
 			pItem->update(m_dDeltaTime);
 			pItem->render();
+
+			for (CLight* light : m_lights)
+			{
+				light->render();
+			}
 		}
 
 		CRender::getInstance()->endRender();
@@ -121,12 +122,13 @@ namespace glliba
 
 	void CSceneManager::update( double _dDeltaTime )
 	{
-		for (std::vector<CNode*>::iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
+		for (auto iter = m_objects.begin(); iter < m_objects.end(); ++iter )
 		{
 			CNode* pItem = (*iter);
 			switch(pItem->getNodeType())
 			{
 			case TYPE_NODE::TN_SHAPE:
+			case TYPE_NODE::TN_MODEL:
 				{
 					if (static_cast<CShape*>(pItem)->getMaterial()->getTransparency() > 0.0f)
 					{
@@ -141,10 +143,6 @@ namespace glliba
 						}
 						pItem->m_fPriority = priority;
 					}
-				}
-				break;
-			case TYPE_NODE::TN_MODEL:
-				{
 				}
 				break;
 			case TYPE_NODE::TN_CAMERA:
@@ -163,25 +161,32 @@ namespace glliba
 
 	void CSceneManager::clear()
 	{
-		for (std::vector<CNode*>::iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
+		for( CNode* object: m_objects ) 
 		{
-			delete (*iter);
-			(*iter) = NULL;
+			delete object;
+			object = nullptr;
 		}
-
 		m_objects.clear();
+
+
+		for( CLight* light: m_lights ) 
+		{
+			delete light;
+			light = nullptr;
+		}
+		m_lights.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool CSceneManager::drop( CNode* _pObject )
 	{
-		std::vector<CNode*>::iterator iter = std::find( m_objects.begin(), m_objects.end(), _pObject );
+		auto iter = std::find( m_objects.begin(), m_objects.end(), _pObject );
 		
 		if  ( iter != m_objects.end() )
 		{
 			delete (*iter);
-			(*iter) = NULL;
+			(*iter) = nullptr;
 			m_objects.erase(iter);
 
 			return true;
@@ -194,30 +199,42 @@ namespace glliba
 
 	CObject* CSceneManager::getObjectByID( const uint _iId )
 	{
-		for (std::vector<CNode*>::iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
-		{
-			if ((*iter)->getID() == _iId )
+		std::function<bool(const CObject* _obj, const uint _id )> 
+			objectByID = [](const CObject* _obj, const uint _id)
 			{
-				return (*iter);
-			}
+				return _obj->getID() == _id;
+			};
+
+		auto iter = std::find_if(m_objects.begin(),m_objects.end(),boost::bind(objectByID,_1,_iId));
+
+		if (iter != m_objects.end())
+		{
+			return (*iter);
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CObject* CSceneManager::getObjectByName( std::string _name )
+
+
+	CObject* CSceneManager::getObjectByName( const std::string& _name )
 	{
-		for (std::vector<CNode*>::const_iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
-		{
-			if ( (*iter)->getName().compare(_name) == 0 )
+		std::function<bool(const CObject* _obj, const std::string& _name)> 
+			objectByName = [](const CObject* _obj, const std::string& _name)
 			{
-				return (*iter);
-			}
+				return (_obj->getName().compare(_name) == 0) ? true : false;
+			};
+
+		auto iter = std::find_if(m_objects.begin(),m_objects.end(),boost::bind(objectByName,_1,_name));
+
+		if (iter != m_objects.end())
+		{
+			return (*iter);
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,6 +288,8 @@ namespace glliba
 	{
 		return CResourceManager::getInstance()->createRenderTarget(_iWidth,_iHeight);
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
 	
 	void CSceneManager::setRenderTarget( uint _id, CTexture* _pTexture, Vector3 _fontColor)
 	{
@@ -282,14 +301,14 @@ namespace glliba
 	CNode* CSceneManager::addLight( CNode* _pParent, const std::string _attribute,
 		const Vector3& _pos, const Vector4& _diffuse, const float& _radius )
 	{
-		CLight* obj = new CLight( _pParent );
-		(obj)->setPosition( _pos );
-		(obj)->setDiffuseLight( _diffuse );
-		(obj)->setRadiusLight( _radius );
-		(obj)->setAttributeLight( _attribute );
+		CLight* light = new CLight( _pParent );
+		(light)->setPosition( _pos );
+		(light)->setDiffuseLight( _diffuse );
+		(light)->setRadiusLight( _radius );
+		(light)->setAttributeLight( _attribute );
 
-		CSceneManager::addNode(obj);
-		return obj;
+		CSceneManager::addLight(light);
+		return light;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

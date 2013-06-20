@@ -41,7 +41,7 @@ namespace glliba
 		virtual			~CShader();
 			
 		void			setEnable( const bool _bEnable );
-		bool			getEnable() const;
+		bool			isEnable() const;
 
 		uint			getShaderID() const;
 

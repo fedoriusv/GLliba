@@ -31,6 +31,7 @@ namespace glliba
 
 		, m_projectionMatrix(Matrix4::identity())
 		, m_viewMatrix(Matrix4::identity())
+		, m_viewPosition(Vector3(0.0f))
 	{
 		LOG_CONSOLE("Init OpenGL driver ");
 	}
@@ -556,11 +557,6 @@ namespace glliba
 			return;
 		}
 
-		/*Matrix4 modelViewProjectionMatrix = Vectormath::transpose(m_projectionMatrix * m_viewMatrix * _transform);
-		GLuint location = glGetUniformLocation(m_iCurrentShader, "modelViewProjectionMatrix");
-		ASSERT(location < -1 || "Invalid location modelViewProjectionMatrix");
-		glUniformMatrix4fv(location, 1, GL_TRUE, &modelViewProjectionMatrix[0][0]);*/
-
 		Matrix4 viewProjectionMatrix = Vectormath::transpose(m_projectionMatrix * m_viewMatrix);
 		GLuint location = glGetUniformLocation(m_iCurrentShader, "transform.viewProjectionMatrix");
 		glUniformMatrix4fv(location, 1, GL_TRUE, &viewProjectionMatrix[0][0]);
@@ -572,6 +568,9 @@ namespace glliba
 		Matrix4 normalMatrix = Vectormath::inverse(_transform);
 		location = glGetUniformLocation(m_iCurrentShader, "transform.normalMatrix");
 		glUniformMatrix4fv(location, 1, GL_TRUE, &normalMatrix[0][0]);
+
+		location = glGetUniformLocation(m_iCurrentShader, "transform.viewPosition");
+		glUniform3fv(location, 1, &m_viewPosition[0]);
 
 		printOpenGLError("GLError update Transform: ");
 	}
@@ -750,16 +749,8 @@ namespace glliba
 
 	void CRenderGL::udateCamera( const Vector3& _position, const Vector3& _target, const Vector3& _up )
 	{
-		if (!m_iCurrentShader)
-		{
-			return;
-		}
-
 		m_viewMatrix = Matrix4::lookAt(Point3(_position), Point3(_target), _up);
-
-		Vector3 posiniton = _position;
-		GLuint location = glGetUniformLocation(m_iCurrentShader, "transform.viewPosition");
-		glUniform3fv(location, 1, &posiniton[0]);
+		m_viewPosition = _position;
 		
 		printOpenGLError("GLError Update Camera: ");
 	}
@@ -902,11 +893,13 @@ namespace glliba
 			glDrawArrays( _eMode, 0, _vertexData.nVertices );
 		}
 
-		glBindVertexArray(0);
+		glBindVertexArray(NULL);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D,0);
 
+		//bindShader(0);
+		
 		printOpenGLError("GLError Draw Simple: ");
 	}
 

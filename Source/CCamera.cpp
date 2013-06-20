@@ -9,11 +9,11 @@ namespace glliba
 	CCamera::CCamera( CNode* _pParent)
 		: CNode(_pParent)
 		, m_up(Vector3(0.0f,1.0f,0.0f))
-		, m_target(Vector3(0.0f,0.0f,0.0f))
+		, m_target(Vector3(0.0f))
 		, m_bIsActive(false)
 	{
 		m_eTypeNode = TN_CAMERA;
-		LOG_CONSOLE( "initialize node " << type_node[m_eTypeNode].c_str());
+		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +62,15 @@ namespace glliba
 
 	void CCamera::update( double _dDeltaTime )
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
+
+		if (m_bIsActive)
+		{
+			RENDER->udateCamera( m_position, m_target, m_up );
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +80,6 @@ namespace glliba
 		if ( !m_bIsVisible )
 		{
 			return;
-		}
-
-		if (m_bIsActive)
-		{
-			CRender::getInstance()->udateCamera( m_position, m_target, m_up );
 		}
 	}
 
@@ -87,4 +91,4 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+}

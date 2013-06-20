@@ -130,9 +130,9 @@ namespace glliba
 
 	void CMaterial::bind()
 	{
-		if ( m_pShader != NULL && m_pShader->m_bEnable )
+		if ( m_pShader != NULL && m_pShader->isEnable() )
 		{
-			RENDER->bindShader( m_pShader->m_iShaderID );
+			RENDER->bindShader( m_pShader->getShaderID() );
 			
 			if (m_pShader->m_uniformList.size() > 0)
 			{
@@ -140,7 +140,7 @@ namespace glliba
 				CShaderUniform* uniform = iter->second;
 				while (iter!= m_pShader->m_uniformList.end())
 				{
-					CRender::getInstance()->setShaderUniform( uniform->m_eShaderType,  m_pShader->m_iShaderID,
+					RENDER->setShaderUniform( uniform->m_eShaderType,  m_pShader->getShaderID(),
 						&uniform->m_attribute, uniform->m_uniformValue );
 					++iter;
 				}
@@ -337,4 +337,4 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+}

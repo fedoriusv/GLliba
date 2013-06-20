@@ -4,6 +4,7 @@
 #include "CModel.h"
 #include "CLight.h"
 #include "CTorusShape.h"
+#include "CRenderGL.h"
 
 CApplication::CApplication()
 {
@@ -28,17 +29,26 @@ void CApplication::init()
 	m_scene->setActiveDebug(true);
 	m_scene->addSkyBox();
 
-	/*CNode* cube0 = m_scene->addCube(0,Vector3(0.0f,0.0f,-6.0f),3);
-	cube0->setName("cube0");
-	static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
-	static_cast<CShape*>(cube0)->getMaterial()->setTexture(1,"texture1","Data/box.jpg");
-	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/user.vsh","data/user.psh");*/
-	/*CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f),1);
-	cube1->setName("cube1");
-	static_cast<CShape*>(cube1)->getMaterial()->setSpecularColor(Vector4(1.0f));
-	static_cast<CShape*>(cube1)->getMaterial()->setDiffuseColor(Vector4(0.0f,0.0f,1.0f,0.1f));
-	static_cast<CShape*>(cube1)->getMaterial()->setShininess(128);
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"Data/box.jpg");*/
+	CNode* cube0 = m_scene->addCube(0,Vector3(0.0f,0.0f,-6.0f),3);
+	cube0->setName("cube1");
+	//static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+	const std::string cubeFaces[6] = {	"data/cubemap/right.tga",
+										"data/cubemap/left.tga",
+										"data/cubemap/up.tga",
+										"data/cubemap/down.tga",
+										"data/cubemap/backward.tga",
+										"data/cubemap/forward.tga" };
+	static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"cubeMap0",cubeFaces);
+	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
+	//static_cast<CShape*>(cube0)->getMaterial()->setShader("data/simple.vsh","data/simple.psh");
+	
+	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f),1);
+	cube1->setName("cube0");
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(1,"texture0","Data/mask123.jpg");
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture1","Data/Sand.jpg");
+	static_cast<CShape*>(cube1)->getMaterial()->setShader("data/user.vsh","data/user.psh");
+	//static_cast<CShape*>(cube1)->getMaterial()->setShader("data/simple01.vsh","data/simple01.psh");
+	
 
 	/*CNode* model0 = m_scene->addModel("data/cube.f3d", NULL, Vector3(0,0,-5));
 	model0->setName("cube0");*/

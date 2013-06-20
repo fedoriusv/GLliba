@@ -23,7 +23,7 @@ namespace glliba
 
 	public:
 
-		CCamera( CNode* _pParent = NULL );
+		CCamera( CNode* _pParent = nullptr );
 		virtual						~CCamera();
 
 		void						init();

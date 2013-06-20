@@ -37,6 +37,7 @@ namespace glliba
 
 		Matrix4			m_projectionMatrix;
 		Matrix4			m_viewMatrix;
+		Vector3			m_viewPosition;
 
 		CRenderGL();
 		void			beginRender();

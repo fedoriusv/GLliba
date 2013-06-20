@@ -1,6 +1,7 @@
 #include "CFPSCamera.h"
 
 #include "CRender.h"
+#include "CReciever.h"
 
 namespace glliba
 {
@@ -21,7 +22,7 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CFPSCamera::move( Vector3 _direction )
+	void CFPSCamera::move( const Vector3& _direction )
 	{
 		Vector3 oPos		= m_position;
 		Vector3 oView		= m_target;
@@ -61,7 +62,7 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CFPSCamera::isPointOut( Vector3 _point )
+	bool CFPSCamera::isPointOut( const Vector3& _point )
 	{
 		if( (_point[0] <= m_min[0]) || (_point[1] <= m_min[1]) || (_point[2] <=m_min[2]) ||
 			(_point[0] >= m_max[0]) || (_point[1] >= m_max[1]) || (_point[2] >=m_max[2]) )
@@ -104,8 +105,8 @@ namespace glliba
 	void CFPSCamera::rotateByMouse()
 	{
 		POINT mousePos;
-		int middleX = CRender::getInstance()->getWidth() / 2;
-		int middleY = CRender::getInstance()->getHeight() / 2;
+		int middleX = RENDER->getWidth() / 2;
+		int middleY = RENDER->getHeight() / 2;
 		float angleY = 0.0f;
 		float angleZ = 0.0f;	
 		static float currentRotX = 0.0f;
@@ -169,10 +170,15 @@ namespace glliba
 			if (CReciever::getInstance()->isKeyDown(KEY_KEY_D)) CFPSCamera::move(Vector3(s,0,0));  //D
 			CFPSCamera::rotateByMouse();
 
-			CRender::getInstance()->udateCamera( m_position, m_target, m_up );
+			RENDER->udateCamera( m_position, m_target, m_up );
 		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+	void CFPSCamera::render()
+	{
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
+}

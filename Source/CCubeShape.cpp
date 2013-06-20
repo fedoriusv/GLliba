@@ -32,6 +32,7 @@ namespace glliba
 
 		m_pMaterial->bind();
 
+		RENDER->updateTransform(m_worldMatrix, m_offset);
 		RENDER->drawSimple( DM_TRIANGLES, m_vertices, m_pMaterial->getTextureCount() );
 	}
 
@@ -49,8 +50,6 @@ namespace glliba
 			CNode::updateTransform( _dDeltaTime );
 			m_bNeedUpdate = false;
 		}
-
-		RENDER->updateTransform(m_worldMatrix, m_offset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

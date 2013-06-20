@@ -1,8 +1,8 @@
 #include "CWinOpenGL.h"
 #include "CApplication.h"
+#include "CRenderGL.h"
 
 #define RECIEVER	CApplication::getInstance()->getReciever()
-#define RENDER		CRender::getInstance()
 #define WINDOW		CWinOpenGL::getInstance()
 
 HINSTANCE CWinOpenGL::s_hInstance = NULL;

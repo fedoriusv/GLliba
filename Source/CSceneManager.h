@@ -6,6 +6,7 @@
 
 #include "CSingleton.h"
 #include "CNode.h"
+#include "CLight.h"
 
 namespace glliba
 {
@@ -19,12 +20,11 @@ namespace glliba
 	{
 	private:
 
-		static uint				s_iCount;
 		std::vector<CNode*>		m_objects;
+		std::vector<CLight*>	m_lights;
 		
 		CCamera*				m_pCamera;
 		CFog*					m_pFog;
-		CShader*				m_pShader;
 
 		void					update( double _dDeltaTime );
 
@@ -52,7 +52,7 @@ namespace glliba
 		CFog*					getActiveFog() const;
 
 		CObject*				getObjectByID( const uint _iId );
-		CObject*				getObjectByName( std::string _name );
+		CObject*				getObjectByName( const std::string& _name );
 
 		//void					setEnabledCullFace( bool _cullFase );
 		//void					setPolygonMode();
@@ -68,6 +68,7 @@ namespace glliba
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		void					addNode( CNode* _pObject );
+		void					addLight( CLight* _pLight );
 
 		CNode*					addFog(
 								const Vector4& _color = Vector4(1.0f,1.0f,1.0f,1.0f),
