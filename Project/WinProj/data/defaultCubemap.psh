@@ -1,0 +1,61 @@
+#version 330
+
+struct Material
+{
+	samplerCube cubeMap0;
+
+	vec4  		ambient;
+	vec4  		diffuse;
+	vec4  		specular;
+	vec4  		emission;
+	float 		shininess;
+};
+
+struct Light0
+{
+    vec4 	position;
+    vec4 	ambient;
+    vec4 	diffuse;
+    vec4 	specular;
+    vec3 	attenuation;
+};
+
+uniform Material 	material;
+uniform Light0 		light0;
+
+struct Vertex 
+{
+    vec2  texCoord0;
+    vec3  normal;
+    vec3  lightDir;
+    vec3  viewDir;
+    float distance;
+	
+	vec3  reflection;
+};
+
+in 	Vertex 	fragVertex;
+out vec4 	fragColor;
+
+void main()
+{
+	vec3 normal   = normalize(fragVertex.normal);
+    vec3 lightDir = normalize(fragVertex.lightDir);
+    vec3 viewDir  = normalize(fragVertex.viewDir);
+
+	float attenuation = 1.0 / (light0.attenuation[0] +
+                light0.attenuation[1] * fragVertex.distance +
+				light0.attenuation[2] * fragVertex.distance * fragVertex.distance);
+	
+	fragColor = material.emission;
+	fragColor += material.ambient * light0.ambient * attenuation;
+	
+	float NdotL = max(dot(normal, lightDir), 0.0);
+    fragColor += material.diffuse * light0.diffuse * NdotL;
+	
+	float RdotVpow = max(pow(dot(reflect(-lightDir, normal), viewDir), material.shininess), 0.0);
+    fragColor += material.specular * light0.specular * RdotVpow * attenuation;
+	
+	fragColor *= texture(material.cubeMap0, fragVertex.reflection);
+}
+

@@ -112,8 +112,8 @@ namespace glliba
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		
 		glClearDepth(1.0f);
 		//glEnable(GL_DEPTH);
@@ -216,17 +216,6 @@ namespace glliba
 			glGenerateMipmap( GL_TEXTURE_2D );
 		}
 
-		/*glEnable(GL_TEXTURE_GEN_S);
-		glEnable(GL_TEXTURE_GEN_T);
-		*glTexGeni(GL_S,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-		glTexGeni(GL_T,GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
-
-		float pl[] ={1,0,0,0};
-		glTexGeni(GL_S,GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-		glTexGeni(GL_T,GL_TEXTURE_GEN_MODE, GL_OBJECT_LINEAR);
-		glTexGenfv(GL_S,GL_OBJECT_PLANE,pl);
-		glTexGenfv(GL_T,GL_OBJECT_PLANE,pl);*/
-
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		printOpenGLError( "GLError init Texture2D: ");
@@ -252,19 +241,6 @@ namespace glliba
 		{
 			glGenerateMipmap( GL_TEXTURE_CUBE_MAP );
 		}
-
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_REPEAT );
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_REPEAT );
-		glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_REPEAT ); 
-
-		/*glEnable( GL_TEXTURE_GEN_S );
-		glEnable( GL_TEXTURE_GEN_T );
-		glEnable( GL_TEXTURE_GEN_R );
-		glTexGeni( GL_S, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
-		glTexGeni( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );
-		glTexGeni( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP );*/
 
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
