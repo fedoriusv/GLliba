@@ -35,7 +35,7 @@ struct Vertex
 };
 
 smooth in Vertex fragVertex;
-out vec4  fragColor;
+out vec4  FragColor;
 
 void main()
 {
@@ -47,17 +47,18 @@ void main()
                 light0.attenuation[1] * fragVertex.distance +
 				light0.attenuation[2] * fragVertex.distance * fragVertex.distance);
 	
-	fragColor = material.emission;
-	fragColor += material.ambient * light0.ambient * attenuation;
+	FragColor = material.emission;
+	FragColor += material.ambient * light0.ambient * attenuation;
 	
 	float NdotL = max(dot(normal, lightDir), 0.0);
-    fragColor += material.diffuse * light0.diffuse * NdotL;
+    FragColor += material.diffuse * light0.diffuse * NdotL;
 	
 	float RdotVpow = max(pow(dot(reflect(-lightDir, normal), viewDir), material.shininess), 0.0);
-    fragColor += material.specular * light0.specular * RdotVpow * attenuation;
+    FragColor += material.specular * light0.specular * RdotVpow * attenuation;
 	
 	vec2 scale = fragVertex.texCoord0 * material.textureScale;	
-	fragColor *= texture2D(material.texture0, scale);
-	fragColor += texture2D(material.texture1, scale);
+	
+	FragColor *= texture2D(material.texture0, scale);
+	FragColor += texture2D(material.texture1, scale);
 }
 

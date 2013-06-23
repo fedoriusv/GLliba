@@ -455,9 +455,10 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addSkyBox()
+	CNode* CSceneManager::addSkyBox( const std::string _skyBox[6] )
 	{
-		CNode* obj = new CSkyBox();
+		CSkyBox* obj = new CSkyBox();
+		obj->loadSkyBox( _skyBox );
 
 		CSceneManager::addNode(obj);
 		return obj;

@@ -17,9 +17,9 @@ namespace glliba
 		m_eTypeNode = TN_SKYBOX;
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
 
-		for ( uint texNo = 0; texNo < 6U; ++texNo )
+		for ( uint texture = 0; texture < 6U; ++texture )
 		{
-			m_pSkyBoxTexture[texNo] = nullptr;
+			m_pSkyBoxTexture[texture] = nullptr;
 		}
 
 		CSkyBox::init();
@@ -31,26 +31,26 @@ namespace glliba
 	{
 		if ( m_bIsLoad )
 		{
-			delete[] m_pSkyBoxTexture;
-			for ( uint texNo = 0; texNo < 6U; ++texNo )
+			for ( uint texture = 0; texture < 6U; ++texture )
 			{
-				m_pSkyBoxTexture[texNo] = nullptr;
+				delete m_pSkyBoxTexture[texture];
+				m_pSkyBoxTexture[texture] = nullptr;
 			}
 		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSkyBox::loadSkyBox(const std::string* _fileName[6] )
+	void CSkyBox::loadSkyBox(const std::string* _fileNames )
 	{
 		if (m_bIsLoad)
 		{
 			destroySkyBox();
 		}
 		
-		for ( uint texNo = 0; texNo < 6U; ++texNo )
+		for ( uint texure = 0; texure < 6U; ++texure )
 		{
-				m_pSkyBoxTexture[texNo] = ResourceMgr->createTexture( _fileName[texNo] );
+				m_pSkyBoxTexture[texure] = ResourceMgr->createTexture( &_fileNames[texure] );
 		}
 
 		m_bIsLoad = true;
@@ -71,18 +71,18 @@ namespace glliba
 		m_pShader = new CShader();
 		m_pShader->loadShader(vertShaderSkyBox,fragShaderSkyBox);
 
-		m_vertices.malloc( 24, 36 );
+		m_vertices.malloc( 24 );
 
 		float s = 50.0f;
 
 		float vertex[][3] = 
 		{
-			{-s,-s, s },  { s,-s, s },  { s, s, s },  {-s, s, s },
-			{-s,-s,-s },  {-s, s,-s },  { s, s,-s },  { s,-s,-s },
-			{-s, s,-s },  {-s, s, s },  { s, s, s },  { s, s,-s },
-			{-s,-s,-s },  { s,-s,-s },  { s,-s, s },  {-s,-s, s },
-			{ s,-s,-s },  { s, s,-s },  { s, s, s },  { s,-s, s },
-			{-s,-s,-s },  {-s,-s, s },  {-s, s, s },  {-s, s,-s } 
+			{ s, s, s },  { s,-s, s },  {-s, s, s },  {-s,-s, s },
+			{-s, s,-s },  {-s,-s,-s },  { s, s,-s },  { s,-s,-s },
+			{-s, s, s },  {-s,-s, s },  {-s, s,-s },  {-s,-s,-s },
+			{ s, s,-s },  { s,-s,-s },  { s, s, s },  { s,-s, s },
+			{-s, s,-s },  { s, s,-s },  {-s, s, s },  { s, s, s },
+			{ s,-s,-s },  {-s,-s,-s },  { s,-s, s },  {-s,-s, s } 
 		};
 
 		float normals[][3] =
@@ -97,28 +97,17 @@ namespace glliba
 
 		float texCoord[][2] =
 		{
-			{0.0f, 0.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},	{0.0f, 1.0f},
-			{1.0f, 0.0f},	{1.0f, 1.0f},	{0.0f, 1.0f},	{0.0f, 0.0f},
-			{0.0f, 1.0f},	{0.0f, 0.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},
-			{1.0f, 1.0f},	{0.0f, 1.0f},	{0.0f, 0.0f},	{1.0f, 0.0f},
-			{1.0f, 0.0f},	{1.0f, 1.0f},	{0.0f, 1.0f},	{0.0f, 0.0f},
-			{0.0f, 0.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},	{0.0f, 1.0f}
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f}, 
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f}, 
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f},
+			{0.0f, 0.0f},	{0.0f, 1.0f},	{1.0f, 0.0f},	{1.0f, 1.0f}
 		};
 		
-		uint cubeIndices[] = 
-		{
-			0,	3,	1,  1,	3,	2,	// front
-			4,	7,	5,  5,	7,	6,	// back
-			8,	11, 9,  9,	11,	10, // top
-			12,	15,	13, 13,	15,	14, // bottom
-			16,	19,	17, 17,	19,	18, // left
-			20,	23,	21,	21,	23,	22  // right
-		};
-
 		memcpy(m_vertices.Vertex.vertices,vertex,sizeof(vertex));
 		memcpy(m_vertices.Normal.vertices,normals,sizeof(normals));
 		memcpy(m_vertices.TexCoord.at(0).vertices,texCoord,sizeof(texCoord));
-		memcpy(m_vertices.Indices.vertices,cubeIndices,sizeof(cubeIndices));
 
 		RENDER->initBufferObjects( m_vertices );
 		
@@ -141,13 +130,19 @@ namespace glliba
 
 		glCullFace(GL_FRONT);
 		glDepthFunc(GL_LEQUAL);
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
 		RENDER->bindShader( m_pShader->getShaderID() );
 
-		RENDER->updateTransform(m_worldMatrix, m_offset);
-		RENDER->drawSimple( DM_TRIANGLES, m_vertices, 0 );
+		for ( uint i = 0; i < 6; ++i )
+		{
+			RENDER->bindTexture(m_pSkyBoxTexture[i]->getTextureID(),m_pSkyBoxTexture[i]->getSamplerID(),
+				0,"skyBox",m_pSkyBoxTexture[i]->getTarget(),m_pSkyBoxTexture[i]->getScale());
+			
+			RENDER->updateTransform(m_worldMatrix, m_offset);
+			RENDER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, i*4, 4 );
+		}
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glCullFace(OldCullFaceMode);

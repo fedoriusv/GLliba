@@ -128,9 +128,14 @@ namespace glliba
 
 		void			updateBufferObject(	SVertexData&		_sVertexData );
 
+		void			preDrawSimple();
+
 		void			drawSimple		  (	const DRAW_MODE&	_mode,
 											SVertexData&		_vertexData,
-											const uint&			_iCountTexLayer );
+											const uint&			_iFirstPoint = 0,
+											const uint&			_iCount		 = 0);
+		void			postDrawSimple();
+
 
 		bool			setShaderUniform  (	const uint			_eParam,
 											const uint			_iShaderID,

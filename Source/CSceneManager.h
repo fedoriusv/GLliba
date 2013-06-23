@@ -130,7 +130,7 @@ namespace glliba
 								CNode* _pParent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f));
 
-		CNode*					addSkyBox();
+		CNode*					addSkyBox( const std::string _skyBox[6] );
 
 	};
 

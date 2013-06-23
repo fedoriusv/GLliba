@@ -26,7 +26,7 @@ namespace glliba
 		virtual ~CSkyBox();
 
 		bool				isValid();
-		void				loadSkyBox( const std::string* _fileName[6] );
+		void				loadSkyBox( const std::string* _fileNames );
 
 		void				render();
 		void				update( double _dDeltaTime );

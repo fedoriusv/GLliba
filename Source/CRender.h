@@ -130,7 +130,8 @@ namespace glliba
 			
 		virtual void			drawSimple		  (	const DRAW_MODE&	_iMode,
 													SVertexData&		_vertexData,
-													const uint&			_iCountTexLayer )	= 0;
+													const uint&			_iFirstPoint = 0,
+													const uint&			_iCount		 = 0 )	= 0;
 		
 		virtual bool			setShaderUniform  (	const uint			_eParam,
 													const uint			_iShaderID,

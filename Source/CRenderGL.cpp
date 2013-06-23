@@ -880,7 +880,8 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::drawSimple( const DRAW_MODE& _eMode, SVertexData& _vertexData, const uint& _iCountTexLayer )
+	void CRenderGL::drawSimple( const DRAW_MODE& _eMode, SVertexData& _vertexData, 
+		const uint& _iFirstPoint, const uint& _iCount )
 	{
 		glBindVertexArray(_vertexData.iVertexArrayID);
 
@@ -890,7 +891,7 @@ namespace glliba
 		}
 		else
 		{
-			glDrawArrays( _eMode, 0, _vertexData.nVertices );
+			glDrawArrays( _eMode, _iFirstPoint, (_iCount == 0) ? _vertexData.nVertices : _iCount );
 		}
 
 		glBindVertexArray(NULL);

@@ -70,7 +70,11 @@ namespace glliba
 		Vector2				getScale() const;
 		void				setScale( const Vector2& _scale );
 
-		uint				getTextureIndex() const;
+		uint				getTextureID() const;
+		uint				getSamplerID() const;
+
+		CSampler*			getSampler() const;
+		TEXTURE_TYPE		getTarget() const;
 
 		void				setAttributeTexture( const std::string& _attribute );
 		std::string			getAttributeTexture() const;

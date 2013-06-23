@@ -18,11 +18,15 @@ struct Transform
 
 uniform Transform 	transform;
 
+out vec2 TexCoord;
+
 void main()
 {
+	TexCoord = texCoord0;
+	
 	mat4 skypos = transform.modelMatrix;
 	skypos[3].xyz = transform.viewPosition;
 		
 	vec4 viewProjectionModelMatrix = transform.viewProjectionMatrix * skypos * vec4(position, 1.0);
-	gl_Position = viewProjectionModelMatrix.xyww;
+	gl_Position = viewProjectionModelMatrix.xyzw;
 }

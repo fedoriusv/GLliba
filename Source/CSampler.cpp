@@ -7,7 +7,7 @@ namespace glliba
 
 	CSampler::CSampler()
 		: m_iSamplerID(0)
-		, m_eWrapType(WT_REPEAT)
+		, m_eWrapType(WT_CLAMP_TO_EDGE)
 		, m_eMinFilerType(FT_LINEAR_MIPMAP_LINEAR)
 		, m_eMagFilerType(FT_LINEAR)
 
