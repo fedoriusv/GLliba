@@ -123,8 +123,8 @@ namespace glliba
 		//glDepthFunc(GL_LEQUAL);	
 		//glShadeModel(GL_SMOOTH);
 
-		//glDisable(GL_CULL_FACE);
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
+		//glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CW);
 		
 		glEnable(GL_MULTISAMPLE);

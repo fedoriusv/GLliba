@@ -9,6 +9,8 @@
 
 namespace glliba
 {
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
 	CTextureManager::CTextureManager()
 		: m_iCountTextures(0)
 	{
@@ -47,7 +49,7 @@ namespace glliba
 		return false;
 	}
 
-		#ifdef _USE_DEVIL
+#ifdef _USE_DEVIL
 	bool CTextureManager::loadImageDevil( STextureData2D& _textureData, const std::string& _imageFile )
 	{
 		uint success = -1;

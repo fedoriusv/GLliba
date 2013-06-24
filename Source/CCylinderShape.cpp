@@ -13,6 +13,7 @@ namespace glliba
 
 	{
 		m_eTypeShape = OST_CYLINDER;
+		CCylinderShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -20,7 +21,7 @@ namespace glliba
 	CCylinderShape::~CCylinderShape()
 	{
 		m_vertices.clear();
-		CRender::getInstance()->deleteBufferObjects( m_vertices );
+		RENDERER->deleteBufferObjects( m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +34,9 @@ namespace glliba
 		}
 
 		m_pMaterial->bind();
-		CRender::getInstance()->drawSimple( DM_TRIANGLE_STRIP,m_vertices,m_pMaterial->getTextureCount() );
+
+		RENDERER->updateTransform(m_worldMatrix, m_offset);
+		RENDERER->drawSimple( DM_TRIANGLE_STRIP,m_vertices,m_pMaterial->getTextureCount() );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -51,21 +54,17 @@ namespace glliba
 			m_bNeedUpdate = false;
 		}
 
-		CRender::getInstance()->updateTransform(m_worldMatrix, m_offset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CCylinderShape::init()
 	{
-		m_pMaterial->init();
-
 		uint numMajor = 20;
 		uint numMinor = 20;
-		double height = m_fHeight;
 		double radius = m_fRadius;
 
-		double majorStep = height / numMajor;
+		double majorStep = (double)m_fHeight / numMajor;
 		double minorStep = 2.0 * M_PI / numMinor;
 
 		int numCylinderVertices = numMajor * ( numMinor + 1 ) * 2;
@@ -75,7 +74,7 @@ namespace glliba
 		int index = -1;
 		for ( uint i = 0; i < numMajor; ++i ) 
 		{
-			float z0 = 0.5f * (float)height - i * (float)majorStep;
+			float z0 = 0.5f * m_fHeight - i * (float)majorStep;
 			float z1 = z0 - (float)majorStep;
 
 			for ( uint j = 0; j <= numMinor; ++j )
@@ -108,16 +107,15 @@ namespace glliba
 				m_vertices.Vertex.vertices[index].setY(y);
 				m_vertices.Vertex.vertices[index].setZ(z1);
 			}
-
 		}
 
 		if (m_vertices.Vertex.iVerticesID == 0)
 		{
-			CRender::getInstance()->initBufferObjects( m_vertices );
+			RENDERER->initBufferObjects( m_vertices );
 		}
 		else
 		{
-			CRender::getInstance()->updateBufferObject( m_vertices );
+			RENDERER->updateBufferObject( m_vertices );
 		}
 
 #ifndef _DEBUG
@@ -157,4 +155,4 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+}

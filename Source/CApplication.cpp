@@ -24,7 +24,6 @@ CReciever* CApplication::getReciever()
 
 void CApplication::init()
 {
-	
 	//TODO: Create objects--------------------------------------------------------------------
 	m_scene->setActiveDebug(true);
 	const std::string skybox[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
@@ -48,12 +47,11 @@ void CApplication::init()
 	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
 	//static_cast<CShape*>(cube0)->getMaterial()->setShader("data/simple.vsh","data/simple.psh");
 	
-	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f),1);
+	CNode* cube1 = m_scene->addSphere(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0",cubeFaces);
-	static_cast<CShape*>(cube1)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+	//static_cast<CShape*>(cube1)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
 
-	static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"texture0","Data/mask123.jpg");
 	/*static_cast<CShape*>(cube1)->getMaterial()->setTexture(1,"texture0","Data/mask123.jpg");
 	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture1","Data/Stone.jpg");
 	static_cast<CShape*>(cube1)->getMaterial()->setShader("data/user.vsh","data/user.psh");

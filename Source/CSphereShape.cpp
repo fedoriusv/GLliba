@@ -8,9 +8,12 @@ namespace glliba
 
 	CSphereShape::CSphereShape(CNode* _pParent)
 		: CShape(_pParent)
-		, m_polyCount(60)
+		, m_iSlices(30)
+		, m_iStacks(30)
+		, m_fRadius(1.0f)
 	{
 		m_eTypeShape = OST_SPHERE;
+		CSphereShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,7 +35,8 @@ namespace glliba
 
 		m_pMaterial->bind();
 
-		CRender::getInstance()->drawSimple( DM_TRIANGLE_STRIP, m_vertices, m_pMaterial->getTextureCount() );
+		RENDERER->updateTransform( m_worldMatrix, m_offset );
+		RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,100 +53,109 @@ namespace glliba
 			CNode::updateTransform(_dDeltaTime);
 			m_bNeedUpdate = false;
 		}
-
-		CRender::getInstance()->updateTransform(m_worldMatrix, m_offset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CSphereShape::init()
 	{
-		m_pMaterial->init();
-
-		const float TWOPI = 6.28318530717958f;
-
-		float theta1 = 0.0;   
-		float theta2 = 0.0;   
-		float theta3 = 0.0;   
-
-		float nx = 0.0f;   
-		float ny = 0.0f;   
-		float nz = 0.0f;   
-
-		float vx = 0.0f;   
-		float vy = 0.0f;   
-		float vz = 0.0f;   
-
-		float tu  = 0.0f;   
-		float tv  = 0.0f;
-
-		float scale = 0.5f;
-
-		uint numSphereVertices = (m_polyCount / 2) * ( (m_polyCount + 1) * 2 );
-
-		m_vertices.malloc( numSphereVertices );
+		float drho = (float)M_PI / (float) m_iStacks;
+		float dtheta = 2.0f * (float)M_PI / (float) m_iSlices;
+		float ds = 1.0f / (float) m_iSlices;
+		float dt = 1.0f / (float) m_iStacks;
+		float t = 1.0f;	
+		float s = 0.0f;
+    
+		m_vertices.malloc( m_iSlices * m_iStacks * 4 );
 		
-		if( m_polyCount < 4 )
+		int index = -1;
+		for ( uint i = 0; i < m_iStacks; ++i ) 
 		{
-			m_polyCount = 4;
-		}
+			float rho = (float)i * drho;
+			float srho = (float)(sin(rho));
+			float crho = (float)(cos(rho));
+			float srhodrho = (float)(sinf(rho + drho));
+			float crhodrho = (float)(cosf(rho + drho));
+		
+			s = 0.0f;
+			for ( uint j = 0; j < m_iSlices; j++) 
+			{
+				float theta = (j == m_iSlices) ? 0.0f : j * dtheta;
+				float stheta = (float)(-sin(theta));
+				float ctheta = (float)(cos(theta));
+			
+				float x = stheta * srho;
+				float y = ctheta * srho;
+				float z = crho;
+        
+				++index;
+				m_vertices.TexCoord.at(0).vertices[ index ].setX( s );
+				m_vertices.TexCoord.at(0).vertices[ index ].setY( t );
+				m_vertices.Normal.vertices[ index ].setX( x );
+				m_vertices.Normal.vertices[ index ].setY( y );
+				m_vertices.Normal.vertices[ index ].setZ( z );
+				m_vertices.Vertex.vertices[ index ].setX( x * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setY( y * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setZ( z * m_fRadius );
 
-		int index = -1;   
-		for( uint i = 0; i < m_polyCount/2; ++i )   
+				x = stheta * srhodrho;
+				y = ctheta * srhodrho;
+				z = crhodrho;
+
+ 				++index;
+				m_vertices.TexCoord.at(0).vertices[ index ].setX( s );
+				m_vertices.TexCoord.at(0).vertices[ index ].setY( t - dt );
+				m_vertices.Normal.vertices[ index ].setX( x );
+				m_vertices.Normal.vertices[ index ].setY( y );
+				m_vertices.Normal.vertices[ index ].setZ( z );
+				m_vertices.Vertex.vertices[ index ].setX( x * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setY( y * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setZ( z * m_fRadius );
+			
+				theta = ((j+1) == m_iSlices) ? 0.0f : (j+1) * dtheta;
+				stheta = (float)(-sin(theta));
+				ctheta = (float)(cos(theta));
+			
+				x = stheta * srho;
+				y = ctheta * srho;
+				z = crho;
+        
+				s += ds;
+				++index;
+				m_vertices.TexCoord.at(0).vertices[ index ].setX( s );
+				m_vertices.TexCoord.at(0).vertices[ index ].setY( t );
+				m_vertices.Normal.vertices[ index ].setX( x );
+				m_vertices.Normal.vertices[ index ].setY( y );
+				m_vertices.Normal.vertices[ index ].setZ( z );
+				m_vertices.Vertex.vertices[ index ].setX( x * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setY( y * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setZ( z * m_fRadius );
+
+				x = stheta * srhodrho;
+				y = ctheta * srhodrho;
+				z = crhodrho;
+
+ 				++index;
+				m_vertices.TexCoord.at(0).vertices[ index ].setX( s );
+				m_vertices.TexCoord.at(0).vertices[ index ].setY( t - dt );
+				m_vertices.Normal.vertices[ index ].setX( x );
+				m_vertices.Normal.vertices[ index ].setY( y );
+				m_vertices.Normal.vertices[ index ].setZ( z );
+				m_vertices.Vertex.vertices[ index ].setX( x * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setY( y * m_fRadius );
+				m_vertices.Vertex.vertices[ index ].setZ( z * m_fRadius );
+			}
+			t -= dt;
+		}
+	
+		if (m_vertices.Vertex.iVerticesID == 0)
 		{
-			theta1 = i * TWOPI / m_polyCount - (float)M_PI_2;   
-			theta2 = (i + 1) * TWOPI / m_polyCount - (float)M_PI_2;   
-
-			for( uint j = 0; j <= m_polyCount; ++j )   
-			{   
-				theta3 = j * TWOPI / m_polyCount;   
-
-				nx = cosf(theta2) * cosf(theta3);   
-				ny = sinf(theta2);   
-				nz = cosf(theta2) * sinf(theta3);   
-				vx = scale * nx;   
-				vy = scale * ny;   
-				vz = scale * nz;   
-				tu  = - (j / (float)m_polyCount);   
-				tv  = 2 * (i + 1) / (float)m_polyCount;   
-				++index;   
-
-				m_vertices.TexCoord.at(0).vertices[ index ].setX( tu );
-				m_vertices.TexCoord.at(0).vertices[ index ].setY( tv );
-
-				m_vertices.Normal.vertices[ index ].setX( nx );
-				m_vertices.Normal.vertices[ index ].setY( ny );
-				m_vertices.Normal.vertices[ index ].setZ( nz );
-
-				m_vertices.Vertex.vertices[ index ].setX( vx );
-				m_vertices.Vertex.vertices[ index ].setY( vy );
-				m_vertices.Vertex.vertices[ index ].setZ( vz );
-
-
-				nx = cosf(theta1) * cosf(theta3);   
-				ny = sinf(theta1);   
-				nz = cosf(theta1) * sinf(theta3);   
-				vx = scale * nx;   
-				vy = scale * ny;   
-				vz = scale * nz;   
-				tu  = - (j / (float)m_polyCount);   
-				tv  = 2 * i / (float)m_polyCount;   
-				++index;   
-
-				m_vertices.TexCoord.at(0).vertices[ index ].setX( tu );
-				m_vertices.TexCoord.at(0).vertices[ index ].setY( tv );
-
-				m_vertices.Normal.vertices[ index ].setX( nx );
-				m_vertices.Normal.vertices[ index ].setY( ny );
-				m_vertices.Normal.vertices[ index ].setZ( nz );
-
-				m_vertices.Vertex.vertices[ index ].setX( vx );
-				m_vertices.Vertex.vertices[ index ].setY( vy );
-				m_vertices.Vertex.vertices[ index ].setZ( vz );
-			}   
+			RENDERER->initBufferObjects( m_vertices );
 		}
-
-		CRender::getInstance()->initBufferObjects( m_vertices );
+		else
+		{
+			RENDERER->updateBufferObject( m_vertices );
+		}
 
 #ifndef _DEBUG
 		m_vertices.clear();
@@ -151,4 +164,48 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+	void CSphereShape::setSlices( const uint _iValue )
+	{
+		m_iSlices = _iValue;
+		CSphereShape::init();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CSphereShape::setStacks( const uint _iValue )
+	{
+		m_iStacks = _iValue;
+		CSphereShape::init();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CSphereShape::setRadius( const float _iRadius )
+	{
+		m_fRadius = _iRadius;
+		CSphereShape::init();
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CSphereShape::getSlices() const
+	{
+		return m_iSlices;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	uint CSphereShape::getStacks() const
+	{
+		return m_iStacks;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+
+	float CSphereShape::getRadius() const
+	{
+		return m_fRadius;
+	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////
+}

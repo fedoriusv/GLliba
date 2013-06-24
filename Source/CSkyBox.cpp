@@ -145,7 +145,7 @@ namespace glliba
 			RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, i*4, 4 );
 		}
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glCullFace(OldCullFaceMode);
 		glDepthFunc(OldDepthFuncMode);
 	

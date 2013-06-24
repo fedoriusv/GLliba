@@ -12,6 +12,7 @@ namespace glliba
 		, m_minorRadius(0.5f)
 	{
 		m_eTypeShape = OST_TORUS;
+		CTorusShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -19,7 +20,7 @@ namespace glliba
 	CTorusShape::~CTorusShape()
 	{
 		m_vertices.clear();
-		CRender::getInstance()->deleteBufferObjects( m_vertices );
+		RENDERER->deleteBufferObjects( m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +34,8 @@ namespace glliba
 
 		m_pMaterial->bind();
 
-		CRender::getInstance()->drawSimple( DM_TRIANGLE_STRIP, m_vertices, m_pMaterial->getTextureCount() );
+		RENDERER->updateTransform( m_worldMatrix, m_offset );
+		RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,8 +52,6 @@ namespace glliba
 			CNode::updateTransform( _dDeltaTime );
 			m_bNeedUpdate = false;
 		}
-
-		CRender::getInstance()->updateTransform(m_worldMatrix, m_offset);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +88,6 @@ namespace glliba
 
 	void CTorusShape::init()
 	{
-		m_pMaterial->init();
-
 		uint numMajor = 50;
 		uint numMinor = 20;
 
@@ -149,11 +147,11 @@ namespace glliba
 
 		if (m_vertices.Vertex.iVerticesID == 0)
 		{
-			CRender::getInstance()->initBufferObjects( m_vertices );
+			RENDERER->initBufferObjects( m_vertices );
 		}
 		else
 		{
-			CRender::getInstance()->updateBufferObject( m_vertices );
+			RENDERER->updateBufferObject( m_vertices );
 		}
 
 #ifndef _DEBUG
@@ -163,4 +161,4 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+}

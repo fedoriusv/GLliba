@@ -19,7 +19,7 @@ namespace glliba
 
 	public:
 
-		CCylinderShape( CNode* _pParent = NULL );
+		CCylinderShape( CNode* _pParent = nullptr );
 		virtual				~CCylinderShape();
 
 		void				render();
