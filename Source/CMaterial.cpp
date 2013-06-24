@@ -2,6 +2,7 @@
 
 #include "CRender.h"
 #include "CResourceManager.h"
+#include "CTextureManager.h"
 #include "CShaderUniform.h"
 #include "CShader.h"
 
@@ -191,14 +192,14 @@ namespace glliba
 		CTexture* oldTexture = m_pTexture[_iTextureLayer];
 		if ( oldTexture != NULL )
 		{
-			ResourceMgr->destroyTexture(oldTexture);
+			TEXTURE_MGR->destroyTexture(oldTexture);
 			--m_iTextureCount;
 		}
 
 		std::string name = _nameFile;
-		ResourceMgr->transformString( name, true );
+		TEXTURE_MGR->transformString( name, true );
 
-		CTexture* texture = ResourceMgr->createTexture(name);
+		CTexture* texture = TEXTURE_MGR->createTexture(name);
 		m_pTexture[_iTextureLayer] = texture;
 		++m_iTextureCount;
 
@@ -218,7 +219,7 @@ namespace glliba
 		CTexture* oldTexture = m_pTexture[_iTextureLayer];
 		if ( oldTexture != NULL )
 		{
-			ResourceMgr->destroyTexture(oldTexture);
+			TEXTURE_MGR->destroyTexture(oldTexture);
 			--m_iTextureCount;
 		}
 
@@ -226,10 +227,10 @@ namespace glliba
 		for ( int iStr = 0; iStr < 6; ++iStr )
 		{
 			names[iStr] = _nameFiles[iStr];
-			ResourceMgr->transformString( names[iStr], true );
+			TEXTURE_MGR->transformString( names[iStr], true );
 		}
 
-		CTexture* texture = ResourceMgr->createCubeMap(names);
+		CTexture* texture = TEXTURE_MGR->createCubeMap(names);
 		m_pTexture[_iTextureLayer] = texture;
 		++m_iTextureCount;
 
@@ -249,7 +250,7 @@ namespace glliba
 		CTexture* oldTexture = m_pTexture[_iTextureLayer];
 		if ( oldTexture != NULL )
 		{
-			ResourceMgr->destroyTexture(oldTexture);
+			TEXTURE_MGR->destroyTexture(oldTexture);
 		}
 
 		m_pTexture[_iTextureLayer] = NULL;
@@ -269,7 +270,7 @@ namespace glliba
 		CTexture* oldTexture = m_pTexture[_iTextureLayer];
 		if ( oldTexture != NULL )
 		{
-			ResourceMgr->destroyTexture(oldTexture);
+			TEXTURE_MGR->destroyTexture(oldTexture);
 			--m_iTextureCount;
 		}
 

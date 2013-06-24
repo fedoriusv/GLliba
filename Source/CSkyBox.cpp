@@ -1,6 +1,7 @@
 #include "CSkyBox.h"
 #include "CRender.h"
 #include "CResourceManager.h"
+#include "CTextureManager.h"
 
 const std::string vertShaderSkyBox = "data/skybox.vsh";
 const std::string fragShaderSkyBox = "data/skybox.psh";
@@ -50,7 +51,7 @@ namespace glliba
 		
 		for ( uint texure = 0; texure < 6U; ++texure )
 		{
-				m_pSkyBoxTexture[texure] = ResourceMgr->createTexture( _fileNames[texure] );
+				m_pSkyBoxTexture[texure] = TEXTURE_MGR->createTexture( _fileNames[texure] );
 		}
 
 		m_bIsLoad = true;

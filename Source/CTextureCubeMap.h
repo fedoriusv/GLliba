@@ -11,7 +11,7 @@ namespace glliba
 	class CTextureCubeMap : public CTexture
 	{
 	protected:
-		friend				CResourceManager;
+		friend				CTextureManager;
 
 		uint				m_iCOUNT;
 		STextureData2D		m_cubeMapData[6U];

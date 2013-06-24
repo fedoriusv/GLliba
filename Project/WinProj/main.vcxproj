@@ -272,6 +272,7 @@
     <ClCompile Include="..\..\Source\CTexture.cpp" />
     <ClCompile Include="..\..\Source\CTexture2D.cpp" />
     <ClCompile Include="..\..\Source\CTextureCubeMap.cpp" />
+    <ClCompile Include="..\..\Source\CTextureManager.cpp" />
     <ClCompile Include="..\..\Source\CTimer.cpp" />
     <ClCompile Include="..\..\Source\CTorusShape.cpp" />
     <ClCompile Include="..\..\Source\CWinOpenGL.cpp" />
@@ -315,6 +316,7 @@
     <ClInclude Include="..\..\Source\CTexture.h" />
     <ClInclude Include="..\..\Source\CTexture2D.h" />
     <ClInclude Include="..\..\Source\CTextureCubeMap.h" />
+    <ClInclude Include="..\..\Source\CTextureManager.h" />
     <ClInclude Include="..\..\Source\CTimer.h" />
     <ClInclude Include="..\..\Source\CTorusShape.h" />
     <ClInclude Include="..\..\Source\CShader.h" />

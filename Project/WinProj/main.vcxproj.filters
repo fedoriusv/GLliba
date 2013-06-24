@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\Source\CSkyBox.cpp">
       <Filter>Source Files\GLLiba\Object\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CTextureManager.cpp">
+      <Filter>Source Files\GLLiba\Managers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CRender.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\CSkyBox.h">
       <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CTextureManager.h">
+      <Filter>Header Files\GLLiba\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

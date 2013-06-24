@@ -3,7 +3,7 @@
 
 namespace glliba
 {
-
+	typedef unsigned int uint;
 }
 
 #endif

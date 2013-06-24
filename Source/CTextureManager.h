@@ -1,38 +1,57 @@
 #ifndef _CTEXTUREMANAGER_H_
 #define _CTEXTUREMANAGER_H_
 
-#include <vector>
-
 #include "CSingleton.h"
+#include "Types.h"
 
-#include "CTexture2D.h"
-#include "CTextureCubeMap.h"
+#include <vector>
+#include <map>
 
 
 
-namespace gllib
+namespace glliba
 {
-	class CTexture;
+	///////////////////////////////////////////////////////////////////////////////////////////
+
+	class	CTexture;
+	struct	STextureData2D;
+
+	typedef std::vector<std::string>		StringList;
+	typedef std::pair<StringList,CTexture*>	Texture;
+	typedef std::map<StringList, CTexture*>	TextureList; 
 
 	class CTextureManager : public CSingleton<CTextureManager>
 	{
 	private:
-		friend					CTexture;
-				
-		uint					m_iCount;
-		std::vector<CTexture*>	m_textureList;
-		CTexture*				findTextureByNames( const std::vector<const char*>* _nameFiles ) const;
+
+		uint					m_iCountTextures;
+		TextureList				m_textures;
+
+		bool					findTextureByID( const Texture _texture, uint _iTextureID ) const;
+#ifdef _USE_DEVIL
+		bool					loadImageDevil( STextureData2D& _textureData, const std::string& _imageFile );
+#endif
 
 	public:
+
 		CTextureManager();
 		virtual					~CTextureManager();
 
-		bool					isExist( const CTexture* _texture ) const;
+		CTexture*				createTexture( const std::string& _imageFile     );
+		CTexture*				createCubeMap( const std::string  _imageFiles[6] );
+		void					destroyTexture( CTexture* _pTexture );
 
-		CTexture*				createTexture2D( const char* _nameFile );
-		CTexture*				createTextureCubeMap( const char** _nameFiles );
+		void					transformString( std::string& _string, bool _toLower = true );
+		bool					loadImage(STextureData2D& _textureData, const std::string& _imageFile );
+	
 	
 	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////
+
+#define TEXTURE_MGR	glliba::CTextureManager::getInstance()
+
+	///////////////////////////////////////////////////////////////////////////////////////////
 }
 
 #endif

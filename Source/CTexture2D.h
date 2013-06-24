@@ -7,11 +7,11 @@ namespace glliba
 {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	class CTexture2D : public CTexture
 	{
 	protected:
-		friend				CResourceManager;
+		friend				CTextureManager;
 
 		STextureData2D		m_sTextureData;
 

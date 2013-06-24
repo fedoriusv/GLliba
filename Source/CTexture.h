@@ -34,15 +34,14 @@ namespace glliba
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	class CMaterial;
-	class CResourceManager;
+	class CTextureManager;
 	class CSampler;
 
 	class CTexture : public CObject
 	{
 	protected:
-
+		friend				CTextureManager;
 		friend				CMaterial;
-		friend				CResourceManager;
 
 		static int			s_iTextureCount;
 
