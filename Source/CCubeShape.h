@@ -14,7 +14,7 @@ namespace glliba
 
 	public:
 
-		CCubeShape( CNode* _pParent = NULL );
+		CCubeShape( CNode* _pParent = nullptr );
 		virtual				~CCubeShape();
 
 		void				render();

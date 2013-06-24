@@ -132,7 +132,7 @@ namespace glliba
 	{
 		if ( m_pShader != NULL && m_pShader->isEnable() )
 		{
-			RENDER->bindShader( m_pShader->getShaderID() );
+			RENDERER->bindShader( m_pShader->getShaderID() );
 			
 			if (m_pShader->m_uniformList.size() > 0)
 			{
@@ -140,13 +140,13 @@ namespace glliba
 				CShaderUniform* uniform = iter->second;
 				while (iter!= m_pShader->m_uniformList.end())
 				{
-					RENDER->setShaderUniform( uniform->m_eShaderType,  m_pShader->getShaderID(),
+					RENDERER->setShaderUniform( uniform->m_eShaderType,  m_pShader->getShaderID(),
 						&uniform->m_attribute, uniform->m_uniformValue );
 					++iter;
 				}
 			}
 
-			RENDER->renderMaterial( m_sMaterialData );
+			RENDERER->renderMaterial( m_sMaterialData );
 		
 			for ( uint i = 0; i < TL_TEXTURE_MAX; ++i )
 			{
@@ -198,7 +198,7 @@ namespace glliba
 		std::string name = _nameFile;
 		ResourceMgr->transformString( name, true );
 
-		CTexture* texture = ResourceMgr->createTexture(&name);
+		CTexture* texture = ResourceMgr->createTexture(name);
 		m_pTexture[_iTextureLayer] = texture;
 		++m_iTextureCount;
 

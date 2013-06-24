@@ -17,6 +17,7 @@ namespace glliba
 		virtual ~CRenderTarget();
 
 		bool	isValid();
+
 	};
 }
 

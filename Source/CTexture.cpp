@@ -28,8 +28,12 @@ namespace glliba
 	CTexture::~CTexture()
 	{
 		--s_iTextureCount;
+		
+		RENDERER->deleteTexture(m_iTextureID);
+		m_iTextureID = 0;
 
 		delete m_pSampler;
+		m_pSampler = nullptr;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +77,7 @@ namespace glliba
 	{
 		m_pSampler->update();
 
-		RENDER->bindTexture( m_iTextureID, CTexture::getSamplerID(), _iTextureLayer,
+		RENDERER->bindTexture( m_iTextureID, CTexture::getSamplerID(), _iTextureLayer,
 			m_attribute, m_eTarget,  m_scale );
 	}
 

@@ -524,7 +524,7 @@ LRESULT CALLBACK WindowProc(HWND _hwnd, UINT _msg, WPARAM _wParam, LPARAM _lPara
 		
 	case WM_SIZE:												// Resize The OpenGL Window
 		{
-			RENDER->reshape(LOWORD(_lParam),HIWORD(_lParam));	// LoWord=Width, HiWord=Height
+			RENDERER->reshape(LOWORD(_lParam),HIWORD(_lParam));	// LoWord=Width, HiWord=Height
 			return 0;											// Jump Back
 		}
 

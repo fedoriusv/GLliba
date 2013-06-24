@@ -9,8 +9,8 @@ namespace glliba
 
 	CFPSCamera::CFPSCamera( CNode* _parent )
 		: CCamera(_parent)
-		, m_min(-100000.0f,-100000.0f,-100000.0f)
-		, m_max(100000.0f,100000.0f,100000.0f)
+		, m_min(-10000.0f,-10000.0f,-10000.0f)
+		, m_max(10000.0f,100000.0f,10000.0f)
 	{
 	}
 
@@ -105,8 +105,8 @@ namespace glliba
 	void CFPSCamera::rotateByMouse()
 	{
 		POINT mousePos;
-		int middleX = RENDER->getWidth() / 2;
-		int middleY = RENDER->getHeight() / 2;
+		int middleX = RENDERER->getWidth() / 2;
+		int middleY = RENDERER->getHeight() / 2;
 		float angleY = 0.0f;
 		float angleZ = 0.0f;	
 		static float currentRotX = 0.0f;
@@ -170,7 +170,7 @@ namespace glliba
 			if (CReciever::getInstance()->isKeyDown(KEY_KEY_D)) CFPSCamera::move(Vector3(s,0,0));  //D
 			CFPSCamera::rotateByMouse();
 
-			RENDER->udateCamera( m_position, m_target, m_up );
+			RENDERER->udateCamera( m_position, m_target, m_up );
 		}
 	}
 

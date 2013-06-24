@@ -13,7 +13,7 @@ namespace glliba
 	protected:
 		
 	public:
-		CDCCamera( CNode* _parent = NULL);
+		CDCCamera( CNode* _parent = nullptr );
 		virtual		~CDCCamera();
 		void		update();
 

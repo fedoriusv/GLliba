@@ -37,8 +37,6 @@ namespace glliba
 	class CResourceManager;
 	class CSampler;
 
-	typedef std::vector<std::string> StringList;
-
 	class CTexture : public CObject
 	{
 	protected:
@@ -55,7 +53,6 @@ namespace glliba
 		
 		Vector2				m_scale;
 
-		StringList			m_fileNamelist;
 		std::string			m_attribute;
 
 	public:

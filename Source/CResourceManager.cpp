@@ -24,16 +24,16 @@ namespace glliba
 
 	CResourceManager::~CResourceManager()
 	{
-		for (std::vector<CTexture*>::iterator texture = m_textureList.begin();  texture < m_textureList.end(); ++texture)
+		for (auto& texturelist : m_textures)
 		{
-			destroyTexture((*texture));
+			CTexture* texture = texturelist.second;
+			destroyTexture(texture);
 
-			if ((*texture) == NULL)
+			if (texture == nullptr)
 			{
 				ASSERT( false || "Lost ref recognize");
 			}
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -45,7 +45,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CResourceManager::loadImage( STextureData2D& _textureData, const std::string* _imageFile )
+	bool CResourceManager::loadImage( STextureData2D& _textureData, const std::string& _imageFile )
 	{
 #ifdef _USE_DEVIL
 		return loadImageDevil( _textureData, _imageFile );
@@ -56,13 +56,13 @@ namespace glliba
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef _USE_DEVIL
-	bool CResourceManager::loadImageDevil( STextureData2D& _textureData, const std::string* _imageFile )
+	bool CResourceManager::loadImageDevil( STextureData2D& _textureData, const std::string& _imageFile )
 	{
 		uint success = -1;
 
 		//http://content.gpwiki.org/index.php/DevIL:Tutorials:Basics
 
-		success = ilLoadImage( (char*)_imageFile->data() );
+		success = ilLoadImage( (char*)_imageFile.data() );
 		ASSERT( success == 1 && "Invalid Texture");
 		
 		_textureData._iWidth  = ilGetInteger(IL_IMAGE_WIDTH);
@@ -80,7 +80,7 @@ namespace glliba
 		}
 		
 		_textureData._data = (ILubyte*)malloc(ilGetInteger(IL_IMAGE_SIZE_OF_DATA));
-		memcpy(_textureData._data,ilGetData(),ilGetInteger(IL_IMAGE_SIZE_OF_DATA));
+		memcpy(_textureData._data, ilGetData(),ilGetInteger(IL_IMAGE_SIZE_OF_DATA));
 
 		return (success == 1) ? true : false;
 	}
@@ -88,31 +88,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CResourceManager::findTextureByFileName( const CTexture* _pTexture, const std::string* _imageFile ) const
+	bool CResourceManager::findTextureByID( const Texture _texture, uint _iTextureID ) const
 	{
-		return ( _pTexture->m_fileNamelist.at(0).compare(*_imageFile) == 0 ? true : false); 
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
-	bool CResourceManager::findCubeMapByFileName( const CTexture* _pTexture, const std::string* _imageFile[6U] ) const
-	{
-		for (int str = 0; str < 6; ++str )
-		{
-			if  (_pTexture->m_fileNamelist.at(str).compare(*_imageFile[str]) != 0)
-			{
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
-	bool CResourceManager::findTextureByTextureID( const CTexture* _pTexture, uint _iTextureID ) const
-	{
-		return _pTexture->m_iTextureID == _iTextureID;
+		return _texture.second->m_iTextureID == _iTextureID;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,14 +110,15 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CTexture* CResourceManager::createTexture( const std::string* _imageFile )
+	CTexture* CResourceManager::createTexture( const std::string& _imageFile )
 	{
-		std::vector<CTexture*>::const_iterator texIter = std::find_if( m_textureList.begin(), m_textureList.end(),
-			boost::bind(&CResourceManager::findTextureByFileName,this,_1,_imageFile) );
+		StringList textureList;
+		textureList.push_back(_imageFile);
+		auto texureIter = m_textures[textureList];
 
-		if (texIter != m_textureList.end())
+		if (texureIter != nullptr)
 		{
-			return (CTexture*)(*texIter)->getRef();
+			return (CTexture*)texureIter->getRef();
 		}
 
 		CTexture2D* newTexture = new CTexture2D();
@@ -149,36 +128,38 @@ namespace glliba
 
 		if (loaded)
 		{
-			RENDER->initTexture2D( newTexture->m_iTextureID, newTexture->m_sTextureData );
-			LOG_CONSOLE( "Texture loaded success: " << _imageFile->c_str() );
-							
-			newTexture->m_fileNamelist.push_back(*_imageFile);
-
-			m_textureList.push_back(newTexture);
+			RENDERER->initTexture2D( newTexture->m_iTextureID, newTexture->m_sTextureData );
+			LOG_CONSOLE( "Texture loaded success: " << _imageFile.c_str() );
+			
+			m_textures[textureList] = newTexture;
 			++s_iCountRes;
 		}
 
-		return newTexture;
+		return (CTexture*)newTexture->getRef();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	CTexture* CResourceManager::createCubeMap( const std::string _imageFile[6] )
 	{
-		std::vector<CTexture*>::const_iterator texIter = std::find_if( m_textureList.begin(), m_textureList.end(),
-			boost::bind(&CResourceManager::findCubeMapByFileName,this,_1,&_imageFile) );
-
-		if (texIter != m_textureList.end())
+		StringList textureList;
+		for ( int texure = 0; texure < 6U; ++texure )
 		{
-			return (CTexture*)(*texIter)->getRef();
+			textureList.push_back(_imageFile[texure]);
+		}
+		auto texureIter = m_textures[textureList];
+
+		if (texureIter != nullptr)
+		{
+			return (CTexture*)texureIter->getRef();
 		}
 
 		CTextureCubeMap* newTexture = new CTextureCubeMap();
 		
 		bool loaded = false;
-		for ( int tex = 0; tex < 6; ++tex )
+		for ( int texure = 0; texure < 6U; ++texure )
 		{
-			loaded = loadImage(newTexture->m_cubeMapData[tex],&_imageFile[tex]);
+			loaded = loadImage(newTexture->m_cubeMapData[texure],_imageFile[texure]);
 			if (!loaded)
 			{
 				break;
@@ -187,37 +168,36 @@ namespace glliba
 
 		if (loaded)
 		{
-			RENDER->initTextureCubeMap( newTexture->m_iTextureID, newTexture->m_cubeMapData, true );
+			RENDERER->initTextureCubeMap( newTexture->m_iTextureID, newTexture->m_cubeMapData, true );
 			
-			for ( int tex = 0; tex < 6; ++tex )
+			for ( uint texure = 0; texure < 6U; ++texure )
 			{
-				LOG_CONSOLE( "Cube Map Texture loaded success: " << _imageFile[tex].c_str() );
-				newTexture->m_fileNamelist.push_back(_imageFile[tex]);
+				LOG_CONSOLE( "Cube Map Texture loaded success: " << _imageFile[texure].c_str() );
 			}
 							
-			m_textureList.push_back(newTexture);
+			m_textures[textureList] = newTexture;
 			++s_iCountRes;
 		}
 
-		return newTexture;
+		return (CTexture*)newTexture->getRef();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CResourceManager::destroyTexture( CTexture* _pTexture )
 	{
 		if ( _pTexture->releaseRef() == 0 )
 		{
-			std::vector<CTexture*>::iterator texIter = std::find_if( m_textureList.begin(), m_textureList.end(),
-				boost::bind(&CResourceManager::findTextureByTextureID,this,_1,_pTexture->m_iTextureID) );
-
-			if (texIter != m_textureList.end())
+			TextureList::const_iterator texIter = std::find_if(m_textures.begin(),m_textures.end(),
+				boost::bind(&CResourceManager::findTextureByID,this,_1,_pTexture->getTextureID()));
+			
+			if (texIter != m_textures.end())
 			{
-				RENDER->deleteTexture(_pTexture->m_iTextureID);
-				m_textureList.erase(texIter);
-				
-				delete (*texIter);
-				(*texIter) = NULL;
+				CTexture* texture = (*texIter).second;
+				delete texture;
+				texture = nullptr;
+
+				m_textures.erase(texIter);
 			}
 			else
 			{
@@ -278,7 +258,7 @@ namespace glliba
 		std::string name = _nameFile;
 		ResourceMgr->transformString( name, true );
 		
-		const std::string extens = getExtensionFile(&name);
+		const std::string extens = getExtensionFile(name);
 		
 		CModel* model = NULL;
 		if( extens.compare("f3d") == 0 )
@@ -302,13 +282,14 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::string CResourceManager::getExtensionFile( const std::string* _nameFile )
+	std::string CResourceManager::getExtensionFile( const std::string& _nameFile )
 	{
-		size_t pos = _nameFile->rfind('.');
+		size_t pos = _nameFile.rfind('.');
 		if(pos != std::string::npos)
 		{
-			return std::string(_nameFile->begin()+pos+1, _nameFile->end());
+			return std::string(_nameFile.begin()+pos+1, _nameFile.end());
 		}
+
 		return std::string("");
 	}
 

@@ -18,7 +18,7 @@ namespace glliba
 	CCubeShape::~CCubeShape()
 	{
 		m_vertices.clear();
-		RENDER->deleteBufferObjects( m_vertices );
+		RENDERER->deleteBufferObjects( m_vertices );
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,8 +32,8 @@ namespace glliba
 
 		m_pMaterial->bind();
 
-		RENDER->updateTransform(m_worldMatrix, m_offset);
-		RENDER->drawSimple( DM_TRIANGLES, m_vertices );
+		RENDERER->updateTransform(m_worldMatrix, m_offset);
+		RENDERER->drawSimple( DM_TRIANGLES, m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -105,7 +105,7 @@ namespace glliba
 		memcpy(m_vertices.TexCoord.at(0).vertices,texCoord,sizeof(texCoord));
 		memcpy(m_vertices.Indices.vertices,cubeIndices,sizeof(cubeIndices));
 
-		RENDER->initBufferObjects( m_vertices );
+		RENDERER->initBufferObjects( m_vertices );
 
 #ifndef _DEBUG
 		m_vertices.clear();

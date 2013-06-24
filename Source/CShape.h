@@ -36,7 +36,7 @@ namespace glliba
 
 	public:
 
-		CShape( CNode* _pParent = NULL );
+		CShape( CNode* _pParent = nullptr );
 		virtual				~CShape();
 
 		CMaterial*			setMaterial( CMaterial* _pMaterial );

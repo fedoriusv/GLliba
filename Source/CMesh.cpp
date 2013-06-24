@@ -64,14 +64,14 @@ namespace glliba
 	void CMesh::render()
 	{
 		m_pMaterial->bind();
-		RENDER->drawSimple( DM_TRIANGLES, m_vertices, m_pMaterial->getTextureCount() );
+		RENDERER->drawSimple( DM_TRIANGLES, m_vertices, m_pMaterial->getTextureCount() );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CMesh::init()
 	{
-		RENDER->initBufferObjects( m_vertices );
+		RENDERER->initBufferObjects( m_vertices );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -46,7 +46,7 @@ namespace glliba
 
 	void CLight::render()
 	{
-		RENDER->renderLight( m_attribute, Vector4(m_position,1.0f), m_sLightData );
+		RENDERER->renderLight( m_attribute, Vector4(m_position,1.0f), m_sLightData );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

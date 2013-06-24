@@ -36,7 +36,7 @@ namespace glliba
 
 	public:
 
-		CLight( CNode* _pParent = NULL );
+		CLight( CNode* _pParent = nullptr );
 		virtual				~CLight();
 
 		void				init();

@@ -20,7 +20,8 @@ namespace glliba
 	
 	CSampler::~CSampler()
 	{
-		RENDER->deleteSampler(m_iSamplerID);
+		RENDERER->deleteSampler(m_iSamplerID);
+		m_iSamplerID = 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,7 +71,7 @@ namespace glliba
 
 	void CSampler::init()
 	{
-		RENDER->initSampler( m_iSamplerID, m_eWrapType, m_eMinFilerType, m_eMagFilerType );
+		RENDERER->initSampler( m_iSamplerID, m_eWrapType, m_eMinFilerType, m_eMagFilerType );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,6 +83,8 @@ namespace glliba
 			return;
 		}
 
-		RENDER->updateSampler( m_iSamplerID, m_eWrapType, m_eMinFilerType, m_eMagFilerType );
+		RENDERER->updateSampler( m_iSamplerID, m_eWrapType, m_eMinFilerType, m_eMagFilerType );
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////
 }

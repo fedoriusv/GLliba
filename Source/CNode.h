@@ -71,7 +71,7 @@ namespace glliba
 
 	public:
 
-		CNode( CNode* _pParent = NULL );
+		CNode( CNode* _pParent = nullptr );
 		~CNode();
 
 		void						setPosition	( const Vector3& _position );

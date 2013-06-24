@@ -69,7 +69,7 @@ namespace glliba
 
 		if (m_bIsActive)
 		{
-			RENDER->udateCamera( m_position, m_target, m_up );
+			RENDERER->udateCamera( m_position, m_target, m_up );
 		}
 	}
 

@@ -50,7 +50,7 @@ namespace glliba
 		
 		for ( uint texure = 0; texure < 6U; ++texure )
 		{
-				m_pSkyBoxTexture[texure] = ResourceMgr->createTexture( &_fileNames[texure] );
+				m_pSkyBoxTexture[texure] = ResourceMgr->createTexture( _fileNames[texure] );
 		}
 
 		m_bIsLoad = true;
@@ -109,7 +109,7 @@ namespace glliba
 		memcpy(m_vertices.Normal.vertices,normals,sizeof(normals));
 		memcpy(m_vertices.TexCoord.at(0).vertices,texCoord,sizeof(texCoord));
 
-		RENDER->initBufferObjects( m_vertices );
+		RENDERER->initBufferObjects( m_vertices );
 		
 		m_vertices.clear();
 	}
@@ -133,15 +133,15 @@ namespace glliba
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 
-		RENDER->bindShader( m_pShader->getShaderID() );
+		RENDERER->bindShader( m_pShader->getShaderID() );
 
 		for ( uint i = 0; i < 6; ++i )
 		{
-			RENDER->bindTexture(m_pSkyBoxTexture[i]->getTextureID(),m_pSkyBoxTexture[i]->getSamplerID(),
+			RENDERER->bindTexture(m_pSkyBoxTexture[i]->getTextureID(),m_pSkyBoxTexture[i]->getSamplerID(),
 				0,"skyBox",m_pSkyBoxTexture[i]->getTarget(),m_pSkyBoxTexture[i]->getScale());
 			
-			RENDER->updateTransform(m_worldMatrix, m_offset);
-			RENDER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, i*4, 4 );
+			RENDERER->updateTransform(m_worldMatrix, m_offset);
+			RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, i*4, 4 );
 		}
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
