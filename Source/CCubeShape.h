@@ -14,11 +14,11 @@ namespace glliba
 
 	public:
 
-		CCubeShape( CNode* _pParent = nullptr );
+		CCubeShape( CNode* _parent = nullptr );
 		virtual				~CCubeShape();
 
 		void				render();
-		void				update( double _dDeltaTime );
+		void				update( double _deltaTime );
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

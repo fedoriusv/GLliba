@@ -5,8 +5,8 @@ namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CShape::CShape( CNode* _pParent)
-		: CNode(_pParent)
+	CShape::CShape( CNode* _parent)
+		: CNode(_parent)
 		, m_eTypeShape(OST_UNKNOWN)
 	{
 		m_eTypeNode = TN_SHAPE;
@@ -25,10 +25,10 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CMaterial* CShape::setMaterial( CMaterial* _pMaterial )
+	CMaterial* CShape::setMaterial( CMaterial* _material )
 	{
 		CMaterial* oldMaterial = m_pMaterial;
-		m_pMaterial = _pMaterial;
+		m_pMaterial = _material;
 
 		return oldMaterial;
 	}

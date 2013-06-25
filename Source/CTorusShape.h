@@ -12,21 +12,21 @@ namespace glliba
 	{
 	protected:
 
-		float			m_majorRadius;
-		float			m_minorRadius;
+		float			m_fMajorRadius;
+		float			m_fMinorRadius;
 		
 		void			init();
 
 	public:
 
-		CTorusShape( CNode* _pParent = nullptr );
+		CTorusShape( CNode* _parent = nullptr );
 		virtual			~CTorusShape();
 
 		void			render();
-		void			update( double _dDeltaTime );
+		void			update( double _deltaTime );
 
-		void			setMinorRadius( const float _fRadius );
-		void			setMajorRadius( const float _fRadius );
+		void			setMinorRadius( const float _radius );
+		void			setMajorRadius( const float _radius );
 
 		float			getMinorRadius() const;
 		float			getMajorRadius() const;

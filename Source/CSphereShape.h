@@ -11,23 +11,23 @@ namespace glliba
 	{
 	protected:
 
-		uint		m_iSlices; 
-		uint		m_iStacks;
+		uint		m_nSlices; 
+		uint		m_nStacks;
 		float		m_fRadius;
 
 		void		init();
 
 	public:
 
-		CSphereShape( CNode* _pParent = nullptr );
+		CSphereShape( CNode* _parent = nullptr );
 		virtual		~CSphereShape();
 
 		void		render();
-		void		update( double _dDeltaTime );
+		void		update( double _deltaTime );
 
-		void		setSlices( const uint _iValue );
-		void		setStacks( const uint _iValue );
-		void		setRadius( const float _iRadius );
+		void		setSlices( const uint _value );
+		void		setStacks( const uint _value );
+		void		setRadius( const float _radius );
 
 		uint		getSlices() const;
 		uint		getStacks() const;

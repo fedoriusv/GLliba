@@ -6,10 +6,10 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CSphereShape::CSphereShape(CNode* _pParent)
-		: CShape(_pParent)
-		, m_iSlices(30)
-		, m_iStacks(30)
+	CSphereShape::CSphereShape(CNode* _parent)
+		: CShape(_parent)
+		, m_nSlices(30)
+		, m_nStacks(30)
 		, m_fRadius(1.0f)
 	{
 		m_eTypeShape = OST_SPHERE;
@@ -21,7 +21,7 @@ namespace glliba
 	CSphereShape::~CSphereShape()
 	{
 		m_vertices.clear();
-		CRender::getInstance()->deleteBufferObjects( m_vertices );
+		RENDERER->deleteBufferObjects( m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSphereShape::update( double _dDeltaTime )
+	void CSphereShape::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -50,7 +50,7 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform(_dDeltaTime);
+			CNode::updateTransform(_deltaTime);
 			m_bNeedUpdate = false;
 		}
 	}
@@ -59,17 +59,17 @@ namespace glliba
 
 	void CSphereShape::init()
 	{
-		float drho = (float)M_PI / (float) m_iStacks;
-		float dtheta = 2.0f * (float)M_PI / (float) m_iSlices;
-		float ds = 1.0f / (float) m_iSlices;
-		float dt = 1.0f / (float) m_iStacks;
+		float drho = (float)M_PI / (float) m_nStacks;
+		float dtheta = 2.0f * (float)M_PI / (float) m_nSlices;
+		float ds = 1.0f / (float) m_nSlices;
+		float dt = 1.0f / (float) m_nStacks;
 		float t = 1.0f;	
 		float s = 0.0f;
     
-		m_vertices.malloc( m_iSlices * m_iStacks * 4 );
+		m_vertices.malloc( m_nSlices * m_nStacks * 4 );
 		
 		int index = -1;
-		for ( uint i = 0; i < m_iStacks; ++i ) 
+		for ( uint i = 0; i < m_nStacks; ++i ) 
 		{
 			float rho = (float)i * drho;
 			float srho = (float)(sin(rho));
@@ -78,9 +78,9 @@ namespace glliba
 			float crhodrho = (float)(cosf(rho + drho));
 		
 			s = 0.0f;
-			for ( uint j = 0; j < m_iSlices; j++) 
+			for ( uint j = 0; j < m_nSlices; j++) 
 			{
-				float theta = (j == m_iSlices) ? 0.0f : j * dtheta;
+				float theta = (j == m_nSlices) ? 0.0f : j * dtheta;
 				float stheta = (float)(-sin(theta));
 				float ctheta = (float)(cos(theta));
 			
@@ -112,7 +112,7 @@ namespace glliba
 				m_vertices.Vertex.vertices[ index ].setY( y * m_fRadius );
 				m_vertices.Vertex.vertices[ index ].setZ( z * m_fRadius );
 			
-				theta = ((j+1) == m_iSlices) ? 0.0f : (j+1) * dtheta;
+				theta = ((j+1) == m_nSlices) ? 0.0f : (j+1) * dtheta;
 				stheta = (float)(-sin(theta));
 				ctheta = (float)(cos(theta));
 			
@@ -164,25 +164,25 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSphereShape::setSlices( const uint _iValue )
+	void CSphereShape::setSlices( const uint _value )
 	{
-		m_iSlices = _iValue;
+		m_nSlices = _value;
 		CSphereShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSphereShape::setStacks( const uint _iValue )
+	void CSphereShape::setStacks( const uint _value )
 	{
-		m_iStacks = _iValue;
+		m_nStacks = _value;
 		CSphereShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSphereShape::setRadius( const float _iRadius )
+	void CSphereShape::setRadius( const float _radius )
 	{
-		m_fRadius = _iRadius;
+		m_fRadius = _radius;
 		CSphereShape::init();
 	}
 
@@ -190,14 +190,14 @@ namespace glliba
 
 	uint CSphereShape::getSlices() const
 	{
-		return m_iSlices;
+		return m_nSlices;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	uint CSphereShape::getStacks() const
 	{
-		return m_iStacks;
+		return m_nStacks;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

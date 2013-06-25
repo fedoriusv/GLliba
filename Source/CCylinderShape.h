@@ -12,24 +12,24 @@ namespace glliba
 	{
 	protected:
 
-		float				m_fRadius;
-		float				m_fHeight;
+		float			m_fRadius;
+		float			m_fHeight;
 
-		void				init();
+		void			init();
 
 	public:
 
-		CCylinderShape( CNode* _pParent = nullptr );
-		virtual				~CCylinderShape();
+		CCylinderShape( CNode* _parent = nullptr );
+		virtual			~CCylinderShape();
 
-		void				render();
-		void				update( double _dDeltaTime );
+		void			render();
+		void			update( double _deltaTime );
 
-		void				setRadius( const float _fRadius );
-		void				setHeight( const float _fHeight );
+		void			setRadius( const float _radius );
+		void			setHeight( const float _height );
 
-		float				getRadius() const;
-		float				getHeight() const;
+		float			getRadius() const;
+		float			getHeight() const;
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

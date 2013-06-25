@@ -11,23 +11,32 @@ namespace glliba
 	{
 	protected:
 
-		uint				m_iSegmentsCount;
-		float				m_fRadius;
+		uint		m_nSlices; 
+		uint		m_nStacks;
 
-		void				init();
+		float		m_fInnerRadius;
+		float		m_fOuterRadius;
+
+		void		init();
 
 	public:
 
-		CDiskShape( CNode* _parent = NULL );
-		virtual				~CDiskShape();
+		CDiskShape( CNode* _parent = nullptr );
+		virtual		~CDiskShape();
 
-		void				setRadius( const float& _radius );
-		void				setSegmentsCount( const uint& _count );
+		void		render();
+		void		update( double _deltaTime );
 
-		float				getRadius() const;
+		void		setSlices( const uint _value );
+		void		setStacks( const uint _value );
+		void		setInnerRadius( const float _radius );
+		void		setOuterRadius( const float _radius );
 
-		void				render();
-		void				update( double _dDeltaTime );
+		uint		getSlices() const;
+		uint		getStacks() const;
+		float		getInnerRadius() const;
+		float		getOuterRadius() const;
+
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

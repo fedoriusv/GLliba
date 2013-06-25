@@ -6,10 +6,10 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CTorusShape::CTorusShape(CNode* _pParent)
-		: CShape(_pParent)
-		, m_majorRadius(1.0f)
-		, m_minorRadius(0.5f)
+	CTorusShape::CTorusShape(CNode* _parent)
+		: CShape(_parent)
+		, m_fMajorRadius(1.0f)
+		, m_fMinorRadius(0.5f)
 	{
 		m_eTypeShape = OST_TORUS;
 		CTorusShape::init();
@@ -40,7 +40,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CTorusShape::update( double _dDeltaTime )
+	void CTorusShape::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -49,24 +49,24 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform( _dDeltaTime );
+			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CTorusShape::setMinorRadius( const float _fRadius )
+	void CTorusShape::setMinorRadius( const float _radius )
 	{
-		m_minorRadius = _fRadius;
+		m_fMinorRadius = _radius;
 		CTorusShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CTorusShape::setMajorRadius( const float _fRadius )
+	void CTorusShape::setMajorRadius( const float _radius )
 	{
-		m_majorRadius = _fRadius;
+		m_fMajorRadius = _radius;
 		CTorusShape::init();
 	}
 
@@ -74,14 +74,14 @@ namespace glliba
 
 	float CTorusShape::getMinorRadius() const
 	{
-		return m_minorRadius;
+		return m_fMinorRadius;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	float CTorusShape::getMajorRadius() const
 	{
-		return m_majorRadius;
+		return m_fMajorRadius;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,10 +112,10 @@ namespace glliba
 			{
 				double b = j * minorStep;
 				float c = (float) cos(b);
-				float r = m_minorRadius * c + m_majorRadius;
-				float z = m_minorRadius * (float) sin(b);
+				float r = m_fMinorRadius * c + m_fMajorRadius;
+				float z = m_fMinorRadius * (float) sin(b);
 
-				Vector3 vNormal(x0*c,y0*c,z/m_minorRadius);
+				Vector3 vNormal(x0*c,y0*c,z/m_fMinorRadius);
 				normalize(vNormal);
 				++index;
 				m_vertices.TexCoord.at(0).vertices[ index ].setX( (float)(i) / (float)(numMajor) );
@@ -129,7 +129,7 @@ namespace glliba
 				m_vertices.Vertex.vertices[ index ].setY( y0*r );
 				m_vertices.Vertex.vertices[ index ].setZ( z );
 		
-				vNormal = Vector3(x1*c,y1*c,z/m_minorRadius);
+				vNormal = Vector3(x1*c,y1*c,z/m_fMinorRadius);
 				normalize(vNormal);
 				++index;
 				m_vertices.TexCoord.at(0).vertices[ index ].setX( (float)(i+1) / (float)(numMajor) );
@@ -160,5 +160,4 @@ namespace glliba
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
-
 }

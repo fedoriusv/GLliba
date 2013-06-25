@@ -6,8 +6,8 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CCubeShape::CCubeShape( CNode* _pParent )
-		: CShape(_pParent)
+	CCubeShape::CCubeShape( CNode* _parent )
+		: CShape(_parent)
 	{
 		m_eTypeShape = OST_CUBE;
 		CCubeShape::init();
@@ -38,7 +38,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CCubeShape::update( double _dDeltaTime )
+	void CCubeShape::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -47,7 +47,7 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform( _dDeltaTime );
+			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
 	}

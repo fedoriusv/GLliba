@@ -6,8 +6,8 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CCylinderShape::CCylinderShape(CNode* _pParent)
-		: CShape(_pParent)
+	CCylinderShape::CCylinderShape(CNode* _parent)
+		: CShape(_parent)
 		, m_fRadius(0.5f)
 		, m_fHeight(1.0f)
 
@@ -36,12 +36,12 @@ namespace glliba
 		m_pMaterial->bind();
 
 		RENDERER->updateTransform(m_worldMatrix, m_offset);
-		RENDERER->drawSimple( DM_TRIANGLE_STRIP,m_vertices,m_pMaterial->getTextureCount() );
+		RENDERER->drawSimple( DM_TRIANGLE_STRIP,m_vertices );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CCylinderShape::update( double _dDeltaTime )
+	void CCylinderShape::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -50,10 +50,9 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform( _dDeltaTime );
+			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
-
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -125,17 +124,17 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CCylinderShape::setRadius( const float _fRadius )
+	void CCylinderShape::setRadius( const float _radius )
 	{
-		m_fRadius = _fRadius;
+		m_fRadius = _radius;
 		CCylinderShape::init();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CCylinderShape::setHeight( const float _fHeight )
+	void CCylinderShape::setHeight( const float _height )
 	{
-		m_fHeight = _fHeight;
+		m_fHeight = _height;
 		CCylinderShape::init();
 	}
 
