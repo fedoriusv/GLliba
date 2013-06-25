@@ -107,7 +107,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_OPENGL;_USE_DEVIL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>D:\Git\GLliba\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -277,7 +277,7 @@
     <ClCompile Include="..\..\Source\CTimer.cpp" />
     <ClCompile Include="..\..\Source\CTorusShape.cpp" />
     <ClCompile Include="..\..\Source\CWinOpenGL.cpp" />
-    <ClCompile Include="..\..\Source\GL\CVertexBuffer.cpp" />
+    <ClCompile Include="..\..\Source\GL\CVertexBufferGL.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
     <ClCompile Include="..\..\Source\WinMain.cpp" />
     <ClCompile Include="..\..\Source\CResourceManager.cpp" />

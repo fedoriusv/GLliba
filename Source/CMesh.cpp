@@ -63,8 +63,9 @@ namespace glliba
 
 	void CMesh::render()
 	{
-		m_pMaterial->bind();
-		RENDERER->drawSimple( DM_TRIANGLES, m_vertices, m_pMaterial->getTextureCount() );
+		//m_pMaterial->bind();
+
+		RENDERER->drawSimple( DM_TRIANGLES, m_vertices );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

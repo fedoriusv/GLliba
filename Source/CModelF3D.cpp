@@ -144,10 +144,10 @@ namespace glliba
 		_file.read((char*)&shininess,sizeof(float));
 
 		_pMesh->getMaterial()->setTransparency(opacity);
-		_pMesh->getMaterial()->setAmbientColor(Vector4(ambient[0],ambient[1],ambient[2],1.0f));
-		_pMesh->getMaterial()->setDiffuseColor(Vector4(diffuse[0],diffuse[1],diffuse[2],opacity));
-		_pMesh->getMaterial()->setSpecularColor(Vector4(specular[0],specular[1],specular[2],1.0f));
-		_pMesh->getMaterial()->setEmissionColor(Vector4(emission[0],emission[1],emission[2],1.0f));
+		_pMesh->getMaterial()->setAmbientColor(Vector4(ambient,1.0f));
+		_pMesh->getMaterial()->setDiffuseColor(Vector4(diffuse,opacity));
+		_pMesh->getMaterial()->setSpecularColor(Vector4(specular,1.0f));
+		_pMesh->getMaterial()->setEmissionColor(Vector4(emission,1.0f));
 		_pMesh->getMaterial()->setShininess(shininess);
 
 		_file.read((char *)&Tmp, sizeof(int));

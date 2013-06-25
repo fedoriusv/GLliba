@@ -66,8 +66,6 @@ namespace glliba
 			m_bNeedUpdate = false;
 		}
 
-		CRender::getInstance()->updateTransform(m_worldMatrix, m_offset);
-
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
 		{
 			(*iter)->update( _dDeltaTime );
@@ -85,9 +83,11 @@ namespace glliba
 
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
 		{
+			//TODO: temporary need solution;
+			(*iter)->getMaterial()->bind();
+			RENDERER->updateTransform( m_worldMatrix, m_offset );
 			(*iter)->render();
 		}
-
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

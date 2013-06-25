@@ -204,7 +204,7 @@
     <ClCompile Include="..\..\Source\CTextureManager.cpp">
       <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\GL\CVertexBuffer.cpp">
+    <ClCompile Include="..\..\Source\GL\CVertexBufferGL.cpp">
       <Filter>Source Files\GLLiba\GraphLibs</Filter>
     </ClCompile>
   </ItemGroup>
