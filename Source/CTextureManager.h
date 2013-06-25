@@ -27,7 +27,7 @@ namespace glliba
 		uint					m_iCountTextures;
 		TextureList				m_textures;
 
-		bool					findTextureByID( const Texture _texture, uint _iTextureID ) const;
+		bool					findTextureByID( const Texture _texture, uint _textureID ) const;
 #ifdef _USE_DEVIL
 		bool					loadImageDevil( STextureData2D& _textureData, const std::string& _imageFile );
 #endif

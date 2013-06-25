@@ -40,18 +40,18 @@ namespace glliba
 		CShader();
 		virtual			~CShader();
 			
-		void			setEnable( const bool _bEnable );
+		void			setEnable( const bool _enable );
 		bool			isEnable() const;
 
 		uint			getShaderID() const;
 
-		void			setUniformInt	 ( std::string _attribute, const int	 _iValue   );
-		void			setUniformFloat	 ( std::string _attribute, const float   _fValue   );
-		void			setUniformVector2( std::string _attribute, const Vector2 _v2Vector );
-		void			setUniformVector3( std::string _attribute, const Vector3 _v3Vector );
-		void			setUniformVector4( std::string _attribute, const Vector4 _v4Vector );
-		void			setUniformMatrix3( std::string _attribute, const Matrix3 _m3Matrix );
-		void			setUniformMatrix4( std::string _attribute, const Vector4 _m4Matrix );
+		void			setUniformInt	 ( std::string _attribute, const int	 _value  );
+		void			setUniformFloat	 ( std::string _attribute, const float   _value  );
+		void			setUniformVector2( std::string _attribute, const Vector2 _vector );
+		void			setUniformVector3( std::string _attribute, const Vector3 _vector );
+		void			setUniformVector4( std::string _attribute, const Vector4 _vector );
+		void			setUniformMatrix3( std::string _attribute, const Matrix3 _matrix );
+		void			setUniformMatrix4( std::string _attribute, const Vector4 _matrix );
 
 		bool			loadShader( const std::string& _vertShader, const std::string& _fragShader );
 	};

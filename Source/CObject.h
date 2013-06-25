@@ -53,7 +53,7 @@ namespace glliba
 		void				setName( const std::string& _name );
 		
 		uint				getID() const;
-		void				setID( const uint _iId );
+		void				setID( const uint _id );
 
 		uint				getRefCount() const;
 		uint				releaseRef();

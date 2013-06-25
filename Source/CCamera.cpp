@@ -6,8 +6,8 @@ namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CCamera::CCamera( CNode* _pParent)
-		: CNode(_pParent)
+	CCamera::CCamera( CNode* _parent)
+		: CNode(_parent)
 		, m_up(Vector3(0.0f,1.0f,0.0f))
 		, m_target(Vector3(0.0f))
 		, m_bIsActive(false)
@@ -60,7 +60,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CCamera::update( double _dDeltaTime )
+	void CCamera::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{

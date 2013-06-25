@@ -10,8 +10,8 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CLight::CLight( CNode* _pParent )
-		: CNode( _pParent )
+	CLight::CLight( CNode* _parent )
+		: CNode( _parent )
 		, m_attribute("light")
 	{
 		m_eTypeNode = TN_LIGHT;
@@ -46,12 +46,17 @@ namespace glliba
 
 	void CLight::render()
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
+
 		RENDERER->renderLight( m_attribute, Vector4(m_position,1.0f), m_sLightData );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CLight::update( double _dDeltaTime )
+	void CLight::update( double _deltaTime )
 	{
 	}
 
@@ -106,9 +111,9 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CLight::setRadiusLight( const float _fRadius )
+	void CLight::setRadiusLight( const float _radius )
 	{
-		m_sLightData._fRadius = _fRadius;
+		m_sLightData._fRadius = _radius;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

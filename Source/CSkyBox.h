@@ -14,26 +14,24 @@ namespace glliba
 	class CSkyBox : public CNode
 	{
 	protected:
-		CTexture*			m_pSkyBoxTexture[6U];
-		CShader*			m_pShader;
+		CTexture*		m_pSkyBoxTexture[6U];
+		CShader*		m_pShader;
 
-		bool				m_bIsLoad;
+		bool			m_bIsLoad;
 
-		SVertexData			m_vertices;
-		void				init();
+		SVertexData		m_vertices;
+		void			init();
 	public:
 		CSkyBox();
-		virtual ~CSkyBox();
+		virtual			~CSkyBox();
 
-		bool				isValid();
-		void				loadSkyBox( const std::string* _fileNames );
+		bool			isValid();
+		void			loadSkyBox( const std::string* _fileNames );
 
-		void				render();
-		void				update( double _dDeltaTime );
+		void			render();
+		void			update( double _deltaTime );
 
-		void				destroySkyBox();
-
-
+		void			destroySkyBox();
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

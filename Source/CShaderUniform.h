@@ -34,13 +34,13 @@ namespace glliba
 		std::string			m_attribute;
 		void*				m_uniformValue;
 
-		void*				allocMemory( SHADER_UNIFORM_TYPE _eType,  void* _value);
+		void*				allocMemory( SHADER_UNIFORM_TYPE _type,  void* _value);
 	
 	public:
 		CShaderUniform();
-		virtual			~CShaderUniform();
+		virtual				~CShaderUniform();
 
-		void			setUniform( SHADER_UNIFORM_TYPE _eType, std::string _attribute, void* _value );
+		void				setUniform( SHADER_UNIFORM_TYPE _type, std::string _attribute, void* _value );
 
 	};
 

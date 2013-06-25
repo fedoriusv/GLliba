@@ -54,17 +54,17 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSampler::setWrapType( WRAP_TYPE _eType )
+	void CSampler::setWrapType( WRAP_TYPE _type )
 	{
-		m_eWrapType = _eType;
+		m_eWrapType = _type;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CSampler::setFilterType( FILTER_TYPE _eMinType, FILTER_TYPE _eMagType )
+	void CSampler::setFilterType( FILTER_TYPE _minType, FILTER_TYPE _magType )
 	{
-		m_eMinFilerType = _eMinType;
-		m_eMagFilerType = _eMagType;
+		m_eMinFilerType = _minType;
+		m_eMagFilerType = _magType;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////

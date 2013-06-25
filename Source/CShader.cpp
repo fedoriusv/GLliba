@@ -25,15 +25,15 @@ namespace glliba
 			CShaderUniform* uniform = iter->second;
 			
 			delete uniform;
-			uniform = NULL;
+			uniform = nullptr;
 
 			++iter;
 		}
 
-		CRender::getInstance()->deleteShader(m_vertexProgram.m_iShaderID);
-		CRender::getInstance()->deleteShader(m_fragmentProgram.m_iShaderID);
+		RENDERER->deleteShader(m_vertexProgram.m_iShaderID);
+		RENDERER->deleteShader(m_fragmentProgram.m_iShaderID);
 
-		CRender::getInstance()->deleteShader(m_iShaderID);
+		RENDERER->deleteShader(m_iShaderID);
 
 	}
 
@@ -56,7 +56,7 @@ namespace glliba
 			return false;
 		}
 
-		CRender::getInstance()->initShader( m_iShaderID, m_vertexProgram.m_iShaderID, m_fragmentProgram.m_iShaderID );
+		RENDERER->initShader( m_iShaderID, m_vertexProgram.m_iShaderID, m_fragmentProgram.m_iShaderID );
 
 		m_vertexProgram.clearShaderBody();
 		m_fragmentProgram.clearShaderBody();
@@ -66,9 +66,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CShader::setEnable( const bool _bEnable )
+	void CShader::setEnable( const bool _enable )
 	{
-		m_bEnable = _bEnable;
+		m_bEnable = _enable;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////

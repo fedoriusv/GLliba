@@ -26,7 +26,7 @@ namespace glliba
 		CCamera*				m_pCamera;
 		CFog*					m_pFog;
 
-		void					update( double _dDeltaTime );
+		void					update( double _deltaTime );
 
 		double					m_dCurrentTime;
 		double					m_dDeltaTime;
@@ -43,15 +43,15 @@ namespace glliba
 		void					draw();
 	
 		void					clear();
-		bool					drop( CNode* _pObject );
+		bool					drop( CNode* _object );
 
-		void					setActiveCamera( CCamera* _pCamera );
+		void					setActiveCamera( CCamera* _camera );
 		CCamera*				getActiveCamera() const;
 
-		void					setActiveFog( CFog* _pFog );
+		void					setActiveFog( CFog* _fog );
 		CFog*					getActiveFog() const;
 
-		CObject*				getObjectByID( const uint _iId );
+		CObject*				getObjectByID( const uint _id );
 		CObject*				getObjectByName( const std::string& _name );
 
 		//void					setEnabledCullFace( bool _cullFase );
@@ -67,7 +67,7 @@ namespace glliba
 
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
-		void					addNode( CNode* _pObject );
+		void					addNode( CNode* _object );
 		void					addLight( CLight* _pLight );
 
 		CNode*					addFog(
@@ -76,36 +76,36 @@ namespace glliba
 								const float& _end = 30.0f );
 
 		CNode*					addLight(
-								CNode* _pParent = NULL,
+								CNode* _parent = NULL,
 								const std::string _attribute = "light",
 								const Vector3& _pos = Vector3(0.0f,0.0f,1.0f),
 								const Vector4& _diffuse = Vector4(1.0f,1.0f,1.0f,1.0f),
 								const float& _radius = 100.0f );
 
 		CNode*					addCamera(
-								CNode* _pParent = NULL,
+								CNode* _parent = NULL,
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f),
 								const Vector3& _target = Vector3(0.0f,0.0f,-1.0f),
 								const Vector3& _up = Vector3(0.0f,1.0f,0.0f));
 
 		CNode*					addFPSCamera(
-								CNode* _pParent = NULL,
+								CNode* _parent = NULL,
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f),
 								const Vector3& _target = Vector3(0.0f,0.0f,-1.0f),
 								const Vector3& _up = Vector3(0.0f,1.0f,0.0f));
 
 		CNode*					addCube(
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f), 
 								const float& _size = 1.0f );
 
 		CNode*					addSphere(
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f), 
 								const float& _radius = 1.0f);
 
 		CNode*					addCylinder(
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f), 
 								const float& _radius = 0.5,
 								const float& _height = 1.0f);
@@ -113,21 +113,22 @@ namespace glliba
 		CNode*					addDisk(
 								CNode* _pParent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f), 
-								const float& _radius = 0.5);
+								const float& _innerRadius = 1.0f,
+								const float& _outerRadius = 2.0f);
 
 		CNode*					addTorus(
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f), 
 								const float& _majorRadius = 1.0f,
 								const float& _minorRadius = 0.5f);
 
 		CNode*					addPlane(
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f));
 
 		CNode*					addModel(
 								std::string _nameFile,
-								CNode* _pParent = NULL, 
+								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f));
 
 		CNode*					addSkyBox( const std::string _skyBox[6] );

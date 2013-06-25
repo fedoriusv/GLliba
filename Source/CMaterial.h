@@ -44,8 +44,8 @@ namespace glliba
 		void				setDiffuseColor ( const Vector4& _color );
 		void				setSpecularColor( const Vector4& _color );
 		void				setEmissionColor( const Vector4& _color );
-		void				setShininess	( const float   _iValue );
-		void				setTransparency ( const float   _fValue );
+		void				setShininess	( const float   _value  );
+		void				setTransparency ( const float   _value  );
 
 		Vector4				getAmbientColor() const;
 		Vector4				getDiffuseColor() const;
@@ -56,16 +56,16 @@ namespace glliba
 
 		void				bind();
 
-		void				setTexture( const uint _iTextureLayer, const std::string& _attribute, const std::string& _nameFile	 );
-		void				setTexture( const uint _iTextureLayer, const std::string& _attribute, const std::string _nameFiles[6]);
-		void				setTexture( const uint _iTextureLayer, const std::string& _attribute, CTexture* _pTexture			 );
-		CTexture*			getTexture( const uint _iTextureLayer ) const;
-		void				destroyTexture( uint _iTextureLayer );
+		void				setTexture( const uint _textureLayer, const std::string& _attribute, const std::string& _nameFile	 );
+		void				setTexture( const uint _textureLayer, const std::string& _attribute, const std::string _nameFiles[6]);
+		void				setTexture( const uint _textureLayer, const std::string& _attribute, CTexture* _pTexture			 );
+		CTexture*			getTexture( const uint _textureLayer ) const;
+		void				destroyTexture( uint _textureLayer );
 		uint				getTextureCount() const;
 
 		
 		CShader*			getShader() const;
-		void				setShader( CShader* _pShader  );
+		void				setShader( CShader* _shader  );
 		void				setShader( const std::string& _vertexShader, const std::string& _fragmentShader );
 		void				destroyShader();
 

@@ -13,30 +13,30 @@ namespace glliba
 	{
 	protected:
 
-		friend						CSceneManager;
+		friend				CSceneManager;
 
-		Vector3						m_up;
-		Vector3						m_target;
+		Vector3				m_up;
+		Vector3				m_target;
 
-		bool						m_bIsActive;
+		bool				m_bIsActive;
 
 	public:
 
 		CCamera( CNode* _pParent = nullptr );
-		virtual						~CCamera();
+		virtual				~CCamera();
 
-		void						init();
+		void				init();
 
-		void						setTarget( const Vector3& _target );
-		Vector3						getTarget() const;
+		void				setTarget( const Vector3& _target );
+		Vector3				getTarget() const;
 
-		void						setUpVector( const Vector3& _up );
-		Vector3						getUpVector() const;
+		void				setUpVector( const Vector3& _up );
+		Vector3				getUpVector() const;
 
-		void						render();
-		void						update( double _dDeltaTime );
+		void				render();
+		void				update( double _deltaTime );
 
-		bool						isActive() const;
+		bool				isActive() const;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

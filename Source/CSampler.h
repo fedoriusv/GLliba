@@ -32,8 +32,8 @@ namespace glliba
 		FILTER_TYPE		getMinFilerType() const;
 		FILTER_TYPE		getMagFilerType() const;
 
-		void			setWrapType	 ( WRAP_TYPE	_eType );
-		void			setFilterType( FILTER_TYPE	_eMinType, FILTER_TYPE _eMagType );
+		void			setWrapType	 ( WRAP_TYPE	_type );
+		void			setFilterType( FILTER_TYPE	_minType, FILTER_TYPE _magType );
 
 	};
 

@@ -61,7 +61,7 @@ namespace glliba
 
 		virtual bool		isValid() = 0;
 		
-		void				bind( uint _iTextureLayer );
+		void				bind( uint _textureLayer );
 		
 		Vector2				getScale() const;
 		void				setScale( const Vector2& _scale );

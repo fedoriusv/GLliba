@@ -16,7 +16,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode::CNode( CNode* _pParent )
+	CNode::CNode( CNode* _parent )
 		: CObject()
 		, m_position(0.0f,0.0f,0.0f)
 		, m_rotation(0.0f,0.0f,0.0f)
@@ -31,7 +31,7 @@ namespace glliba
 		, m_worldMatrix(Matrix4::identity())
 		, m_bNeedUpdate(false)
 
-		, m_pParent(_pParent)
+		, m_pParent(_parent)
 		, m_children(NULL)
 
 		, m_iIndexID(0)
@@ -41,7 +41,7 @@ namespace glliba
 
 		if (m_pParent != NULL)
 		{
-			CNode::setParent(_pParent);
+			CNode::setParent(_parent);
 		}
 	}
 
@@ -54,7 +54,7 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CNode::updateTransform( double _dDeltaTime )
+	void CNode::updateTransform( double _deltaTime )
 	{
 		m_transform = Matrix4::translation(m_position) * Matrix4::rotationDegreesZYX(m_rotation) * Matrix4::scale(m_scale);
 		m_worldMatrix = Matrix4::identity();
@@ -67,7 +67,7 @@ namespace glliba
 		{
 			CNode* item = static_cast<CNode*>((*iter));
 			//item->m_pivot = (m_worldMatrix.getCol3() - (item->m_transform * m_worldMatrix).getCol3());
-			item->updateTransform( _dDeltaTime );
+			item->updateTransform( _deltaTime );
 			item->m_bNeedUpdate = true;
 		}
 	}
@@ -149,9 +149,9 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CNode::setVisible( bool _bVisible )
+	void CNode::setVisible( bool _visible )
 	{
-		m_bIsVisible = _bVisible;
+		m_bIsVisible = _visible;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,21 +204,21 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CNode::setParent( CNode* _pParent )
+	void CNode::setParent( CNode* _parent )
 	{
-		if (_pParent != NULL )
+		if (_parent != NULL )
 		{
-			m_pParent = _pParent;
+			m_pParent = _parent;
 			m_pParent->addChild(this);
 		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CNode::addChild( CNode* _pObject )
+	void CNode::addChild( CNode* _object )
 	{
-		_pObject->m_pParent = this;
-		m_children.push_back(_pObject);
+		_object->m_pParent = this;
+		m_children.push_back(_object);
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +230,5 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
-
+}
 

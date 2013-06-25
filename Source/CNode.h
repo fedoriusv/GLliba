@@ -89,20 +89,20 @@ namespace glliba
 		TYPE_NODE					getNodeType() const;
 		float						getPriority() const;
 
-		void						setVisible( bool _bVisible );
+		void						setVisible( bool _visible );
 		bool						isVisible() const;
 
 
 		Matrix4						getMorldMatrix() const;//? to scene
-		void						updateTransform( double _dDeltaTime );
+		void						updateTransform( double _deltaTime );
 
 		CNode*						getParent() const;
-		virtual void				setParent( CNode* _pParent );
-		void						addChild( CNode* _pObject );
+		virtual void				setParent( CNode* _parent );
+		void						addChild( CNode* _object );
 		std::vector<CNode*>*		getChildrenList();
 
 		virtual void				render() = 0;
-		virtual void				update( double _dDeltaTime ) = 0;
+		virtual void				update( double _deltaTime ) = 0;
 
 		virtual void				init() = 0;
 	};

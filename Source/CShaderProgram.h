@@ -29,7 +29,7 @@ namespace glliba
 		uint					m_iShaderID;
 		SHADER_PROGRAM_TYPE		m_eType;
 		bool					m_CompileStatus;
-		void*					m_shaderBody;				
+		void*					m_shaderBody;
 
 		std::string				m_shaderName;
 		const char*				readShader( const std::string& _shaderFileName );
@@ -39,7 +39,7 @@ namespace glliba
 
 		CShaderProgram();
 		virtual					~CShaderProgram();
-		bool					loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _eType );
+		bool					loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _type );
 
 		uint					getShaderID() const;
 		SHADER_PROGRAM_TYPE		getShaderType() const;

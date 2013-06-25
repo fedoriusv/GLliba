@@ -3,10 +3,6 @@
 
 #include "CLogger.h"
 
-#ifndef NULL
-#	define NULL    0
-#endif
-
 namespace glliba
 {
 
@@ -35,14 +31,14 @@ namespace glliba
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	template <class T>
-	T* CSingleton<T>::s_pInstance = NULL;
+	T* CSingleton<T>::s_pInstance = nullptr;
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	template <class T>
 	T* CSingleton<T>::getInstance()
 	{
-		if( s_pInstance == NULL )
+		if( s_pInstance == nullptr )
 		{
 			s_pInstance = new T;
 		}
@@ -56,7 +52,7 @@ namespace glliba
 	void CSingleton<T>::freeInstance()
 	{
 		delete s_pInstance;
-		s_pInstance = NULL;
+		s_pInstance = nullptr;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +60,7 @@ namespace glliba
 	template <class T>
 	bool CSingleton<T>::isInstantiated()
 	{
-		return s_pInstance != NULL;
+		return s_pInstance != nullptr;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +68,7 @@ namespace glliba
 	template <class T>
 	CSingleton<T>::CSingleton()
 	{
-		ASSERT(s_pInstance == NULL);
+		ASSERT(s_pInstance == nullptr);
 		s_pInstance = (T*)this;
 	}
 
@@ -81,7 +77,7 @@ namespace glliba
 	template <class T>
 	CSingleton<T>::~CSingleton()
 	{
-		s_pInstance = NULL;
+		s_pInstance = nullptr;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////

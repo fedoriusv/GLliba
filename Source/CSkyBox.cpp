@@ -11,7 +11,7 @@ namespace glliba
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	CSkyBox::CSkyBox()
-		: CNode(NULL)
+		: CNode(nullptr)
 		, m_bIsLoad(false)
 		, m_pShader(nullptr)
 	{
@@ -153,7 +153,7 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSkyBox::update( double _dDeltaTime )
+	void CSkyBox::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -162,7 +162,7 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform( _dDeltaTime );
+			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
 	}

@@ -36,7 +36,7 @@ namespace glliba
 
 	public:
 
-		CLight( CNode* _pParent = nullptr );
+		CLight( CNode* _parent = nullptr );
 		virtual				~CLight();
 
 		void				init();
@@ -52,10 +52,10 @@ namespace glliba
 		Vector4				getDiffuseLight() const;
 		Vector4				getSpecularLight() const;
 
-		void				setRadiusLight	 ( const float		 _fRadius	);
-		void				setAttenuation	 ( const Vector3&	 _attenuation);
-		void				setDirectionLight( const Vector3&	 _direction );
-		void				setAttributeLight( const std::string _attribute );
+		void				setRadiusLight	 ( const float			_radius		);
+		void				setAttenuation	 ( const Vector3&		_attenuation);
+		void				setDirectionLight( const Vector3&		_direction	);
+		void				setAttributeLight( const std::string	_attribute	);
 
 		float				getRadiusLight() const;
 		Vector3				getAttenuation() const;

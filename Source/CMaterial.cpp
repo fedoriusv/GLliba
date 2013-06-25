@@ -13,11 +13,9 @@ namespace glliba
 
 	CMaterial::CMaterial()
 		: CObject()
-		, m_pShader(NULL)
+		, m_pShader(nullptr)
 		, m_iTextureCount(0)
 	{
-		getRef();
-
 		m_sMaterialData._ambient		= Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 		m_sMaterialData._diffuse		= Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 		m_sMaterialData._specular		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -29,7 +27,7 @@ namespace glliba
 
 		for ( uint layer = 0; layer < TL_TEXTURE_MAX; ++layer )
 		{
-			m_pTexture[layer] = NULL;
+			m_pTexture[layer] = nullptr;
 		}
 
 		CMaterial::init();
@@ -87,9 +85,9 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setShininess( const float  _iValue )
+	void CMaterial::setShininess( const float  _value )
 	{
-		m_sMaterialData._iShininess = _iValue;
+		m_sMaterialData._iShininess = _value;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,15 +159,15 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	CTexture* CMaterial::getTexture( const uint _iLayer ) const
+	CTexture* CMaterial::getTexture( const uint _layer ) const
 	{
-		if (_iLayer >= TL_TEXTURE_MAX)
+		if (_layer >= TL_TEXTURE_MAX)
 		{
 			ASSERT( false && "invalid texture layer" );
 			return NULL;
 		}
 
-		return m_pTexture[_iLayer];
+		return m_pTexture[_layer];
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -181,15 +179,15 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setTexture( const uint _iTextureLayer, const std::string& _attribute, const std::string& _nameFile )
+	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, const std::string& _nameFile )
 	{
-		if (_iTextureLayer >= TL_TEXTURE_MAX )
+		if (_textureLayer >= TL_TEXTURE_MAX )
 		{
 			ASSERT( false && "Texture Layer range out" );
 			return;
 		}
 
-		CTexture* oldTexture = m_pTexture[_iTextureLayer];
+		CTexture* oldTexture = m_pTexture[_textureLayer];
 		if ( oldTexture != NULL )
 		{
 			TEXTURE_MGR->destroyTexture(oldTexture);
@@ -200,23 +198,23 @@ namespace glliba
 		TEXTURE_MGR->transformString( name, true );
 
 		CTexture* texture = TEXTURE_MGR->createTexture(name);
-		m_pTexture[_iTextureLayer] = texture;
+		m_pTexture[_textureLayer] = texture;
 		++m_iTextureCount;
 
-		m_pTexture[_iTextureLayer]->setAttributeTexture(_attribute);
+		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setTexture( const uint _iTextureLayer, const std::string& _attribute, const std::string _nameFiles[6] )
+	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, const std::string _nameFiles[6] )
 	{
-		if (_iTextureLayer >= TL_TEXTURE_MAX )
+		if (_textureLayer >= TL_TEXTURE_MAX )
 		{
 			ASSERT( false && "Texture Layer range out" );
 			return;
 		}
 
-		CTexture* oldTexture = m_pTexture[_iTextureLayer];
+		CTexture* oldTexture = m_pTexture[_textureLayer];
 		if ( oldTexture != NULL )
 		{
 			TEXTURE_MGR->destroyTexture(oldTexture);
@@ -231,61 +229,61 @@ namespace glliba
 		}
 
 		CTexture* texture = TEXTURE_MGR->createCubeMap(names);
-		m_pTexture[_iTextureLayer] = texture;
+		m_pTexture[_textureLayer] = texture;
 		++m_iTextureCount;
 
-		m_pTexture[_iTextureLayer]->setAttributeTexture(_attribute);
+		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::destroyTexture( uint _iTextureLayer )
+	void CMaterial::destroyTexture( uint _textureLayer )
 	{
-		if (_iTextureLayer >= TL_TEXTURE_MAX )
+		if (_textureLayer >= TL_TEXTURE_MAX )
 		{
 			ASSERT( false && "Texture Layer range out" );
 			return;
 		}
 
-		CTexture* oldTexture = m_pTexture[_iTextureLayer];
+		CTexture* oldTexture = m_pTexture[_textureLayer];
 		if ( oldTexture != NULL )
 		{
 			TEXTURE_MGR->destroyTexture(oldTexture);
 		}
 
-		m_pTexture[_iTextureLayer] = NULL;
+		m_pTexture[_textureLayer] = NULL;
 		--m_iTextureCount;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setTexture( const uint _iTextureLayer, const std::string& _attribute, CTexture* _pTexture )
+	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, CTexture* _pTexture )
 	{
-		if (_iTextureLayer >= TL_TEXTURE_MAX )
+		if (_textureLayer >= TL_TEXTURE_MAX )
 		{
 			ASSERT( false && "Texture Layer range out" );
 			return;
 		}
 
-		CTexture* oldTexture = m_pTexture[_iTextureLayer];
+		CTexture* oldTexture = m_pTexture[_textureLayer];
 		if ( oldTexture != NULL )
 		{
 			TEXTURE_MGR->destroyTexture(oldTexture);
 			--m_iTextureCount;
 		}
 
-		m_pTexture[_iTextureLayer] = (CTexture*)_pTexture->getRef();
+		m_pTexture[_textureLayer] = (CTexture*)_pTexture->getRef();
 		++m_iTextureCount;
 
-		m_pTexture[_iTextureLayer]->setAttributeTexture(_attribute);
+		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setTransparency( const float _fValue )
+	void CMaterial::setTransparency( const float _value )
 	{
 
-		m_sMaterialData._fTransparency = _fValue > 1.0f ? 1.0f : _fValue;
+		m_sMaterialData._fTransparency = (_value > 1.0f) ? 1.0f : _value;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -304,14 +302,14 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CMaterial::setShader( CShader* _pShader  )
+	void CMaterial::setShader( CShader* _shader )
 	{
 		if (m_pShader)
 		{
 			destroyShader();
 		}
 
-		m_pShader = (CShader*)_pShader->getRef();
+		m_pShader = (CShader*)_shader->getRef();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////

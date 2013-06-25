@@ -73,11 +73,11 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CTexture::bind( uint _iTextureLayer )
+	void CTexture::bind( uint _textureLayer )
 	{
 		m_pSampler->update();
 
-		RENDERER->bindTexture( m_iTextureID, CTexture::getSamplerID(), _iTextureLayer,
+		RENDERER->bindTexture( m_iTextureID, CTexture::getSamplerID(), _textureLayer,
 			m_attribute, m_eTarget,  m_scale );
 	}
 

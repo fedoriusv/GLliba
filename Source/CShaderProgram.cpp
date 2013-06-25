@@ -89,11 +89,11 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CShaderProgram::loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _eType )
+	bool CShaderProgram::loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _type )
 	{
 		m_shaderBody  = (void*)readShader( _shaderFileName );
 		m_shaderName  = _shaderFileName;
-		m_eType = _eType;
+		m_eType = _type;
 
 		if (!m_shaderBody)
 		{
@@ -109,4 +109,4 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-} //glliba
+}

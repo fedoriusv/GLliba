@@ -28,7 +28,7 @@ namespace glliba
 		CFPSCamera( CNode* _parent = nullptr);
 		virtual		~CFPSCamera();
 
-		void		update( double _dDeltaTime ) override;
+		void		update( double _deltaTime ) override;
 		void		render() override;
 
 	};

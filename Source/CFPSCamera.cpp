@@ -154,7 +154,7 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CFPSCamera::update( double _dDeltaTime )
+	void CFPSCamera::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -163,7 +163,7 @@ namespace glliba
 
 		if (m_bIsActive)
 		{
-			float s = 0.001f * (float)_dDeltaTime;
+			float s = 0.001f * (float)_deltaTime;
 			if (CReciever::getInstance()->isKeyDown(KEY_KEY_W)) CFPSCamera::move(Vector3(0,0,-s)); //W
 			if (CReciever::getInstance()->isKeyDown(KEY_KEY_S)) CFPSCamera::move(Vector3(0,0,s));  //S
 			if (CReciever::getInstance()->isKeyDown(KEY_KEY_A)) CFPSCamera::move(Vector3(-s,0,0)); //A
