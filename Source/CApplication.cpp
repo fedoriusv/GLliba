@@ -5,16 +5,22 @@
 #include "CLight.h"
 #include "CTorusShape.h"
 #include "CRenderGL.h"
+#include "CResourceManager.h"
+#include "CTextureManager.h"
 
 CApplication::CApplication()
 {
 	m_scene = CSceneManager::getInstance();
-	m_render =  CRenderGL::getInstance();
+	m_render =  CRender::getInstance();
 	m_reciever = CReciever::getInstance();
 }
 
 CApplication::~CApplication()
 {
+	CSceneManager::freeInstance();
+	CReciever::freeInstance();
+	CResourceManager::freeInstance();
+	CTextureManager::freeInstance();
 }
 
 CReciever* CApplication::getReciever()

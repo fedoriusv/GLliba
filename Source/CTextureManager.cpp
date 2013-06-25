@@ -20,16 +20,14 @@ namespace glliba
 	
 	CTextureManager::~CTextureManager()
 	{
-		for (auto& texturelist : m_textures)
+		for (Texture texturelist : m_textures)
 		{
 			CTexture* texture = texturelist.second;
-			destroyTexture(texture);
 
-			if (texture == nullptr)
-			{
-				ASSERT( false || "Lost ref recognize");
-			}
+			delete texture;
+			texture = nullptr;
 		}
+		m_textures.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

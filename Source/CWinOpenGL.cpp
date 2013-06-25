@@ -335,7 +335,8 @@ int	CWinOpenGL::windowMainLoop()
 			if (RECIEVER->isKeyDown(KEY_ESCAPE))				
 			{
 				done = TRUE;
-				destroyWindow();						
+				destroyWindow();
+				CApplication::freeInstance();
 				exit(0);
 			}
 		}
