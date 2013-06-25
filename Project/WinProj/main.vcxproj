@@ -107,6 +107,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_OPENGL;_USE_DEVIL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>D:\Git\GLliba\Source;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Midl>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -276,6 +277,7 @@
     <ClCompile Include="..\..\Source\CTimer.cpp" />
     <ClCompile Include="..\..\Source\CTorusShape.cpp" />
     <ClCompile Include="..\..\Source\CWinOpenGL.cpp" />
+    <ClCompile Include="..\..\Source\GL\CVertexBuffer.cpp" />
     <ClCompile Include="..\..\Source\main.cpp" />
     <ClCompile Include="..\..\Source\WinMain.cpp" />
     <ClCompile Include="..\..\Source\CResourceManager.cpp" />
@@ -330,6 +332,7 @@
     <ClInclude Include="..\..\Source\CHeightMap.h" />
     <ClInclude Include="..\..\Source\Param.h" />
     <ClInclude Include="..\..\Source\CShaderUniform.h" />
+    <ClInclude Include="..\..\Source\GL\CVertexBufferGL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

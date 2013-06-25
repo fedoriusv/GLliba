@@ -1,10 +1,13 @@
 #include "CRenderGL.h"
-#include "CTimer.h"
 
+#include "GL\CVertexBufferGL.h"
+
+#include "CTimer.h"
 #include "CLight.h"
 #include "CFog.h"
 #include "CTexture.h"
 #include "CMaterial.h"
+#include "Param.h"
 
 #include <iostream>
 #include <sstream>
@@ -137,14 +140,14 @@ namespace glliba
 
 	void CRenderGL::reshape( uint _iWidth, uint _iHeight )
 	{
-		if ( _iHeight == 0 )									
+		if ( _iHeight == 0 )
 		{
-			_iHeight = 1;										
+			_iHeight = 1;
 		}
 		m_iScreenWidth = _iWidth;
 		m_iScreenHeight = _iHeight;
 
-		glViewport( 0, 0, m_iScreenWidth, m_iScreenHeight );					
+		glViewport( 0, 0, m_iScreenWidth, m_iScreenHeight );
 
 		GLfloat aspectRatio = (GLfloat)m_iScreenWidth/(GLfloat)m_iScreenHeight;
 		m_projectionMatrix = Matrix4::perspectiveDegree( 45.0f, aspectRatio, 0.1f, 100.0f );
@@ -347,17 +350,6 @@ namespace glliba
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	void  CRenderGL::deleteBuffers( const uint _iVertexID )
-	{
-		if ( _iVertexID != 0 )
-		{
-			ASSERT(glIsShader( _iVertexID ) || "Invalid Index Buffer");
-			glDeleteBuffers( 1, &_iVertexID );
-		}
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CRenderGL::deleteShader( const uint _iShaderID )
 	{
@@ -370,93 +362,16 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::deleteBufferObjects( SVertexData& _sVertexData )
+	void CRenderGL::deleteBufferObjects( SVertexData& _vertexData )
 	{
-		if ( _sVertexData.iVertexArrayID =! 0 )
-		{
-			glDeleteVertexArrays( 1, &_sVertexData.iVertexArrayID );
-		}
-
-		deleteBuffers( _sVertexData.Vertex.iVerticesID	);
-		deleteBuffers( _sVertexData.Normal.iVerticesID  );
-		deleteBuffers( _sVertexData.Indices.iVerticesID );
-		for (uint i = 0; i < _sVertexData.TexCoord.size(); ++i )
-		{
-			deleteBuffers( _sVertexData.TexCoord.at(i).iVerticesID );
-		}
+		CVertexBufferGL::deleteBufferObjects(_vertexData);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::initVertexAttribPointer( const uint _iVertexAttrib, const uint _iSize )
+	void CRenderGL::initBufferObjects( SVertexData& _vertexData )
 	{
-		glEnableVertexAttribArray( _iVertexAttrib );
-		glVertexAttribPointer( _iVertexAttrib, _iSize, GL_FLOAT, GL_FALSE, NULL, NULL );
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-	void initBufferObject( const uint _iTarget, uint& _iBufferID, const uint _iSize, void* _data)
-	{
-		glGenBuffers( 1, &_iBufferID );
-		glBindBuffer( _iTarget, _iBufferID );
-		ASSERT(glIsBuffer( _iBufferID ) && "Invalid VBO index");
-		glBufferData( _iTarget, _iSize, _data, GL_STATIC_DRAW );
-	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CRenderGL::initBufferObjects( SVertexData& _sVertexData )
-	{
-		glGenVertexArrays(1, &_sVertexData.iVertexArrayID);
-		glBindVertexArray(_sVertexData.iVertexArrayID);
-		ASSERT(glIsVertexArray( _sVertexData.iVertexArrayID ) || "Invalid VAO index");
-
-		//Vertex
-		initBufferObject( GL_ARRAY_BUFFER, _sVertexData.Vertex.iVerticesID,
-			sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Vertex.vertices );
-		/*glGenBuffers(1, &_sVertexData.Vertex.iVerticesID);
-		glBindBuffer(GL_ARRAY_BUFFER, _sVertexData.Vertex.iVerticesID);
-		ASSERT(glIsBuffer( _sVertexData.Vertex.iVerticesID ) && "Invalid VBO index");
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Vertex.vertices, GL_STATIC_DRAW);*/
-		initVertexAttribPointer( GL_ATTRIBUTE_VERTEX, 3 );
-		
-		//Normal
-		initBufferObject( GL_ARRAY_BUFFER, _sVertexData.Normal.iVerticesID,
-			sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Normal.vertices );
-		/*glGenBuffers(1, &_sVertexData.Normal.iVerticesID);
-		glBindBuffer( GL_ARRAY_BUFFER, _sVertexData.Normal.iVerticesID );
-		ASSERT(glIsBuffer( _sVertexData.Normal.iVerticesID ) || "Invalid VBO index");
-		glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Normal.vertices, GL_STATIC_DRAW );*/
-		initVertexAttribPointer( GL_ATTRIBUTE_NORMAL, 3 );
-		
-		//TexCoords
-		for (uint i = 0; i < _sVertexData.TexCoord.size(); ++i )
-		{
-			initBufferObject( GL_ARRAY_BUFFER, _sVertexData.TexCoord.at(i).iVerticesID,
-				sizeof(GLfloat)*_sVertexData.nVertices*2, _sVertexData.TexCoord.at(i).vertices );
-			/*glGenBuffers(1, &_sVertexData.TexCoord.at(i).iVerticesID);
-			glBindBuffer( GL_ARRAY_BUFFER, _sVertexData.TexCoord.at(i).iVerticesID );
-			ASSERT(glIsBuffer( _sVertexData.TexCoord.at(i).iVerticesID ) || "Invalid VBO index");
-			glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*2, _sVertexData.TexCoord.at(i).vertices, GL_STATIC_DRAW );*/
-			initVertexAttribPointer( GL_ATTRIBUTE_TEXTURE0 + i, 2 );
-		}
-
-		//Indices
-		if ( _sVertexData.nIndices > 0 )
-		{
-			initBufferObject( GL_ELEMENT_ARRAY_BUFFER, _sVertexData.Indices.iVerticesID,
-				sizeof(GLint)*_sVertexData.nIndices, _sVertexData.Indices.vertices );
-			/*glGenBuffers( 1, &_sVertexData.Indices.iVerticesID );
-			glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _sVertexData.Indices.iVerticesID );
-			ASSERT(glIsBuffer( _sVertexData.Indices.iVerticesID ) || "Invalid VBO index");
-			glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint)*_sVertexData.nIndices, _sVertexData.Indices.vertices, GL_STATIC_DRAW );*/
-		}
-
-		glBindVertexArray( 0 );
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		CVertexBufferGL::initBufferObjects(_vertexData);
 
 		printOpenGLError("GLError init VBO: ");
 	}
@@ -479,54 +394,11 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void	updateBufferSubData( const uint _iTarget, const uint _iBufferID, const uint _iSize, void* _data )
+	void CRenderGL::updateBufferObject( SVertexData& _vertexData )
 	{
-		ASSERT(glIsBuffer( _iBufferID ) || "Invalid VBO index");
-		glBindBuffer( _iTarget, _iBufferID );
-		glBufferData( _iTarget, _iSize, NULL, GL_STATIC_DRAW );
-		glBufferSubData( _iTarget, 0, _iSize, _data );
-	}
+		CVertexBufferGL::updateBufferObject(_vertexData);
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CRenderGL::updateBufferObject( SVertexData& _sVertexData )
-	{
-		updateBufferSubData( GL_ARRAY_BUFFER, _sVertexData.Vertex.iVerticesID,
-			sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Vertex.vertices );
-		/*ASSERT(glIsBuffer( _sVertexData.Vertex.iVerticesID ) || "Invalid VBO index");
-		glBindBuffer( GL_ARRAY_BUFFER, _sVertexData.Vertex.iVerticesID );
-		glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*3, NULL, GL_STATIC_DRAW );
-		glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Vertex.vertices );*/
-
-		updateBufferSubData( GL_ARRAY_BUFFER, _sVertexData.Normal.iVerticesID,
-			sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Normal.vertices );
-		/*ASSERT(glIsBuffer( _sVertexData.Normal.iVerticesID ) || "Invalid VBO index");
-		glBindBuffer( GL_ARRAY_BUFFER, _sVertexData.Normal.iVerticesID );
-		glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*3, NULL, GL_STATIC_DRAW );
-		glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*_sVertexData.nVertices*3, _sVertexData.Normal.vertices );*/
-
-		for (uint i = 0; i < _sVertexData.TexCoord.size(); ++i )
-		{
-			updateBufferSubData( GL_ARRAY_BUFFER, _sVertexData.TexCoord.at(i).iVerticesID,
-				sizeof(GLfloat)*_sVertexData.nVertices*2,  _sVertexData.TexCoord.at(i).vertices );
-			/*ASSERT(glIsBuffer( _sVertexData.TexCoord.at(i).iVerticesID ) || "Invalid VBO index");
-			glBindBuffer( GL_ARRAY_BUFFER, _sVertexData.TexCoord.at(i).iVerticesID );
-			glBufferData( GL_ARRAY_BUFFER, sizeof(GLfloat)*_sVertexData.nVertices*2, NULL, GL_STATIC_DRAW );
-			glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof(GLfloat)*_sVertexData.nVertices*2, _sVertexData.TexCoord.at(i).vertices );*/
-		}
-
-		if ( _sVertexData.nIndices > 0 )
-		{
-			updateBufferSubData( GL_ELEMENT_ARRAY_BUFFER, _sVertexData.Indices.iVerticesID,
-				sizeof(GLint)* _sVertexData.nIndices, _sVertexData.Indices.vertices );
-			/*ASSERT(glIsBuffer( _sVertexData.Indices.iVerticesID ) || "Invalid VBO index");
-			glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, _sVertexData.Indices.iVerticesID );
-			glBufferData( GL_ELEMENT_ARRAY_BUFFER, sizeof(GLint)* _sVertexData.nIndices, NULL, GL_STATIC_DRAW );
-			glBufferSubData( GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(GLfloat)*_sVertexData.nIndices, _sVertexData.Indices.vertices );*/
-		}
-
-		glBindBuffer( GL_ARRAY_BUFFER, 0 );
-		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		printOpenGLError("GLError update VBO: ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

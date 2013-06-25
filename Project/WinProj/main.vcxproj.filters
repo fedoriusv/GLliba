@@ -204,6 +204,9 @@
     <ClCompile Include="..\..\Source\CTextureManager.cpp">
       <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\GL\CVertexBuffer.cpp">
+      <Filter>Source Files\GLLiba\GraphLibs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CRender.h">
@@ -340,6 +343,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\CTextureManager.h">
       <Filter>Header Files\GLLiba\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GL\CVertexBufferGL.h">
+      <Filter>Header Files\GLLiba\GraphLibs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

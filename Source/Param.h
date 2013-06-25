@@ -38,6 +38,24 @@
 
 namespace glliba
 {
+	///////////////////////////////////////////////////////////////////////////////////////
+
+#if defined ( _OPENGL ) || defined ( _GLES )
+	enum GL_SHADER_ATTRIBUTE
+	{ 
+		GL_ATTRIBUTE_VERTEX = 0,
+		GL_ATTRIBUTE_COLOR,
+		GL_ATTRIBUTE_NORMAL,
+		GL_ATTRIBUTE_BINORMAL,
+		GL_ATTRIBUTE_TANGENT,
+		GL_ATTRIBUTE_TEXTURE0,
+		GL_ATTRIBUTE_TEXTURE1,
+		GL_ATTRIBUTE_TEXTURE2,
+		GL_ATTRIBUTE_TEXTURE3,
+		
+		GL_ATTRIBUTE_COUNT
+	};
+#endif
 
 	///////////////////////////////////////////////////////////////////////////////////////
 

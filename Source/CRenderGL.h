@@ -11,23 +11,6 @@ namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	enum GL_SHADER_ATTRIBUTE
-	{ 
-		GL_ATTRIBUTE_VERTEX = 0,
-		GL_ATTRIBUTE_COLOR,
-		GL_ATTRIBUTE_NORMAL,
-		GL_ATTRIBUTE_BINORMAL,
-		GL_ATTRIBUTE_TANGENT,
-		GL_ATTRIBUTE_TEXTURE0,
-		GL_ATTRIBUTE_TEXTURE1,
-		GL_ATTRIBUTE_TEXTURE2,
-		GL_ATTRIBUTE_TEXTURE3,
-		
-		GL_ATTRIBUTE_COUNT
-	};
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	class CRenderGL : public CRender
 	{
 	private:
@@ -87,9 +70,6 @@ namespace glliba
 												  const uint  _iVertexShader,
 												  const uint  _iFragmentShader );
 
-		void			initVertexAttribPointer ( const uint  _iVertexAttrib,
-												  const uint  _iSize );
-
 		//render objects
 		//---------------------------------------------------------------------------------------------
 
@@ -148,8 +128,6 @@ namespace glliba
 		void			deleteTexture		( const	uint	_iTextureID );
 
 		void			deleteSampler		( const uint	_iSamplerID );
-
-		void			deleteBuffers		( const uint	_iVertexID  );
 
 		void			deleteBufferObjects	( SVertexData& _sVertexData );
 
