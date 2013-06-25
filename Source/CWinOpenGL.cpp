@@ -27,11 +27,11 @@ CWinOpenGL::~CWinOpenGL()
 	destroyWindow();
 }
 
-bool CWinOpenGL::createWindow( int _iWidth, int _iHeight, bool _bFullscreen )
+bool CWinOpenGL::createWindow( int _width, int _height, bool _fullscreen )
 {
-	m_iWidht		= _iWidth;
-	m_iHeight		= _iHeight;
-	m_bFullScreen	= _bFullscreen;
+	m_iWidht		= _width;
+	m_iHeight		= _height;
+	m_bFullScreen	= _fullscreen;
 
 	if (!createContextOpenGL())
 	{

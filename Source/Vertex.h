@@ -11,10 +11,9 @@
 #include <map>
 #include <hash_map>
 
+#include "Types.h"
+
 using namespace Vectormath;
-
-typedef unsigned int	uint;
-
 
 namespace glliba
 {
@@ -84,7 +83,7 @@ namespace glliba
 		uint				iVertexArrayID;
 
 		void clear();
-		void malloc( uint _iCountVertices, uint _iCountIndex = 0, uint _iCountTexLayer = 1 );
+		void malloc( uint _countVertices, uint _countIndex = 0, uint _countTexLayer = 1 );
 
 		void copyVertexData( const std::vector<SVertex>& _vertices,
 			const std::vector<uint>& _indices );
@@ -161,39 +160,39 @@ namespace glliba
 			boost::hash_combine(hashValue.texCoordHash, texCoords.getY());
 		}
 
-		friend std::size_t hash_value( const SVertex& _sVertex );
+		friend std::size_t hash_value( const SVertex& _vertex );
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	inline std::size_t get_hash_value( const SVertex& _sVertex )
+	inline std::size_t get_hash_value( const SVertex& _vertex )
 	{
 		return 0;//_sVertex.hashValue;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	inline std::size_t hash_value( const SVertex& _sVertex )
+	inline std::size_t hash_value( const SVertex& _vertex )
 	{
 		std::size_t hash = 0;
 
-		boost::hash_combine(hash, _sVertex.position.getX());
-		boost::hash_combine(hash, _sVertex.position.getY());
-		boost::hash_combine(hash, _sVertex.position.getZ());
+		boost::hash_combine(hash, _vertex.position.getX());
+		boost::hash_combine(hash, _vertex.position.getY());
+		boost::hash_combine(hash, _vertex.position.getZ());
 
-		boost::hash_combine(hash, _sVertex.normal.getX());
-		boost::hash_combine(hash, _sVertex.normal.getY());
-		boost::hash_combine(hash, _sVertex.normal.getZ());
+		boost::hash_combine(hash, _vertex.normal.getX());
+		boost::hash_combine(hash, _vertex.normal.getY());
+		boost::hash_combine(hash, _vertex.normal.getZ());
 
-		boost::hash_combine(hash, _sVertex.texCoords.getX());
-		boost::hash_combine(hash, _sVertex.texCoords.getY());
+		boost::hash_combine(hash, _vertex.texCoords.getX());
+		boost::hash_combine(hash, _vertex.texCoords.getY());
 
 		return hash;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	inline bool compare( const SVertex& _sVertex1, const SVertex& _sVertex2 )
+	inline bool compare( const SVertex& _vertex1, const SVertex& _vertex2 )
 	{
 		return 0;//_sVertex1.hashValue < _sVertex2.hashValue;
 	}

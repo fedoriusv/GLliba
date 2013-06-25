@@ -29,7 +29,7 @@ namespace glliba
 
 		virtual void			loadFromFile( const std::string _nameFile ) = 0;
 
-		void					update( double _dDeltaTime );
+		void					update( double _deltaTime );
 		void					render();
 
 	};

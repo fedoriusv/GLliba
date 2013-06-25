@@ -34,11 +34,11 @@ public:
 	CWinOpenGL();
 	~CWinOpenGL();
 
-	bool				createWindow( int _iWidth, int _iHeight, bool _bFullscreen = false );
+	bool				createWindow( int _width, int _height, bool _fullscreen = false );
 	int					windowMainLoop();
 	void				destroyWindow();
 
-	void				setIsActive( bool _bIsActive ) { m_bIsActive = _bIsActive; }
+	void				setIsActive( bool _active ) { m_bIsActive = _active; }
 };
 
 LRESULT CALLBACK		WindowProc(HWND _hwnd, UINT _msg, WPARAM _wParam, LPARAM _lParam);

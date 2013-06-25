@@ -47,7 +47,7 @@ void CApplication::init()
 	static_cast<CShape*>(cube0)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
 	//static_cast<CShape*>(cube0)->getMaterial()->setShader("data/simple.vsh","data/simple.psh");
 	
-	CNode* cube1 = m_scene->addSphere(0,Vector3(-1.0f,1.0f,-2.0f));
+	CNode* cube1 = m_scene->addCylinder(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
 	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 	//static_cast<CShape*>(cube1)->getMaterial()->setShader("data/defaultCubemap.vsh","data/defaultCubemap.psh");
@@ -64,16 +64,6 @@ void CApplication::init()
 
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));
 
-
-	/*const std::string cubeFaces[6] = {	"data/cubemap/right.tga",
-										"data/cubemap/left.tga",
-										"data/cubemap/up.tga",
-										"data/cubemap/down.tga",
-										"data/cubemap/backward.tga",
-										"data/cubemap/forward.tga" };
-	static_cast<CShape*>(cube0)->getMaterial()->setTexture(0,"Data/Stone.jpg");
-	static_cast<CShape*>(cube0)->getMaterial()->setTexture(1,"Data/Dirt.jpg");*/
-	
 
 	//CNode* cube1 = m_scene->addCube(0,Vector3(2.0f,0.0f,-5.0f));
 	//static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"Data/Dirt.jpg");
