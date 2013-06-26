@@ -24,6 +24,7 @@ namespace glliba
 	struct SVertexData;
 	struct SShaderData;
 	struct SFogData;
+	struct SDrawParam;
 
 		
 	class CRender
@@ -143,12 +144,17 @@ namespace glliba
 
 		virtual void		updateBufferObject(
 								SVertexData&		_vertexData )		= 0;
+
+		virtual void		preDrawSimple( 
+								const SDrawParam& _currentParam )		= 0;
 			
 		virtual void		drawSimple( 
 								const DRAW_MODE&	_mode,
 								SVertexData&		_vertexData,
 								const uint&			_firstPoint = 0,
 								const uint&			_count = 0 )		= 0;
+
+		virtual void		postDrawSimple()							= 0;
 		
 		virtual bool		setShaderUniform(
 								SHADER_UNIFORM_TYPE	_param,

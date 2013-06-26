@@ -39,7 +39,10 @@ namespace glliba
 	{
 		m_eTypeObject = OT_NODE;
 
-		if (m_pParent != NULL)
+		m_eDrawParam._iCullFaceMode  = FM_BACK;
+		m_eDrawParam._iDepthFuncMode = DF_LESS;
+
+		if (m_pParent != nullptr)
 		{
 			CNode::setParent(_parent);
 		}

@@ -2,6 +2,7 @@
 #define _CRENDER_GL_H_
 
 #include "CRender.h"
+#include "CNode.h"
 
 #define TEXTURE_CUBE_MAP_COUNT 6
 #define BUFFER_OFFSET(i) ((void*)(i))
@@ -21,6 +22,8 @@ namespace glliba
 		Matrix4			m_projectionMatrix;
 		Matrix4			m_viewMatrix;
 		Vector3			m_viewPosition;
+
+		SDrawParam		m_eDrawParam;
 
 		CRenderGL();
 		void			beginRender();
@@ -125,7 +128,8 @@ namespace glliba
 		void			updateBufferObject(
 							SVertexData&		_vertexData );
 
-		void			preDrawSimple();
+		void			preDrawSimple( 
+							const SDrawParam& _currentParam );
 
 		void			drawSimple( 
 							const DRAW_MODE&	_mode,

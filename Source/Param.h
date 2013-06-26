@@ -40,7 +40,6 @@ namespace glliba
 {
 	///////////////////////////////////////////////////////////////////////////////////////
 
-#if defined ( _OPENGL ) || defined ( _GLES )
 	enum GL_SHADER_ATTRIBUTE
 	{ 
 		GL_ATTRIBUTE_VERTEX = 0,
@@ -56,9 +55,7 @@ namespace glliba
 		GL_ATTRIBUTE_COUNT
 	};
 
-#endif
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////
 
 	enum SHADER_UNIFORM_TYPE
 	{
@@ -74,18 +71,58 @@ namespace glliba
 		SUT_COUNT,
 	};
 
+		///////////////////////////////////////////////////////////////////////////////////////
+
+	enum FACE_MODE
+	{
+#if defined ( _OPENGL ) || defined ( _GLES )
+		FM_FRONT          = GL_FRONT,
+		FM_BACK           = GL_BACK,
+		FM_FRONT_AND_BACK = GL_FRONT_AND_BACK,
+#else
+		FM_FRONT          = 0,
+		FM_BACK           = 1,
+		FM_FRONT_AND_BACK = 2,
+#endif
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////
+
+	enum DEPTH_FUNC
+	{
+#if defined ( _OPENGL ) || defined ( _GLES )
+		DF_NEVER    = GL_NEVER,
+		DF_LESS     = GL_LESS,
+		DF_EQUAL    = GL_EQUAL,
+		DF_LEQUAL   = GL_LEQUAL,
+		DF_GREATER  = GL_GREATER,
+		DF_NOTEQUAL = GL_NOTEQUAL,
+		DF_GEQUAL   = GL_GEQUAL, 
+		DF_ALWAYS   = GL_ALWAYS
+#else
+		DF_NEVER    = 0,
+		DF_LESS     = 1,
+		DF_EQUAL    = 2,
+		DF_LEQUAL   = 3,
+		DF_GREATER  = 4,
+		DF_NOTEQUAL = 5,
+		DF_GEQUAL   = 6,
+		DF_ALWAYS   = 7,
+#endif
+	};
+
 	///////////////////////////////////////////////////////////////////////////////////////
 
 	enum FOG_MODE
 	{
 #if defined ( _OPENGL ) || defined ( _GLES )
-		FM_LINEAR		=	GL_LINEAR,
-		FM_EXP			=	GL_EXP,
-		FM_EXP2			=	GL_EXP2,
+		FM_LINEAR = GL_LINEAR,
+		FM_EXP    = GL_EXP,
+		FM_EXP2   = GL_EXP2,
 #else
-		FM_LINEAR		=	0,
-		FM_EXP			=	1,
-		FM_EXP2			=	2,
+		FM_LINEAR = 0,
+		FM_EXP    = 1,
+		FM_EXP2   = 2,
 #endif
 	};
 
@@ -95,18 +132,17 @@ namespace glliba
 	{
 #if defined ( _OPENGL ) || defined ( _GLES )
 		
-		/*DM_QUADS			= GL_QUADS,
-		DM_QUAD_STRIP		= GL_QUAD_STRIP,*/
-		
-		DM_TRIANGLE_STRIP	= GL_TRIANGLE_STRIP,
-		DM_TRIANGLES		= GL_TRIANGLES,
-		DM_TRIANGLE_FAN		= GL_TRIANGLE_FAN,
+		/*DM_QUADS        = GL_QUADS,
+		DM_QUAD_STRIP     = GL_QUAD_STRIP,*/
+		DM_TRIANGLE_STRIP = GL_TRIANGLE_STRIP,
+		DM_TRIANGLES      = GL_TRIANGLES,
+		DM_TRIANGLE_FAN   = GL_TRIANGLE_FAN,
 #else
-		DM_QUARD			= 0,
-		DM_QUAD_STRIP		= 1,
-		DM_TRIANGLE_STRIP	= 2,
-		DM_TRIANGLES		= 3,
-		DM_TRIANGLE_FAN		= 4,
+		DM_QUARD          = 0,
+		DM_QUAD_STRIP     = 1,
+		DM_TRIANGLE_STRIP = 2,
+		DM_TRIANGLES      = 3,
+		DM_TRIANGLE_FAN   = 4,
 #endif
 	};
 
@@ -114,17 +150,17 @@ namespace glliba
 
 	enum TEXTURE_TYPE
 	{
-		TD_INVALID			= 0,
+		TD_INVALID         = 0,
 #if defined ( _OPENGL ) || defined ( _GLES )
-		TT_TEXTURE1D		= GL_TEXTURE_1D,
-		TT_TEXTURE2D		= GL_TEXTURE_2D,
-		TT_TEXTURE3D		= GL_TEXTURE_3D,
-		TT_TEXTURE_CUBEMAP	= GL_TEXTURE_CUBE_MAP,
+		TT_TEXTURE1D       = GL_TEXTURE_1D,
+		TT_TEXTURE2D       = GL_TEXTURE_2D,
+		TT_TEXTURE3D       = GL_TEXTURE_3D,
+		TT_TEXTURE_CUBEMAP = GL_TEXTURE_CUBE_MAP,
 #else
-		TD_TEXTURE1D		= 1,
-		TD_TEXTURE2D		= 2,
-		TD_TEXTURE3D		= 3,
-		TD_TEXTURE_CUBEMAP	= 4,
+		TD_TEXTURE1D       = 1,
+		TD_TEXTURE2D       = 2,
+		TD_TEXTURE3D       = 3,
+		TD_TEXTURE_CUBEMAP = 4,
 #endif
 	};
 
@@ -133,15 +169,15 @@ namespace glliba
 	enum IMAGE_FORMAT
 	{
 #ifdef _USE_DEVIL
-		IF_COLOUR_INDEX		= IL_COLOUR_INDEX,
-		IF_COLOR_INDEX		= IL_COLOR_INDEX,
-		IF_ALPHA			= IL_ALPHA,
-		IF_RGB				= IL_RGB,
-		IF_RGBA				= IL_RGBA,
-		IF_BGR				= IL_BGR,
-		IF_BGRA				= IL_BGRA,
-		IF_LUMINANCE		= IL_LUMINANCE,
-		IF_LUMINANCE_ALPHA	= IL_LUMINANCE_ALPHA,
+		IF_COLOUR_INDEX    = IL_COLOUR_INDEX,
+		IF_COLOR_INDEX     = IL_COLOR_INDEX,
+		IF_ALPHA           = IL_ALPHA,
+		IF_RGB             = IL_RGB,
+		IF_RGBA            = IL_RGBA,
+		IF_BGR             = IL_BGR,
+		IF_BGRA            = IL_BGRA,
+		IF_LUMINANCE       = IL_LUMINANCE,
+		IF_LUMINANCE_ALPHA = IL_LUMINANCE_ALPHA,
 
 #else
 		IF_COLOUR_INDEX,	
@@ -161,15 +197,15 @@ namespace glliba
 	enum IMAGE_TYPE
 	{
 #ifdef _USE_DEVIL
-		IT_BYTE				= IL_BYTE,
-		IT_UNSIGNED_BYTE	= IL_UNSIGNED_BYTE,
-		IT_SHORT			= IL_SHORT,
-		IT_UNSIGNED_SHORT	= IL_UNSIGNED_SHORT,
-		IT_INT				= IL_INT,
-		IT_UNSIGNED_INT		= IL_UNSIGNED_INT,
-		IT_FLOAT			= IL_FLOAT,
-		IT_DOUBLE			= IL_DOUBLE,
-		IT_HALF				= IL_HALF,
+		IT_BYTE           = IL_BYTE,
+		IT_UNSIGNED_BYTE  = IL_UNSIGNED_BYTE,
+		IT_SHORT          = IL_SHORT,
+		IT_UNSIGNED_SHORT = IL_UNSIGNED_SHORT,
+		IT_INT            = IL_INT,
+		IT_UNSIGNED_INT   = IL_UNSIGNED_INT,
+		IT_FLOAT          = IL_FLOAT,
+		IT_DOUBLE         = IL_DOUBLE,
+		IT_HALF           = IL_HALF,
 #else
 		IT_BYTE,			
 		IT_UNSIGNED_BYTE,
@@ -188,13 +224,13 @@ namespace glliba
 	enum FILTER_TYPE
 	{
 #if defined ( _OPENGL ) || defined ( _GLES )
-		FT_NEAREST					= GL_NEAREST,
-		FT_LINEAR					= GL_LINEAR,
+		FT_NEAREST                = GL_NEAREST,
+		FT_LINEAR                 = GL_LINEAR,
 		
-		FT_NEAREST_MIPMAP_NEAREST	= GL_NEAREST_MIPMAP_NEAREST,
-		FT_LINEAR_MIPMAP_NEAREST	= GL_LINEAR_MIPMAP_NEAREST,
-		FT_NEAREST_MIPMAP_LINEAR	= GL_NEAREST_MIPMAP_LINEAR,
-		FT_LINEAR_MIPMAP_LINEAR		= GL_LINEAR_MIPMAP_LINEAR,
+		FT_NEAREST_MIPMAP_NEAREST = GL_NEAREST_MIPMAP_NEAREST,
+		FT_LINEAR_MIPMAP_NEAREST  = GL_LINEAR_MIPMAP_NEAREST,
+		FT_NEAREST_MIPMAP_LINEAR  = GL_NEAREST_MIPMAP_LINEAR,
+		FT_LINEAR_MIPMAP_LINEAR   = GL_LINEAR_MIPMAP_LINEAR,
 #else	
 		FT_NEAREST = 0,					
 		FT_LINEAR,					
@@ -211,10 +247,10 @@ namespace glliba
 	enum WRAP_TYPE
 	{
 #if defined ( _OPENGL ) || defined ( _GLES )
-		WT_REPEAT			= GL_REPEAT,
-		WT_CLAMP_TO_EDGE	= GL_CLAMP_TO_EDGE,
-		WT_MIRRORED_REPEAT	= GL_MIRRORED_REPEAT,
-		WT_CLAMP_TO_BORDER	= GL_CLAMP_TO_BORDER,
+		WT_REPEAT          = GL_REPEAT,
+		WT_CLAMP_TO_EDGE   = GL_CLAMP_TO_EDGE,
+		WT_MIRRORED_REPEAT = GL_MIRRORED_REPEAT,
+		WT_CLAMP_TO_BORDER = GL_CLAMP_TO_BORDER,
 #else
 		WT_REPEAT,			
 		WT_CLAMP_TO_EDGE,

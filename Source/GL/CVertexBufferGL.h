@@ -13,18 +13,18 @@ namespace glliba
 	{
 	private:
 
-		static void initBufferObject( const uint _target, uint& _bufferID, const uint _size, void* _data);
-		static void initVertexAttribPointer ( const uint _vertexAttrib, const uint _size );
-		static void updateBufferSubData( const uint _target, const uint _bufferID, const uint _size, void* _data );
+		static void initBufferObjectGL( const uint _target, uint& _bufferID, const uint _size, void* _data);
+		static void initVertexAttribPointerGL( const uint _vertexAttrib, const uint _size );
+		static void updateBufferSubDataGL( const uint _target, const uint _bufferID, const uint _size, void* _data );
 		
-		static void deleteBuffers( const uint _vertexID );
+		static void deleteBuffersGL( const uint _vertexID );
 
 	public:
 
-		static void initBufferObjects( SVertexData& _vertexData );
-		static void updateBufferObject( SVertexData& _vertexData );
+		static void initBufferObjectsGL( SVertexData& _vertexData );
+		static void updateBufferObjectGL( SVertexData& _vertexData );
 		
-		static void deleteBufferObjects( SVertexData& _vertexData );
+		static void deleteBufferObjectsGL( SVertexData& _vertexData );
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

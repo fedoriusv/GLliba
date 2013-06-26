@@ -7,6 +7,7 @@
 #include "CFog.h"
 #include "CTexture.h"
 #include "CMaterial.h"
+#include "CNode.h"
 #include "Param.h"
 
 #include <iostream>
@@ -113,13 +114,13 @@ namespace glliba
 		reshape( rect.right, rect.bottom );
 		
 		glGetIntegerv( GL_MAX_TEXTURE_UNITS, &m_iMaxTextureUnits );
+		glEnable(GL_MULTISAMPLE);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		
-		glClearDepth(1.0f);
 		//glEnable(GL_DEPTH);
 		glEnable(GL_DEPTH_TEST);
 		glClearDepth(1.0f);
@@ -130,7 +131,9 @@ namespace glliba
 		//glEnable(GL_CULL_FACE);
 		glFrontFace(GL_CW);
 		
-		glEnable(GL_MULTISAMPLE);
+		
+		//glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		printOpenGLError( "GLError Init GL: ");
 		return true;
@@ -364,14 +367,14 @@ namespace glliba
 
 	void CRenderGL::deleteBufferObjects( SVertexData& _vertexData )
 	{
-		CVertexBufferGL::deleteBufferObjects(_vertexData);
+		CVertexBufferGL::deleteBufferObjectsGL(_vertexData);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CRenderGL::initBufferObjects( SVertexData& _vertexData )
 	{
-		CVertexBufferGL::initBufferObjects(_vertexData);
+		CVertexBufferGL::initBufferObjectsGL(_vertexData);
 
 		printOpenGLError("GLError init VBO: ");
 	}
@@ -396,27 +399,26 @@ namespace glliba
 
 	void CRenderGL::updateBufferObject( SVertexData& _vertexData )
 	{
-		CVertexBufferGL::updateBufferObject(_vertexData);
+		CVertexBufferGL::updateBufferObjectGL(_vertexData);
 
 		printOpenGLError("GLError update VBO: ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void bindBlend( bool _bTransparent )
+	void bindBlend( bool _transparent )
 	{
-		if (_bTransparent)
+		if (_transparent)
 		{
-			glEnable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glDepthMask(0); 
+			glDepthMask(FALSE); 
 		}
 		else
 		{
-			glDisable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE);
 			glDisable(GL_BLEND);
-			glDepthMask(1); 
+			glDepthMask(TRUE); 
 		}
 	}
 	
@@ -774,6 +776,25 @@ namespace glliba
 		//bindShader(0);
 		
 		printOpenGLError("GLError Draw Simple: ");
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CRenderGL::preDrawSimple( const SDrawParam& _currentParam )
+	{
+		glGetIntegerv(GL_CULL_FACE_MODE, &m_eDrawParam._iCullFaceMode);
+		glGetIntegerv(GL_DEPTH_FUNC, &m_eDrawParam._iDepthFuncMode);
+
+		glCullFace(_currentParam._iCullFaceMode);
+		glDepthFunc(_currentParam._iDepthFuncMode);
+	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CRenderGL::postDrawSimple()
+	{
+		glCullFace(m_eDrawParam._iCullFaceMode);
+		glDepthFunc(m_eDrawParam._iDepthFuncMode);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

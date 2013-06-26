@@ -323,6 +323,7 @@
     <ClInclude Include="..\..\Source\CTorusShape.h" />
     <ClInclude Include="..\..\Source\CShader.h" />
     <ClInclude Include="..\..\Source\CWinOpenGL.h" />
+    <ClInclude Include="..\..\Source\GL\CShaderGL.h" />
     <ClInclude Include="..\..\Source\KeyCodes.h" />
     <ClInclude Include="..\..\Source\CResourceManager.h" />
     <ClInclude Include="..\..\Source\CSingleton.h" />

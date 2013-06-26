@@ -73,6 +73,9 @@
     <Filter Include="Header Files\GLLiba\Platform">
       <UniqueIdentifier>{dfc65c71-fb31-4a7d-be82-efc3c7114d7e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GLLiba\GraphLibs\GL">
+      <UniqueIdentifier>{848252d3-38ce-423f-9588-379487a7e8bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CRender.cpp">
@@ -345,7 +348,10 @@
       <Filter>Header Files\GLLiba\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\GL\CVertexBufferGL.h">
-      <Filter>Header Files\GLLiba\GraphLibs</Filter>
+      <Filter>Header Files\GLLiba\GraphLibs\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\GL\CShaderGL.h">
+      <Filter>Header Files\GLLiba\GraphLibs\GL</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

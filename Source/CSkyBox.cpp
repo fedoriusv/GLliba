@@ -24,6 +24,9 @@ namespace glliba
 		}
 
 		CSkyBox::init();
+
+		m_eDrawParam._iCullFaceMode  = FM_FRONT;
+		m_eDrawParam._iDepthFuncMode = DF_LEQUAL;
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,18 +127,9 @@ namespace glliba
 			return;
 		}
 
-		GLint OldCullFaceMode;
-		glGetIntegerv(GL_CULL_FACE_MODE, &OldCullFaceMode);
-		GLint OldDepthFuncMode;
-		glGetIntegerv(GL_DEPTH_FUNC, &OldDepthFuncMode);
-
-		glCullFace(GL_FRONT);
-		glDepthFunc(GL_LEQUAL);
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-
+		RENDERER->preDrawSimple(m_eDrawParam);
 
 		RENDERER->bindShader( m_pShader->getShaderID() );
-
 		for ( uint i = 0; i < 6; ++i )
 		{
 			RENDERER->bindTexture(m_pSkyBoxTexture[i]->getTextureID(),m_pSkyBoxTexture[i]->getSamplerID(),
@@ -144,11 +138,7 @@ namespace glliba
 			RENDERER->updateTransform(m_worldMatrix, m_offset);
 			RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, i*4, 4 );
 		}
-
-		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glCullFace(OldCullFaceMode);
-		glDepthFunc(OldDepthFuncMode);
-	
+		RENDERER->postDrawSimple();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

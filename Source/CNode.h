@@ -40,71 +40,82 @@ namespace glliba
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	struct SDrawParam
+	{
+		GLint		_iCullFaceMode;
+		GLint		_iDepthFuncMode;
+		GLint		_iPolygonMode;
+		GLboolean	_bUseCullFace;
+	};
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	class CSceneManager;
 
 	class CNode : public CObject
 	{
 	protected:
 
-		friend						CSceneManager;
+		friend					CSceneManager;
 
-		uint						m_iIndexID;
+		uint					m_iIndexID;
 
-		TYPE_NODE					m_eTypeNode;
+		TYPE_NODE				m_eTypeNode;
+		SDrawParam				m_eDrawParam;
 
-		Vector3						m_position;
-		Vector3						m_rotation;
-		Vector3						m_scale;
-		Vector3						m_pivot;
-		Vector3						m_offset;
+		Vector3					m_position;
+		Vector3					m_rotation;
+		Vector3					m_scale;
+		Vector3					m_pivot;
+		Vector3					m_offset;
 
-		Matrix4						m_transform;
-		Matrix4						m_worldMatrix;//? to scene
+		Matrix4					m_transform;
+		Matrix4					m_worldMatrix;//? to scene
 
-		bool						m_bNeedUpdate;
+		bool					m_bNeedUpdate;
 
-		bool						m_bIsVisible;
-		float						m_fPriority;
+		bool					m_bIsVisible;
+		float					m_fPriority;
 
-		CNode*						m_pParent;
-		std::vector<CNode*>			m_children;
+		CNode*					m_pParent;
+		std::vector<CNode*>		m_children;
 
 	public:
 
 		CNode( CNode* _pParent = nullptr );
 		~CNode();
 
-		void						setPosition	( const Vector3& _position );
-		void						setRotation	( const Vector3& _rotation );
-		void						setScale	( const Vector3& _scale );
-		void						setPivot	( const Vector3& _pivot );
-		void						setTransform( const Matrix4& _transform );
+		void					setPosition	( const Vector3& _position );
+		void					setRotation	( const Vector3& _rotation );
+		void					setScale	( const Vector3& _scale );
+		void					setPivot	( const Vector3& _pivot );
+		void					setTransform( const Matrix4& _transform );
 
-		Vector3						getPosition() const;
-		Vector3						getRotation() const;
-		Vector3						getScale() const;
-		Vector3						getPivot() const;
-		Matrix4						getTransform() const;
+		Vector3					getPosition() const;
+		Vector3					getRotation() const;
+		Vector3					getScale() const;
+		Vector3					getPivot() const;
+		Matrix4					getTransform() const;
 
-		TYPE_NODE					getNodeType() const;
-		float						getPriority() const;
+		TYPE_NODE				getNodeType() const;
+		float					getPriority() const;
 
-		void						setVisible( bool _visible );
-		bool						isVisible() const;
+		void					setVisible( bool _visible );
+		bool					isVisible() const;
 
 
-		Matrix4						getMorldMatrix() const;//? to scene
-		void						updateTransform( double _deltaTime );
+		Matrix4					getMorldMatrix() const;//? to scene
+		void					updateTransform( double _deltaTime );
 
-		CNode*						getParent() const;
-		virtual void				setParent( CNode* _parent );
-		void						addChild( CNode* _object );
-		std::vector<CNode*>*		getChildrenList();
+		CNode*					getParent() const;
+		virtual void			setParent( CNode* _parent );
+		void					addChild( CNode* _object );
+		std::vector<CNode*>*	getChildrenList();
 
-		virtual void				render() = 0;
-		virtual void				update( double _deltaTime ) = 0;
+		virtual void			render() = 0;
+		virtual void			update( double _deltaTime ) = 0;
 
-		virtual void				init() = 0;
+		virtual void			init() = 0;
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////
