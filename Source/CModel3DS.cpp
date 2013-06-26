@@ -8,30 +8,35 @@
 
 namespace glliba
 {
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	inline float round( const float& _point )
 	{
 		return (float)((int)(_point*1000.0f))/1000.0f;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	CModel3DS::CModel3DS( CNode* _parent )
 		: CModel(_parent)
 	{
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	CModel3DS::~CModel3DS()
 	{
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void CModel3DS::init()
 	{
-		
 	}
 
-	void CModel3DS::loadFromFile( const std::string _nameFile )
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CModel3DS::loadFromFile( const std::string& _nameFile )
 	{
 		Lib3dsFile * model;
 		model = lib3ds_file_load( _nameFile.c_str() );
@@ -85,10 +90,6 @@ namespace glliba
 					//LOG( "normal:  nx = " << face->normal[0] << " ny = " << face->normal[1] << " nz = " << face->normal[2] );
 					int indexID = -1;
 					
-					//++indexID;
-					///indices.push_back(indexID);
-					//vertices.push_back( vertex );
-
 					std::vector<SVertex>::iterator iter = std::find(vertices.begin(),vertices.end(),vertex);
 					if ( iter != vertices.end() )
 					{
@@ -108,39 +109,6 @@ namespace glliba
 						LOG_DEBUG("	TexCoords x:%f; y:%f;\n", vertex.texCoords[0], vertex.texCoords[1] );
 						LOG_DEBUG("	Index: %i\n", indexID);
 					}
-
-					//////////////////
-
-					/*std::vector<SVertexHash>::iterator iter = std::find(hashes.begin(),hashes.end(),vertex.hashValue);
-					if ( iter != hashes.end() )
-					{
-						indexID = std::distance( hashes.begin(), iter );
-						indices.push_back(indexID);
-						
-					}
-					else
-					{
-						hashes.push_back(vertex.hashValue);
-						vertices.push_back( vertex );
-						indexID = hashes.size() - 1;
-						indices.push_back( indexID );
-					}*/
-
-					/////////////////////
-
-					/*iterVertices = vertices.find(vertex);
-					if ( iterVertices != vertices.end() )
-					{
-						indexID = std::distance( vertices.begin(), iterVertices );
-						indices.push_back(indexID);
-					}
-					else
-					{
-						vertices[vertex] = vertex.hashValue;
-						indexID = vertices.size() - 1;
-						indices.push_back( indexID );
-					}*/
-					
 				}
 
 				finishedFaces++;
@@ -170,12 +138,14 @@ namespace glliba
 		}
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 	void CModel3DS::loadMateral( CMesh* _mesh, Lib3dsFile* _model3ds )
 	{
 		CMaterial* material = _mesh->getMaterial();
 
-		assert( material!= NULL || "Material not alloc" );
-
-
+		ASSERT( material!= NULL || "Material not alloc" );
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -6,8 +6,8 @@ namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CModel::CModel( CNode* _pParent)
-		: CNode(_pParent)
+	CModel::CModel( CNode* _parent)
+		: CNode(_parent)
 	{
 		m_eTypeNode = TN_MODEL;
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
@@ -20,8 +20,7 @@ namespace glliba
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
 		{
 			CMesh* mesh = (*iter);
-			m_pMesh.pop_back();
-
+			
 			delete mesh;
 			mesh = nullptr;
 		}
@@ -31,17 +30,17 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CModel::addMesh( CMesh* _pMesh )
+	void CModel::addMesh( CMesh* _mesh )
 	{
-		m_pMesh.push_back( _pMesh );
+		m_pMesh.push_back( _mesh );
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CMesh* CModel::getMesh( const uint _iID ) const
+	CMesh* CModel::getMesh( const uint _id ) const
 	{
-		ASSERT( m_pMesh.size() > _iID || "Not Mesh initialize" );
-		return m_pMesh.at(_iID);
+		ASSERT( m_pMesh.size() > _id || "Not Mesh initialize" );
+		return m_pMesh.at(_id);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +52,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CModel::update( double _dDeltaTime )
+	void CModel::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
 		{
@@ -62,13 +61,13 @@ namespace glliba
 
 		if ( m_bNeedUpdate )
 		{
-			CNode::updateTransform( _dDeltaTime );
+			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
 
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
 		{
-			(*iter)->update( _dDeltaTime );
+			(*iter)->update( _deltaTime );
 		}
 	}
 
@@ -83,8 +82,9 @@ namespace glliba
 
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
 		{
-			//TODO: temporary need solution;
+			//TODO: temporary, need solution;
 			(*iter)->getMaterial()->bind();
+
 			RENDERER->updateTransform( m_worldMatrix, m_offset );
 			(*iter)->render();
 		}
@@ -92,7 +92,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CModel::compareByName( std::string _name )
+	bool CModel::compareByName( const std::string& _name )
 	{
 		if( m_modelNameFile.compare(_name) == 0 )
 		{
@@ -101,4 +101,6 @@ namespace glliba
 
 		return false;
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

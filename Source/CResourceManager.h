@@ -17,12 +17,12 @@ namespace glliba
 	{
 	private:
 
-		static uint				s_iCountRes;
+		uint					m_nCountRes;
 
 		std::vector<CShader*>	m_shaderList;
 
-		bool					findShaderByFileName( const CShader* _pShader, const std::string& _vertexShader, const std::string& _fragmentShader ) const;
-		bool					findShaderByShaderID( const CShader* _pShader, uint _iShaderID ) const;
+		bool					findShaderByFileName( const CShader* _shader, const std::string& _vertexShader, const std::string& _fragmentShader ) const;
+		bool					findShaderByShaderID( const CShader* _shader, uint _shaderID ) const;
 
 		std::string				getExtensionFile( const std::string& _nameFile );
 
@@ -31,7 +31,7 @@ namespace glliba
 		virtual					~CResourceManager();
 
 		CShader*				createShader( const std::string& _vertShader, const std::string& _fragShader );
-		void					destroyShader( CShader* _pShader );
+		void					destroyShader( CShader* _shader );
 
 		void					transformString( std::string& _string, bool _toLower = true );
 

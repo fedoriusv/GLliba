@@ -2,13 +2,16 @@
 #include "CResourceManager.h"
 
 #include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
 
 namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	CModelF3D::CModelF3D( CNode* _pParent )
-		: CModel(_pParent)
+	CModelF3D::CModelF3D( CNode* _parent )
+		: CModel(_parent)
 	{
 	}
 
@@ -26,14 +29,14 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CModelF3D::loadFromFile( const std::string _nameFile )
+	void CModelF3D::loadFromFile( const std::string& _nameFile )
 	{
 		m_modelNameFile = _nameFile;
 
 		std::ifstream inFile(_nameFile, std::ios::in | std::ios::binary | std::ios::_Nocreate);
 		if(!inFile) 
 		{
-			ASSERT(true && "Cant load f3d file");
+			ASSERT( false && "Cant load f3d file");
 			return;
 		}
 
@@ -63,7 +66,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CModelF3D::loadVertices( std::ifstream& _file, CMesh* _pMesh )
+	void CModelF3D::loadVertices( std::ifstream& _file, CMesh* _mesh )
 	{
 		std::streampos Tmp;
 
@@ -100,8 +103,7 @@ namespace glliba
 			indices.push_back(id);
 		}
 
-
-		_pMesh->m_vertices.copyVertexData( vertices, indices );
+		_mesh->m_vertices.copyVertexData( vertices, indices );
 
 		vertices.clear();
 		indices.clear();
@@ -109,7 +111,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CModelF3D::loadMaterial( std::ifstream& _file, CMesh* _pMesh )
+	void CModelF3D::loadMaterial( std::ifstream& _file, CMesh* _mesh )
 	{
 		int material;
 		_file.read((char*)&material,sizeof(int));
@@ -123,7 +125,7 @@ namespace glliba
 
 		std::string materialName("");
 		loadString	( _file, materialName );
-		_pMesh->getMaterial()->setName(materialName);
+		_mesh->getMaterial()->setName(materialName);
 
 		Vector3 ambient;
 		_file.read((char*)&ambient[0],sizeof(float)*3);
@@ -143,12 +145,12 @@ namespace glliba
 		float shininess;
 		_file.read((char*)&shininess,sizeof(float));
 
-		_pMesh->getMaterial()->setTransparency(opacity);
-		_pMesh->getMaterial()->setAmbientColor(Vector4(ambient,1.0f));
-		_pMesh->getMaterial()->setDiffuseColor(Vector4(diffuse,opacity));
-		_pMesh->getMaterial()->setSpecularColor(Vector4(specular,1.0f));
-		_pMesh->getMaterial()->setEmissionColor(Vector4(emission,1.0f));
-		_pMesh->getMaterial()->setShininess(shininess);
+		_mesh->getMaterial()->setTransparency(opacity);
+		_mesh->getMaterial()->setAmbientColor(Vector4(ambient,1.0f));
+		_mesh->getMaterial()->setDiffuseColor(Vector4(diffuse,opacity));
+		_mesh->getMaterial()->setSpecularColor(Vector4(specular,1.0f));
+		_mesh->getMaterial()->setEmissionColor(Vector4(emission,1.0f));
+		_mesh->getMaterial()->setShininess(shininess);
 
 		_file.read((char *)&Tmp, sizeof(int));
 		int numTextures = (int)Tmp;
@@ -158,11 +160,14 @@ namespace glliba
 			std::string textureFile("");
 			loadString	( _file, textureFile );
 
-			_pMesh->getMaterial()->setTexture(i, "texture0", "data/" + textureFile);
+			std::ostringstream index;
+			index << i;
+
+			_mesh->getMaterial()->setTexture(i, "texture" + index.str(), "data/" + textureFile);
 			
 			std::string textureName("");
 			loadString	( _file, textureName );
-			_pMesh->getMaterial()->getTexture(i)->setName(textureName);
+			_mesh->getMaterial()->getTexture(i)->setName(textureName);
 		}
 	}
 

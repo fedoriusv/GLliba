@@ -10,11 +10,8 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	uint CResourceManager::s_iCountRes = 0;
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
 	CResourceManager::CResourceManager()
+		: m_nCountRes(0)
 	{
 	}
 
@@ -22,7 +19,6 @@ namespace glliba
 
 	CResourceManager::~CResourceManager()
 	{
-		
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,17 +30,17 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CResourceManager::findShaderByFileName( const CShader* _pShader, const std::string& _vertexShader, const std::string& _fragmentShader ) const
+	bool CResourceManager::findShaderByFileName( const CShader* _shader, const std::string& _vertexShader, const std::string& _fragmentShader ) const
 	{
-		return (_pShader->m_vertexProgram.m_shaderName.compare(_vertexShader) == 0 &&
-			_pShader->m_fragmentProgram.m_shaderName.compare(_fragmentShader) == 0 ? true : false); 
+		return (_shader->m_vertexProgram.m_shaderName.compare(_vertexShader) == 0 &&
+			_shader->m_fragmentProgram.m_shaderName.compare(_fragmentShader) == 0 ? true : false); 
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CResourceManager::findShaderByShaderID( const CShader* _pShader, uint _iShaderID ) const
+	bool CResourceManager::findShaderByShaderID( const CShader* _shader, uint _shaderID ) const
 	{
-		return _pShader->m_iShaderID == _iShaderID;
+		return _shader->m_iShaderID == _shaderID;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,19 +59,19 @@ namespace glliba
 		newShader->loadShader(_vertShader,_fragShader);
 
 		m_shaderList.push_back(newShader);
-		++s_iCountRes;
+		++m_nCountRes;
 
 		return (CShader*)newShader->getRef();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CResourceManager::destroyShader( CShader* _pShader )
+	void CResourceManager::destroyShader( CShader* _shader )
 	{
-		if ( _pShader->releaseRef() == 0 )
+		if ( _shader->releaseRef() == 0 )
 		{
 			std::vector<CShader*>::iterator shaderIter = std::find_if( m_shaderList.begin(), m_shaderList.end(),
-				boost::bind(&CResourceManager::findShaderByShaderID,this,_1,_pShader->m_iShaderID) );
+				boost::bind(&CResourceManager::findShaderByShaderID,this,_1,_shader->m_iShaderID) );
 
 			if (shaderIter != m_shaderList.end())
 			{

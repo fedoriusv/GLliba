@@ -44,7 +44,7 @@ void CApplication::init()
 	cube1->setName("cube0");
 	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
 
-	CNode* model0 = m_scene->addModel("data/cube.f3d", NULL, Vector3(0,0,-5));
+	CNode* model0 = m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5));
 	model0->setName("cube0");
 	
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));

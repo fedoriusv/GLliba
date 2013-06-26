@@ -18,16 +18,17 @@ namespace glliba
 	{
 	private:
 		
-		
 		void		loadVertices( std::ifstream& _file, CMesh* _pMesh );
 		void		loadMaterial( std::ifstream& _file, CMesh* _pMesh );
 
 		void		loadString( std::ifstream& _file, std::string& _stringOut );
+
 	public:
-		CModelF3D( CNode* _pParent );
+
+		CModelF3D( CNode* _parent );
 		virtual		~CModelF3D();
 
-		void		loadFromFile(  const std::string _nameFile );
+		void		loadFromFile( const std::string& _nameFile );
 
 		void		init();
 	};

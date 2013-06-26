@@ -17,20 +17,20 @@ namespace glliba
 		std::vector<CMesh*>		m_pMesh;
 		std::string				m_modelNameFile;
 
-		bool					compareByName( std::string _name );
+		bool					compareByName( const std::string& _name );
 	public:
 
-		CModel( CNode* _parent = NULL );
+		CModel( CNode* _parent = nullptr );
 		virtual					~CModel();
 
-		void					addMesh( CMesh* _pMesh );
-		CMesh*					getMesh( const uint _iID ) const;
+		void					addMesh( CMesh* _mesh );
+		CMesh*					getMesh( const uint _id ) const;
 		int						getMeshCount() const;
 
-		virtual void			loadFromFile( const std::string _nameFile ) = 0;
+		virtual void			loadFromFile( const std::string& _nameFile ) = 0;
 
-		void					update( double _deltaTime );
-		void					render();
+		void					update( double _deltaTime ) final;
+		void					render() final;
 
 	};
 

@@ -21,13 +21,15 @@ namespace glliba
 	class CModel3DS : public CModel
 	{
 	private:
+
 		void		loadMateral( CMesh* _mesh, Lib3dsFile* _model3ds );
+
 	public:
 
 		CModel3DS( CNode* _parent );
 		virtual		~CModel3DS();
 
-		void		loadFromFile( const std::string _nameFile );
+		void		loadFromFile( const std::string& _nameFile );
 
 		void		init();
 	};
