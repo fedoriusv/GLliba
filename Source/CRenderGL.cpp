@@ -522,63 +522,63 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CRenderGL::setShaderUniform( const uint _param, const uint _iShaderID, const std::string* _attribute, void* _value )
+	bool CRenderGL::setShaderUniform( SHADER_UNIFORM_TYPE _param, const uint _shaderID, const std::string& _attribute, void* _value )
 	{
 		int location = -1;
 
 		switch( _param )
 		{
-		case 0/*SAT_UNIFORM_INVALID*/:
+		case SUT_UNIFORM_INVALID:
 			{
 				location = -1;
 			}
 			break;
-		case 1/*SAT_UNIFORM_INT*/:
+		case SUT_UNIFORM_INT:
 			{
 				GLint value = *(GLint*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniform1i( location, value );
 			}
 			break;
-		case 2 /*SAT_UNIFORM_FLOAT*/:
+		case SUT_UNIFORM_FLOAT:
 			{
 				GLfloat value = *(GLfloat*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniform1f( location, value );
 			}
 			break;
-		case 3 /*SAT_UNIFORM_VECTOR2*/:
+		case SUT_UNIFORM_VECTOR2:
 			{
 				Vector2 value = *(Vector2*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniform2fv( location, 1, &value[0] );
 			}
 			break;
-		case 4 /*SAT_UNIFORM_VECTOR3*/:
+		case SUT_UNIFORM_VECTOR3:
 			{
 				Vector3 value = *(Vector3*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniform3fv( location, 1, &value[0] );
 			}
 			break;
-		case 5 /*SAT_UNIFORM_VECTOR4*/:
+		case SUT_UNIFORM_VECTOR4:
 			{
 				Vector4 value = *(Vector4*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniform4fv( location, 1, &value[0] );
 			}
 			break;
-		case 6 /*SAT_UNIFORM_MATRIX3*/:
+		case SUT_UNIFORM_MATRIX3:
 			{
 				Matrix3 value = *(Matrix3*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniformMatrix3fv( location, 1, GL_TRUE, &value[0][0] );
 			}
 			break;
-		case 7 /*SAT_UNIFORM__MATRIX4*/:
+		case SUT_UNIFORM_MATRIX4:
 			{
 				Matrix4 value = *(Matrix4*)_value;
-				location = glGetUniformLocation( _iShaderID, (*_attribute).data() );
+				location = glGetUniformLocation( _shaderID, (_attribute).data() );
 				glUniformMatrix4fv( location, 1, GL_TRUE, &value[0][0] );
 			}
 			break;
@@ -588,7 +588,7 @@ namespace glliba
 
 		if (location == -1)
 		{
-			LOG_CONSOLE(" Error Uniform Location: "  << (*_attribute).data() <<". Shader ID:" << _iShaderID);
+			LOG_CONSOLE(" Error Uniform Location: "  << (_attribute).data() <<". Shader ID:" << _shaderID);
 		}
 
 		return (location != -1);

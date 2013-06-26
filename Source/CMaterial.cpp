@@ -20,7 +20,7 @@ namespace glliba
 		m_sMaterialData._diffuse		= Vector4(0.2f, 0.2f, 0.2f, 1.0f);
 		m_sMaterialData._specular		= Vector4(1.0f, 1.0f, 1.0f, 1.0f);
 		m_sMaterialData._emission		= Vector4(0.0f);
-		m_sMaterialData._iShininess		= 128;
+		m_sMaterialData._iShininess		= 128U;
 		m_sMaterialData._fTransparency	= 1.0f;
 		
 		m_eTypeObject = OT_MATERIAL;
@@ -129,7 +129,7 @@ namespace glliba
 
 	void CMaterial::bind()
 	{
-		if ( m_pShader != NULL && m_pShader->isEnable() )
+		if ( m_pShader != nullptr && m_pShader->isEnable() )
 		{
 			RENDERER->bindShader( m_pShader->getShaderID() );
 			
@@ -139,8 +139,8 @@ namespace glliba
 				CShaderUniform* uniform = iter->second;
 				while (iter!= m_pShader->m_uniformList.end())
 				{
-					RENDERER->setShaderUniform( uniform->m_eShaderType,  m_pShader->getShaderID(),
-						&uniform->m_attribute, uniform->m_uniformValue );
+					RENDERER->setShaderUniform( uniform->m_eShaderType, m_pShader->getShaderID(),
+						uniform->m_attribute, uniform->m_uniformValue );
 					++iter;
 				}
 			}
@@ -149,7 +149,7 @@ namespace glliba
 		
 			for ( uint i = 0; i < TL_TEXTURE_MAX; ++i )
 			{
-				if ( m_pTexture[i] != NULL )
+				if ( m_pTexture[i] != nullptr )
 				{
 					m_pTexture[i]->bind(i);
 				}

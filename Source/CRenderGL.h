@@ -33,7 +33,7 @@ namespace glliba
 
 		virtual			~CRenderGL();
 		bool			init( void* _hWnd );
-		void			reshape( uint _iWidth, uint _iHeight );
+		void			reshape( uint _width, uint _height );
 
 		void			printOpenGLInfo();
 		void			printOpenGLError( const std::string& _errorString );
@@ -42,96 +42,119 @@ namespace glliba
 		//init objects
 		//--------------------------------------------------------------------------------------------
 
-		void			initTexture2D			( uint&		  _iTextureID,
-												 const STextureData2D& _sTextureData,
-												 const bool	  _bMipMap = true );
+		void			initTexture2D( 
+							uint&				_textureID,
+							const STextureData2D& _textureData,
+							const bool 			_isMipMap = true );
 
-		void			initTextureCubeMap		( uint&		  _iIndexTexture,
-												 const STextureData2D* _sTextureData,
-												 const bool	  _bMipMap = true );
+		void			initTextureCubeMap( 
+							uint&				_indexTexture,
+							const STextureData2D* _textureData,
+							const bool			_isMipMap = true );
 
-		void			initSampler				( uint&		  _iSamplerID,
-												  WRAP_TYPE	  _eWrapType,
-												  FILTER_TYPE _eMinFilerType,
-												  FILTER_TYPE _eMagFilerType );
+		void			initSampler( 
+							uint&				_samplerID,
+							WRAP_TYPE			_wrapType,
+							FILTER_TYPE			_minFilerType,
+							FILTER_TYPE			_magFilerType );
 
-		void			initRenderTarget		( uint&		  _iFrameBuffID,
-												  uint&		  _itextireID,
-												  const uint  _iWidth,
-												  const uint  _iHeight );
+		void			initRenderTarget( 
+							uint&				_frameBuffID,
+							uint&				_textireID,
+							const uint			_width,
+							const uint			_height );
 
-		void			initBufferObjects		( SVertexData& _sVertexData );
+		void			initBufferObjects( 
+							SVertexData&		_vertexData );
 
-		void			intShaderProgram		( uint&		  _iShaderID,
-												  const uint  _iTypeShader,
-												  void*		  _shaderBody );
+		void			intShaderProgram( 
+							uint&				_shaderID,
+							const uint			_typeShader,
+							void*				_shaderBody );
 
-		void			initShader				( uint&		  _ishaderID,
-												  const uint  _iVertexShader,
-												  const uint  _iFragmentShader );
+		void			initShader( 
+							uint&				_shaderID,
+							const uint			_vertexShader,
+							const uint			_fragmentShader );
 
 		//render objects
 		//---------------------------------------------------------------------------------------------
 
-		void			renderLight		  (	const std::string&	_attribute, 
-											Vector4&			_position,
-											SLightData&			_sLightData );
+		void			renderLight( 
+							const std::string&	_attribute, 
+							Vector4&			_position,
+							SLightData&			_lightData );
 
-		void			renderMaterial	  (	SMaterialData&		_sMatrialData );
+		void			renderMaterial( 
+							SMaterialData&		_matrialData );
 
-		void			renderFog		  (	const bool		_bEnabled, 
-											SFogData&		_sFogData );
+		void			renderFog( 
+							const bool			_enabled, 
+							SFogData&			_fogData );
 
-		void			renderToTexture	  ( const uint		_id,
-											const uint		_texId );
+		void			renderToTexture( 
+							const uint			_id,
+							const uint			_texId );
 
-		void			bindTexture		  (	const uint&			_iTextureID,
-											const uint&			_iSamplerID,
-											const uint&			_iActiveTexture,
-											const std::string&	_attribute,
-											const TEXTURE_TYPE	_iType,
-											Vector2&			_scale );
+		void			bindTexture( 
+							const uint&			_textureID,
+							const uint&			_samplerID,
+							const uint&			_activeTexture,
+							const std::string&	_attribute,
+							const TEXTURE_TYPE	_type,
+							Vector2&			_scale );
 
-		void			bindShader		  (	const uint			_iShaderID );
+		void			bindShader( 
+							const uint			_shaderID );
 
-		void			updateSampler	  ( uint&				_iSamplerID,
-											const WRAP_TYPE		_eWrapType,
-											const FILTER_TYPE	_eMinFilerType,
-											const FILTER_TYPE	_eMagFilerType );
+		void			updateSampler( 
+							uint&				_samplerID,
+							const WRAP_TYPE		_wrapType,
+							const FILTER_TYPE	_minFilerType,
+							const FILTER_TYPE	_magFilerType );
 
-		void			udateCamera		  (	const Vector3&		_position,
-											const Vector3&		_target,
-											const Vector3&		_up );
+		void			udateCamera( 
+							const Vector3&		_position,
+							const Vector3&		_target,
+							const Vector3&		_up );
 
-		void			updateTransform	  (	Matrix4&			_tyransform,
-											Vector3&			_offset );
+		void			updateTransform( 
+							Matrix4&			_tyransform,
+							Vector3&			_offset );
 
-		void			updateBufferObject(	SVertexData&		_sVertexData );
+		void			updateBufferObject(
+							SVertexData&		_vertexData );
 
 		void			preDrawSimple();
 
-		void			drawSimple		  (	const DRAW_MODE&	_mode,
-											SVertexData&		_vertexData,
-											const uint&			_iFirstPoint = 0,
-											const uint&			_iCount		 = 0);
+		void			drawSimple( 
+							const DRAW_MODE&	_mode,
+							SVertexData&		_vertexData,
+							const uint&			_firstPoint = 0,
+							const uint&			_count		 = 0);
+
 		void			postDrawSimple();
 
-
-		bool			setShaderUniform  (	const uint			_eParam,
-											const uint			_iShaderID,
-											const std::string*	_attribute,
-											void*				_value );
+		bool			setShaderUniform( 
+							SHADER_UNIFORM_TYPE	_param,
+							const uint			_shaderID,
+							const std::string&	_attribute,
+							void*				_value );
 
 		//delete object
 		//--------------------------------------------------------------------------------------------
 
-		void			deleteTexture		( const	uint	_iTextureID );
+		void			deleteTexture( 
+							const	uint		_textureID );
 
-		void			deleteSampler		( const uint	_iSamplerID );
+		void			deleteSampler( 
+							const uint			_samplerID );
 
-		void			deleteBufferObjects	( SVertexData& _sVertexData );
+		void			deleteBufferObjects( 
+							SVertexData&		_vertexData );
 
-		void			deleteShader		( const uint   _iShaderID   );
+		void			deleteShader( 
+							const uint			_shaderID );
 
 		
 		void			showFPS();

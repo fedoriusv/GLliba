@@ -6,18 +6,19 @@
 
 namespace glliba
 {
-
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	class CModel : public CNode
 	{
 	protected:
+
 		friend CResourceManager;
 
 		std::vector<CMesh*>		m_pMesh;
 		std::string				m_modelNameFile;
 
 		bool					compareByName( const std::string& _name );
+
 	public:
 
 		CModel( CNode* _parent = nullptr );
@@ -31,7 +32,6 @@ namespace glliba
 
 		void					update( double _deltaTime ) final;
 		void					render() final;
-
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
