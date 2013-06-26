@@ -444,7 +444,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addModel( std::string _nameFile, CNode* _parent, const Vector3& _pos )
+	CNode* CSceneManager::addModel( const std::string& _nameFile, CNode* _parent, const Vector3& _pos )
 	{
 		CNode* obj = ResourceMgr->loadModel(_nameFile);
 		obj->setParent(_parent);

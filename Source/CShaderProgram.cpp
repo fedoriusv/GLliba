@@ -20,6 +20,9 @@ namespace glliba
 	CShaderProgram::~CShaderProgram()
 	{
 		clearShaderBody();
+		
+		RENDERER->deleteShader(m_iShaderID);
+		m_iShaderID = 0;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +105,7 @@ namespace glliba
 		}
 
 
-		CRender::getInstance()->intShaderProgram( m_iShaderID, m_eType, m_shaderBody );
+		RENDERER->intShaderProgram( m_iShaderID, m_eType, m_shaderBody );
 
 		return true;
 	}

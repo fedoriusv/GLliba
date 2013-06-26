@@ -127,7 +127,7 @@ namespace glliba
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f));
 
 		CNode*					addModel(
-								std::string _nameFile,
+								const std::string& _nameFile,
 								CNode* _parent = NULL, 
 								const Vector3& _pos = Vector3(0.0f,0.0f,0.0f));
 

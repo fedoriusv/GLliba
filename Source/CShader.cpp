@@ -29,12 +29,10 @@ namespace glliba
 
 			++iter;
 		}
-
-		RENDERER->deleteShader(m_vertexProgram.m_iShaderID);
-		RENDERER->deleteShader(m_fragmentProgram.m_iShaderID);
+		m_uniformList.clear();
 
 		RENDERER->deleteShader(m_iShaderID);
-
+		m_iShaderID = 0;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -87,13 +85,13 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CShader::isExistAttribute( const std::string* _attribute )
+	bool CShader::isExistAttribute( const std::string& _attribute )
 	{
 		UniformList::iterator iter = m_uniformList.begin();
 
 		while (iter != m_uniformList.end())
 		{
-			if ( (*iter).first.compare(*_attribute)  == 0 )
+			if ( (*iter).first.compare(_attribute)  == 0 )
 			{
 				return true;
 			}
@@ -104,9 +102,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CShader::setUniformInt( std::string _attribute, const int _iValue )
+	void CShader::setUniformInt( const std::string& _attribute, const int _iValue )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_INT, (_attribute), (void*)(&_iValue) );
 		}
@@ -121,9 +119,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CShader::setUniformFloat(  std::string _attribute, const float _fValue )
+	void CShader::setUniformFloat( const std::string& _attribute, const float _fValue )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_FLOAT, (_attribute), (void*)(&_fValue) );
 		}
@@ -138,9 +136,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CShader::setUniformVector2(  std::string _attribute, const Vector2 _v2Vector )
+	void CShader::setUniformVector2( const std::string& _attribute, const Vector2 _v2Vector )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR2, (_attribute), (void*)(&_v2Vector) );
 		}
@@ -155,9 +153,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CShader::setUniformVector3(  std::string _attribute, const Vector3 _v3Vector )
+	void CShader::setUniformVector3( const std::string& _attribute, const Vector3 _v3Vector )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR3, (_attribute), (void*)(&_v3Vector) );
 		}
@@ -172,9 +170,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CShader::setUniformVector4(  std::string _attribute, const Vector4 _v4Vector )
+	void CShader::setUniformVector4( const std::string& _attribute, const Vector4 _v4Vector )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR4, (_attribute), (void*)(&_v4Vector) );
 		}
@@ -189,9 +187,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CShader::setUniformMatrix3(  std::string _attribute, const Matrix3 _m3Matrix )
+	void CShader::setUniformMatrix3( const std::string& _attribute, const Matrix3 _m3Matrix )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX3, (_attribute), (void*)(&_m3Matrix) );
 		}
@@ -206,9 +204,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CShader::setUniformMatrix4(  std::string _attribute, const Vector4 _m4Matrix )
+	void CShader::setUniformMatrix4( const std::string& _attribute, const Vector4 _m4Matrix )
 	{
-		if ( isExistAttribute(&_attribute) )
+		if ( isExistAttribute(_attribute) )
 		{
 			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX4, (_attribute), (void*)(&_m4Matrix) );
 		}

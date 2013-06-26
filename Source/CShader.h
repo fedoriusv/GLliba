@@ -34,7 +34,7 @@ namespace glliba
 
 		UniformList		m_uniformList;
 
-		bool			isExistAttribute( const std::string* _attribute ); 
+		bool			isExistAttribute( const std::string& _attribute ); 
 
 	public:
 		CShader();
@@ -45,13 +45,13 @@ namespace glliba
 
 		uint			getShaderID() const;
 
-		void			setUniformInt	 ( std::string _attribute, const int	 _value  );
-		void			setUniformFloat	 ( std::string _attribute, const float   _value  );
-		void			setUniformVector2( std::string _attribute, const Vector2 _vector );
-		void			setUniformVector3( std::string _attribute, const Vector3 _vector );
-		void			setUniformVector4( std::string _attribute, const Vector4 _vector );
-		void			setUniformMatrix3( std::string _attribute, const Matrix3 _matrix );
-		void			setUniformMatrix4( std::string _attribute, const Vector4 _matrix );
+		void			setUniformInt	 ( const std::string& _attribute, const int	 _value  );
+		void			setUniformFloat	 ( const std::string& _attribute, const float   _value  );
+		void			setUniformVector2( const std::string& _attribute, const Vector2 _vector );
+		void			setUniformVector3( const std::string& _attribute, const Vector3 _vector );
+		void			setUniformVector4( const std::string& _attribute, const Vector4 _vector );
+		void			setUniformMatrix3( const std::string& _attribute, const Matrix3 _matrix );
+		void			setUniformMatrix4( const std::string& _attribute, const Vector4 _matrix );
 
 		bool			loadShader( const std::string& _vertShader, const std::string& _fragShader );
 	};

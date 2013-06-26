@@ -35,7 +35,7 @@ namespace glliba
 
 		void					transformString( std::string& _string, bool _toLower = true );
 
-		CModel*					loadModel( const std::string _nameFile );
+		CModel*					loadModel( const std::string& _nameFile );
 
 		CTexture*				createRenderTarget(uint _iWidth, uint _iHeight);
 

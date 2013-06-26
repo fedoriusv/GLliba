@@ -94,7 +94,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CModel* CResourceManager::loadModel( const std::string _nameFile )
+	CModel* CResourceManager::loadModel( const std::string& _nameFile )
 	{
 		std::string name = _nameFile;
 		ResourceMgr->transformString( name, true );

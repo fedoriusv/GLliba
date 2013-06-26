@@ -33,19 +33,18 @@ void CApplication::init()
 	//TODO: Create objects--------------------------------------------------------------------
 	m_scene->setActiveDebug(true);
 	const std::string skybox[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
-										"data/skybox/jajlands/jajlands1_bk.jpg",
-										"data/skybox/jajlands/jajlands1_lf.jpg",
-										"data/skybox/jajlands/jajlands1_rt.jpg",
-										"data/skybox/jajlands/jajlands1_up.jpg",
-										"data/skybox/jajlands/jajlands1_dn.jpg", };
+									"data/skybox/jajlands/jajlands1_bk.jpg",
+									"data/skybox/jajlands/jajlands1_lf.jpg",
+									"data/skybox/jajlands/jajlands1_rt.jpg",
+									"data/skybox/jajlands/jajlands1_up.jpg",
+									"data/skybox/jajlands/jajlands1_dn.jpg", };
 	m_scene->addSkyBox(skybox);
 
 	/*CNode* cube1 = m_scene->addCylinder(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
-	static_cast<CShape*>(cube1)->getMaterial()->setShader("data/simple01.vsh","data/simple01.psh");*/
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
 
-	CNode* model0 = m_scene->addModel("data/fullScene.f3d", NULL, Vector3(0,0,-5));
+	CNode* model0 = m_scene->addModel("data/cube.f3d", NULL, Vector3(0,0,-5));
 	model0->setName("cube0");
 	
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));

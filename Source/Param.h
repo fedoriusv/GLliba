@@ -55,7 +55,24 @@ namespace glliba
 		
 		GL_ATTRIBUTE_COUNT
 	};
+
 #endif
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	enum SHADER_UNIFORM_TYPE
+	{
+		SUT_UNIFORM_INVALID,
+		SUT_UNIFORM_INT,
+		SUT_UNIFORM_FLOAT,
+		SUT_UNIFORM_VECTOR2,
+		SUT_UNIFORM_VECTOR3,
+		SUT_UNIFORM_VECTOR4,
+		SUT_UNIFORM_MATRIX3,
+		SUT_UNIFORM_MATRIX4,
+		 
+		SUT_COUNT,
+	};
 
 	///////////////////////////////////////////////////////////////////////////////////////
 
