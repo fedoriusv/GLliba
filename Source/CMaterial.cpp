@@ -49,9 +49,9 @@ namespace glliba
 
 	void CMaterial::init()
 	{
-		m_pShader = CResourceManager::getInstance()->createShader(
+		CMaterial::setShader(
 			STR_SIMPLE_VERTEX_SHADER,
-			STR_SIMPLE_FRAGMENT_SHADER );
+			STR_SIMPLE_FRAGMENT_SHADER);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -318,7 +318,7 @@ namespace glliba
 	{
 		if (m_pShader)
 		{
-			destroyShader();
+			//destroyShader();
 		}
 
 		m_pShader = ResourceMgr->createShader(_vertexShader,_fragmentShader);

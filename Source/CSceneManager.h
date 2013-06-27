@@ -21,7 +21,7 @@ namespace glliba
 	private:
 
 		std::vector<CNode*>		m_objects;
-		std::vector<CLight*>	m_lights;
+		std::vector<CNode*>		m_subObjects;
 		
 		CCamera*				m_pCamera;
 		CFog*					m_pFog;
@@ -68,16 +68,17 @@ namespace glliba
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		void					addNode( CNode* _object );
-		void					addLight( CLight* _pLight );
+		void					addSubNode( CNode* _object );
 
 		CNode*					addFog(
-								const Vector4& _color = Vector4(1.0f,1.0f,1.0f,1.0f),
+								const std::string = "fog",
+								const Vector4& _color = Vector4(1.0f),
 								const float& _begin = 5.0f,
 								const float& _end = 30.0f );
 
 		CNode*					addLight(
 								CNode* _parent = NULL,
-								const std::string _attribute = "light",
+								const std::string _attribute = "light0",
 								const Vector3& _pos = Vector3(0.0f,0.0f,1.0f),
 								const Vector4& _diffuse = Vector4(1.0f,1.0f,1.0f,1.0f),
 								const float& _radius = 100.0f );

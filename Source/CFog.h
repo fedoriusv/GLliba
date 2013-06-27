@@ -9,11 +9,11 @@ namespace glliba
 
 	struct SFogData
 	{
-		Vector4		m_color;
-		float		m_fStart;
-		float		m_fEnd;
-		FOG_MODE	m_eMode;
-		float		m_fDensity;
+		Vector4   _color;
+		float     _fStart;
+		float     _fEnd;
+		FOG_MODE  _eMode;
+		float     _fDensity;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,6 +27,8 @@ namespace glliba
 		friend		CSceneManager;
 
 		SFogData	m_sFogData;
+
+		std::string	m_attribute;
 		
 		bool		m_bActive;
 		bool		m_bEnabled;
@@ -38,26 +40,27 @@ namespace glliba
 		CFog();
 		virtual		~CFog();
 
-		void		setColor(const Vector4& _color );
+		void		setColor( const Vector4& _color );
 		Vector4		getColor() const;
 
-		void		setMode( FOG_MODE _eMode );
+		void		setMode( FOG_MODE _mode );
 		FOG_MODE	getMode() const;
 
-		void		setDensity( const float _fDensity );
+		void		setDensity( const float _density );
 		float		getDensity() const;
 
-		void		setStart( const float _fStart );
+		void		setStart( const float _start );
 		float		getStart() const;
-		void		setEnd( const float _fEnd );
+
+		void		setEnd( const float _end );
 		float		getEnd() const;
 
 		bool		isActive() const;
 
 		void		render();
-		void		update( double _dDeltaTime );
+		void		update( double _deltaTime );
 
-		void		setEnabled( bool _bEnabled );
+		void		setEnabled( bool _enabled );
 		bool		getEnabled() const;
 	};
 

@@ -3,8 +3,8 @@
 #include "CResourceManager.h"
 #include "CTextureManager.h"
 
-const std::string vertShaderSkyBox = "data/skybox.vsh";
-const std::string fragShaderSkyBox = "data/skybox.psh";
+const std::string vertShaderSkyBox = "data/shaders/skybox.vsh";
+const std::string fragShaderSkyBox = "data/shaders/skybox.psh";
 
 namespace glliba
 {
@@ -72,8 +72,7 @@ namespace glliba
 
 	void CSkyBox::init()
 	{
-		m_pShader = new CShader();
-		m_pShader->loadShader(vertShaderSkyBox,fragShaderSkyBox);
+		m_pShader = ResourceMgr->createShader(vertShaderSkyBox,fragShaderSkyBox);
 
 		m_vertices.malloc( 24 );
 

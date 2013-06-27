@@ -3,8 +3,8 @@
 
 #include "CShaderProgram.h"
 
-#define STR_SIMPLE_VERTEX_SHADER	"data/default.vsh"
-#define STR_SIMPLE_FRAGMENT_SHADER	"data/default.psh"
+#define STR_SIMPLE_VERTEX_SHADER	"data/shaders/default.vsh"
+#define STR_SIMPLE_FRAGMENT_SHADER	"data/shaders/default.psh"
 
 namespace glliba
 {

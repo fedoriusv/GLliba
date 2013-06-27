@@ -92,7 +92,7 @@ namespace glliba
 							SMaterialData&		_matrialData );
 
 		void			renderFog( 
-							const bool			_enabled, 
+							const std::string&	_attribute,
 							SFogData&			_fogData );
 
 		void			renderToTexture( 

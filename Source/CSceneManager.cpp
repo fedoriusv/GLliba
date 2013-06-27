@@ -50,16 +50,16 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSceneManager::addNode( CNode* _pObject )
+	void CSceneManager::addNode( CNode* _object )
 	{
-		m_objects.push_back(_pObject);
+		m_objects.push_back(_object);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSceneManager::addLight( CLight* _pLight )
+	void CSceneManager::addSubNode( CNode* _object )
 	{
-		m_lights.push_back(_pLight);
+		m_subObjects.push_back(_object);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,9 +89,9 @@ namespace glliba
 			pItem->update(m_dDeltaTime);
 			pItem->render();
 
-			for (CLight* light : m_lights)
+			for (CNode* object : m_subObjects)
 			{
-				light->render();
+				object->render();
 			}
 		}
 
@@ -169,12 +169,12 @@ namespace glliba
 		m_objects.clear();
 
 
-		for( CLight* light: m_lights ) 
+		for( CNode* object: m_subObjects ) 
 		{
-			delete light;
-			light = nullptr;
+			delete object;
+			object = nullptr;
 		}
-		m_lights.clear();
+		m_subObjects.clear();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -307,18 +307,19 @@ namespace glliba
 		(light)->setRadiusLight( _radius );
 		(light)->setAttributeLight( _attribute );
 
-		CSceneManager::addLight(light);
+		CSceneManager::addSubNode(light);
 		return light;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addFog( const Vector4& _color, const float& _start, const float& _end )
+	CNode* CSceneManager::addFog( const std::string, const Vector4& _color,
+		const float& _start, const float& _end )
 	{
-		CNode* obj = new CFog();
-		static_cast<CFog*>(obj)->setColor( _color );
-		static_cast<CFog*>(obj)->setStart( _start );
-		static_cast<CFog*>(obj)->setEnd( _end );
+		CFog* obj = new CFog();
+		(obj)->setColor( _color );
+		(obj)->setStart( _start );
+		(obj)->setEnd( _end );
 		if (m_pFog)
 		{
 			m_pFog->m_bActive = false;
@@ -326,13 +327,14 @@ namespace glliba
 		m_pFog = static_cast<CFog*>(obj);
 		m_pFog->m_bActive = true;
 		
-		CSceneManager::addNode(obj);
+		CSceneManager::addSubNode(obj);
 		return obj;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addCamera( CNode* _parent, const Vector3& _pos, const Vector3& _target, const Vector3& _up )
+	CNode* CSceneManager::addCamera( CNode* _parent, const Vector3& _pos,
+		const Vector3& _target, const Vector3& _up )
 	{
 		CNode* obj = new CCamera( _parent );
 		static_cast<CCamera*>(obj)->setPosition( _pos );
@@ -351,7 +353,8 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addFPSCamera( CNode* _parent, const Vector3& _pos, const Vector3& _target, const Vector3& _up )
+	CNode* CSceneManager::addFPSCamera( CNode* _parent, const Vector3& _pos,
+		const Vector3& _target, const Vector3& _up )
 	{
 		CNode* obj = new CFPSCamera( _parent );
 		static_cast<CCamera*>(obj)->setPosition( _pos );
@@ -394,7 +397,8 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addTorus( CNode* _parent, const Vector3& _pos, const float& _majorRadius, const float& _minorRadius)
+	CNode* CSceneManager::addTorus( CNode* _parent, const Vector3& _pos,
+		const float& _majorRadius, const float& _minorRadius)
 	{
 		CTorusShape* obj = new CTorusShape( _parent );
 		(obj)->setPosition( _pos );
@@ -407,7 +411,8 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addCylinder( CNode* _parent, const Vector3& _pos, const float& _radius, const float& _height)
+	CNode* CSceneManager::addCylinder( CNode* _parent, const Vector3& _pos,
+		const float& _radius, const float& _height)
 	{
 		CCylinderShape* obj = new CCylinderShape( _parent );
 		(obj)->setPosition( _pos );
@@ -420,7 +425,8 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	CNode* CSceneManager::addDisk( CNode* _parent, const Vector3& _pos, const float& _innerRadius, const float& _outerRadius )
+	CNode* CSceneManager::addDisk( CNode* _parent, const Vector3& _pos,
+		const float& _innerRadius, const float& _outerRadius )
 	{
 		CDiskShape* obj = new CDiskShape( _parent );
 		obj->setPosition( _pos );

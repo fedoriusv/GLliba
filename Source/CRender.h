@@ -121,8 +121,8 @@ namespace glliba
 								SMaterialData&		_SMatrialData )		= 0;
 
 		virtual void		renderFog( 
-								const bool			_enabled,
-								SFogData&			_sFogData )			= 0;
+								const std::string&	_attribute,
+								SFogData&			_fogData )			= 0;
 
 		virtual void		renderToTexture( 
 								const uint			_id,

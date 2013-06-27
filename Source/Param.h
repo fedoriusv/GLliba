@@ -116,9 +116,9 @@ namespace glliba
 	enum FOG_MODE
 	{
 #if defined ( _OPENGL ) || defined ( _GLES )
-		FM_LINEAR = GL_LINEAR,
-		FM_EXP    = GL_EXP,
-		FM_EXP2   = GL_EXP2,
+		FM_LINEAR = 0,
+		FM_EXP    = 1,
+		FM_EXP2   = 2,
 #else
 		FM_LINEAR = 0,
 		FM_EXP    = 1,

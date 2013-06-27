@@ -631,7 +631,7 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::renderLight( const std::string& _attribute, Vector4& _position, SLightData& _sLightData )
+	void CRenderGL::renderLight( const std::string& _attribute, Vector4& _position, SLightData& _lightData )
 	{
 		if ( !m_iCurrentShader )
 		{
@@ -647,39 +647,56 @@ namespace glliba
 
 		strAttribute = _attribute + ".ambient";
 		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
-		glUniform4fv( location,	1, &_sLightData._ambient[0] );
+		glUniform4fv( location,	1, &_lightData._ambient[0] );
 
 		strAttribute = _attribute + ".diffuse";
 		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
-		glUniform4fv( location,	1, &_sLightData._diffuse[0] );
+		glUniform4fv( location,	1, &_lightData._diffuse[0] );
 
 		strAttribute = _attribute + ".specular";
 		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
-		glUniform4fv( location, 1, &_sLightData._specular[0] );
+		glUniform4fv( location, 1, &_lightData._specular[0] );
 
 		strAttribute = _attribute + ".attenuation";
 		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
-		glUniform3fv( location, 1, &_sLightData._attenuation[0] );
+		glUniform3fv( location, 1, &_lightData._attenuation[0] );
 
 		printOpenGLError("GLError Render Light: ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::renderFog( const bool _bEnabled, SFogData& _sFogData )
+	void CRenderGL::renderFog( const std::string& _attribute, SFogData& _fogData )
 	{
-		if (!_bEnabled)
+		if ( !m_iCurrentShader )
 		{
-			glDisable( GL_FOG );
 			return;
 		}
 
-		glEnable( GL_FOG );
-		glFogfv	( GL_FOG_COLOR, _sFogData.m_color.getArray() );
-		glFogf	( GL_FOG_START, _sFogData.m_fStart );
-		glFogf	( GL_FOG_END, _sFogData.m_fEnd );
-		glFogi	( GL_FOG_MODE, _sFogData.m_eMode );
-		glFogf	( GL_FOG_DENSITY, _sFogData.m_fDensity );
+		GLint location = -1;
+		std::string strAttribute("");
+
+		strAttribute = _attribute + ".fogColor";
+		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
+		glUniform4fv( location, 1, &_fogData._color[0] );
+
+		strAttribute = _attribute + ".fogStart";
+		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
+		glUniform1f( location, _fogData._fStart );
+
+		strAttribute = _attribute + ".fogEnd";
+		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
+		glUniform1f( location, _fogData._fEnd );
+
+		strAttribute = _attribute + ".fogDensity";
+		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
+		glUniform1f( location, _fogData._fDensity );
+
+		strAttribute = _attribute + ".fogEquation";
+		location = glGetUniformLocation(m_iCurrentShader, strAttribute.c_str());
+		glUniform1i( location, _fogData._eMode );
+
+		printOpenGLError("GLError Render Fog: ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
