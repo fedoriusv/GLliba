@@ -453,7 +453,7 @@ namespace glliba
 
 	void CRenderGL::intShaderProgram( uint& _iShaderID, const uint _iTypeShader, void* _shaderBody )
 	{
-		_iShaderID = glCreateShader( _iTypeShader == 1 ? GL_VERTEX_SHADER :  GL_FRAGMENT_SHADER );
+		_iShaderID = glCreateShader( _iTypeShader == 1 ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER );
 		GLchar *fsStringPtr[1];
 		fsStringPtr[0] = (GLchar *)_shaderBody;
 		glShaderSource( _iShaderID, 1, (const GLchar **)fsStringPtr, NULL );
@@ -597,6 +597,7 @@ namespace glliba
 	}
 
 	/*---------------------------------------------GLRender--------------------------------------------*/
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CRenderGL::bindTexture(const uint& _iTextureID, const uint& _iSamplerID, const uint& _iActiveTexture, 
 		const std::string& _attribute, const TEXTURE_TYPE _iType, Vector2& _scale )

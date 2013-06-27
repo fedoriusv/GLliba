@@ -15,7 +15,7 @@ namespace glliba
 		m_sFogData._color    = Vector4(1.0f);
 		m_sFogData._fStart   = 5.0f;
 		m_sFogData._fEnd     = 30.0f;
-		m_sFogData._eMode    = FM_LINEAR;
+		m_sFogData._eMode    = FM_EXP2;
 		m_sFogData._fDensity = 0.5f;
 
 		m_eTypeNode = TN_FOG;

@@ -120,7 +120,7 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSceneManager::update( double _dDeltaTime )
+	void CSceneManager::update( double _deltaTime )
 	{
 		for (auto iter = m_objects.begin(); iter < m_objects.end(); ++iter )
 		{
@@ -154,7 +154,11 @@ namespace glliba
 			}
 		}
 
-		std::sort(m_objects.begin(),m_objects.end(),sortByDepth);
+		std::sort(m_objects.begin(),m_objects.end(), 
+			[]( CNode* _obj0, CNode* _obj1 )
+			{
+				return  (_obj0->getPriority() > _obj1->getPriority());
+			} );
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -179,9 +183,9 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CSceneManager::drop( CNode* _pObject )
+	bool CSceneManager::drop( CNode* _object )
 	{
-		auto iter = std::find( m_objects.begin(), m_objects.end(), _pObject );
+		auto iter = std::find( m_objects.begin(), m_objects.end(), _object );
 		
 		if  ( iter != m_objects.end() )
 		{
@@ -239,13 +243,13 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSceneManager::setActiveCamera( CCamera* _pCamera )
+	void CSceneManager::setActiveCamera( CCamera* _camera )
 	{
 		if (m_pCamera)
 		{
 			m_pCamera->m_bIsActive = false;
 		}
-		m_pCamera = _pCamera;
+		m_pCamera = _camera;
 		m_pCamera->m_bIsActive = true;
 	}
 
@@ -258,13 +262,13 @@ namespace glliba
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CSceneManager::setActiveFog( CFog* _pFog )
+	void CSceneManager::setActiveFog( CFog* _fog )
 	{
 		if (m_pFog)
 		{
 			m_pFog->m_bActive = false;
 		}
-		m_pFog = _pFog;
+		m_pFog = _fog;
 		m_pFog->m_bActive = true;
 	}
 
@@ -336,10 +340,10 @@ namespace glliba
 	CNode* CSceneManager::addCamera( CNode* _parent, const Vector3& _pos,
 		const Vector3& _target, const Vector3& _up )
 	{
-		CNode* obj = new CCamera( _parent );
-		static_cast<CCamera*>(obj)->setPosition( _pos );
-		static_cast<CCamera*>(obj)->setTarget( _target );
-		static_cast<CCamera*>(obj)->setUpVector( _up );
+		CCamera* obj = new CCamera( _parent );
+		(obj)->setPosition( _pos );
+		(obj)->setTarget( _target );
+		(obj)->setUpVector( _up );
 		if (m_pCamera)
 		{
 			m_pCamera->m_bIsActive = false;
@@ -356,10 +360,10 @@ namespace glliba
 	CNode* CSceneManager::addFPSCamera( CNode* _parent, const Vector3& _pos,
 		const Vector3& _target, const Vector3& _up )
 	{
-		CNode* obj = new CFPSCamera( _parent );
-		static_cast<CCamera*>(obj)->setPosition( _pos );
-		static_cast<CCamera*>(obj)->setTarget( _target );
-		static_cast<CCamera*>(obj)->setUpVector( _up );
+		CCamera* obj = new CFPSCamera( _parent );
+		(obj)->setPosition( _pos );
+		(obj)->setTarget( _target );
+		(obj)->setUpVector( _up );
 		if (m_pCamera)
 		{
 			m_pCamera->m_bIsActive = false;

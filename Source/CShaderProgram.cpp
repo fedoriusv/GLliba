@@ -104,7 +104,6 @@ namespace glliba
 			return false;
 		}
 
-
 		RENDERER->intShaderProgram( m_iShaderID, m_eType, m_shaderBody );
 
 		return true;
