@@ -47,22 +47,22 @@ struct Vertex
 in 	Vertex 	fragVertex;
 out vec4 	FragColor;
 
-float getFogFactor( Fog _params, float _fFogCoord )
+float getFogFactor( Fog _params, float _fogCoord )
 {
 	float fResult = 0.0;
 	if(_params.fogEquation == 0)
 	{
-		fResult = (_params.fogEnd - _fFogCoord)/(_params.fogEnd - _params.fogStart);
+		fResult = (_params.fogEnd - _fogCoord)/(_params.fogEnd - _params.fogStart);
 	}
 	else if( _params.fogEquation == 1 )
 	{
-		fResult = exp( -_params.fogDensity*_fFogCoord );
+		fResult = exp(-_params.fogDensity*_fogCoord );
 	}
 	else if( _params.fogEquation == 2 )
 	{
-		fResult = exp( - pow(_params.fogDensity*_fFogCoord, 2.0) );
+		fResult = exp( - pow(_params.fogDensity * _fogCoord, 2.0) );
+		fResult = 0.0;
 	}
-		
 	fResult = 1.0 - clamp(fResult, 0.0 , 1.0);
 	
 	return fResult;
@@ -90,7 +90,7 @@ void main()
 	FragColor *= texture(material.texture0, fragVertex.texCoord0);
 	
 	// Add fog
-	float fogCoord = abs(fragVertex.viewDir.y/ 1.0 );
+	float fogCoord = abs(fragVertex.viewPos.z/ fragVertex.viewPos.w );
 	FragColor = mix(FragColor, fog.fogColor, getFogFactor(fog, fogCoord));
 }
 

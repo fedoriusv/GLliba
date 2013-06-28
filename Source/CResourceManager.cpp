@@ -40,7 +40,7 @@ namespace glliba
 
 	bool CResourceManager::findShaderByShaderID( const CShader* _shader, uint _shaderID ) const
 	{
-		return _shader->m_iShaderID == _shaderID;
+		return _shader->m_uShaderID == _shaderID;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ namespace glliba
 		if ( _shader->releaseRef() == 0 )
 		{
 			std::vector<CShader*>::iterator shaderIter = std::find_if( m_shaderList.begin(), m_shaderList.end(),
-				boost::bind(&CResourceManager::findShaderByShaderID,this,_1,_shader->m_iShaderID) );
+				boost::bind(&CResourceManager::findShaderByShaderID,this,_1,_shader->getShaderID()) );
 
 			if (shaderIter != m_shaderList.end())
 			{

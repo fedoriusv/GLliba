@@ -11,7 +11,8 @@ layout (location = TEXCOORD0) in vec2 texCoord0;
 struct Transform
 {
 	mat4 modelMatrix;
-    mat4 viewProjectionMatrix;
+	mat4 viewMatrix;
+    mat4 projectionMatrix;
     mat4 normalMatrix;
     vec3 viewPosition;
 };
@@ -42,7 +43,7 @@ out Vertex fragVertex;
 
 void main()
 {
-	vec4 vertex   = transform.modelMatrix * vec4(position, 1.0);
+	vec4 vertex   = transform.modelMatrix * transform.viewMatrix  * vec4(position, 1.0);
 	vec4 lightDir = light0.position - vertex;
 	vec4 vNormal  = transform.normalMatrix * vec4(normal, 0.0);
 	
@@ -53,5 +54,5 @@ void main()
 	fragVertex.distance 	= length(lightDir);
 	fragVertex.viewPos		= vertex;
 	
-	gl_Position = transform.viewProjectionMatrix * vertex;
+	gl_Position = transform.projectionMatrix * vertex;
 }

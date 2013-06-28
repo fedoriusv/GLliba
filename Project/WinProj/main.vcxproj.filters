@@ -76,6 +76,9 @@
     <Filter Include="Header Files\GLLiba\GraphLibs\GL">
       <UniqueIdentifier>{848252d3-38ce-423f-9588-379487a7e8bb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GLLiba\GraphLibs\GL">
+      <UniqueIdentifier>{5d5757ca-9c14-44da-b1d9-b1c4bd1dedef}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\CRender.cpp">
@@ -208,7 +211,13 @@
       <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\GL\CVertexBufferGL.cpp">
-      <Filter>Source Files\GLLiba\GraphLibs</Filter>
+      <Filter>Source Files\GLLiba\GraphLibs\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\GL\CShaderGL.cpp">
+      <Filter>Source Files\GLLiba\GraphLibs\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CShaderProgramManager.cpp">
+      <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -352,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\GL\CShaderGL.h">
       <Filter>Header Files\GLLiba\GraphLibs\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CShaderProgramManager.h">
+      <Filter>Header Files\GLLiba\Managers</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

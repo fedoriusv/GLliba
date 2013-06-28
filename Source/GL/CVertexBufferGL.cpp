@@ -6,16 +6,14 @@
 
 namespace glliba
 {
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CVertexBufferGL::initVertexAttribPointerGL( const uint _vertexAttrib, const uint _size )
 	{
 		glEnableVertexAttribArray( _vertexAttrib );
 		glVertexAttribPointer( _vertexAttrib, _size, GL_FLOAT, GL_FALSE, NULL, NULL );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 
 	void CVertexBufferGL::initBufferObjectGL( const uint _target, uint& _bufferID, const uint _size, void* _data)
 	{
@@ -25,8 +23,7 @@ namespace glliba
 		glBufferData( _target, _size, _data, GL_STATIC_DRAW );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CVertexBufferGL::initBufferObjectsGL( SVertexData& _vertexData )
 	{
 		glGenVertexArrays(1, &_vertexData.iVertexArrayID);
@@ -64,11 +61,10 @@ namespace glliba
 
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CVertexBufferGL::deleteBufferObjectsGL( SVertexData& _vertexData )
 	{
-		if ( _vertexData.iVertexArrayID =! 0 )
+		if ( _vertexData.iVertexArrayID != 0 )
 		{
 			glDeleteVertexArrays( 1, &_vertexData.iVertexArrayID );
 		}
@@ -82,8 +78,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void  CVertexBufferGL::deleteBuffersGL( const uint _vertexID )
 	{
 		if ( _vertexID != 0 )
@@ -93,8 +88,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CVertexBufferGL::updateBufferObjectGL( SVertexData& _vertexData )
 	{
 		updateBufferSubDataGL( GL_ARRAY_BUFFER, _vertexData.Vertex.iVerticesID,
@@ -119,8 +113,7 @@ namespace glliba
 		glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CVertexBufferGL::updateBufferSubDataGL( const uint _target, const uint _bufferID, const uint _size, void* _data )
 	{
 		ASSERT(glIsBuffer( _bufferID ) || "Invalid VBO index");
@@ -128,8 +121,4 @@ namespace glliba
 		glBufferData( _target, _size, NULL, GL_STATIC_DRAW );
 		glBufferSubData( _target, 0, _size, _data );
 	}
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }

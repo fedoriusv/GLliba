@@ -1,6 +1,7 @@
 #include "CRenderGL.h"
 
 #include "GL\CVertexBufferGL.h"
+#include "GL\CShaderGL.h"
 
 #include "CTimer.h"
 #include "CLight.h"
@@ -153,7 +154,7 @@ namespace glliba
 		glViewport( 0, 0, m_iScreenWidth, m_iScreenHeight );
 
 		GLfloat aspectRatio = (GLfloat)m_iScreenWidth/(GLfloat)m_iScreenHeight;
-		m_projectionMatrix = Matrix4::perspectiveDegree( 45.0f, aspectRatio, 0.1f, 100.0f );
+		m_projectionMatrix =  Vectormath::transpose(Matrix4::perspectiveDegree( 45.0f, aspectRatio, 0.1f, 100.0f ));
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -354,13 +355,9 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::deleteShader( const uint _iShaderID )
+	void CRenderGL::deleteShader( const uint _shaderID )
 	{
-		if ( _iShaderID != 0 )
-		{
-			ASSERT(glIsShader( _iShaderID ) || "Invalid Index Deleted Shader");
-			glDeleteShader( _iShaderID );
-		}
+		CShaderGL::deleteShader(_shaderID);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -426,18 +423,27 @@ namespace glliba
 
 	void CRenderGL::updateTransform( Matrix4& _transform, Vector3& _offset )
 	{
-		if (!m_iCurrentShader)
+		if ( !m_iCurrentShader )
 		{
 			return;
 		}
 
-		Matrix4 viewProjectionMatrix = Vectormath::transpose(m_projectionMatrix * m_viewMatrix);
-		GLuint location = glGetUniformLocation(m_iCurrentShader, "transform.viewProjectionMatrix");
-		glUniformMatrix4fv(location, 1, GL_TRUE, &viewProjectionMatrix[0][0]);
+		GLboolean isValid = setShaderUniform(SUT_UNIFORM_MATRIX4,m_iCurrentShader,
+			"transform.projectionMatrix",(void*)&m_projectionMatrix);
+
+
+		//Matrix4 viewProjectionMatrix = Vectormath::transpose(m_projectionMatrix);
+		//GLint location = glGetUniformLocation(m_iCurrentShader, "transform.projectionMatrix");
+		//glUniformMatrix4fv(location, 1, GL_TRUE, &viewProjectionMatrix[0][0]);
+		
 		
 		Matrix4 modelMatrix = Vectormath::transpose(_transform);
-		location = glGetUniformLocation(m_iCurrentShader, "transform.modelMatrix");
+		GLint location = glGetUniformLocation(m_iCurrentShader, "transform.modelMatrix");
 		glUniformMatrix4fv(location, 1, GL_TRUE, &modelMatrix[0][0]);
+
+		Matrix4 viewMatrix = Vectormath::transpose(m_viewMatrix);
+		location = glGetUniformLocation(m_iCurrentShader, "transform.viewMatrix");
+		glUniformMatrix4fv(location, 1, GL_TRUE, &viewMatrix[0][0]);
 		
 		Matrix4 normalMatrix = Vectormath::inverse(_transform);
 		location = glGetUniformLocation(m_iCurrentShader, "transform.normalMatrix");
@@ -451,65 +457,23 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::intShaderProgram( uint& _iShaderID, const uint _iTypeShader, void* _shaderBody )
+	bool CRenderGL::intShaderProgram( uint& _shaderID, const uint _typeShader, void* _shaderBody )
 	{
-		_iShaderID = glCreateShader( _iTypeShader == 1 ? GL_VERTEX_SHADER : GL_FRAGMENT_SHADER );
-		GLchar *fsStringPtr[1];
-		fsStringPtr[0] = (GLchar *)_shaderBody;
-		glShaderSource( _iShaderID, 1, (const GLchar **)fsStringPtr, NULL );
+		bool compileStatus = false;
+		compileStatus = CShaderGL::intShaderProgramGL(_shaderID, _typeShader, _shaderBody);
+		
+		printOpenGLError("GLError init Shader Program: ");
 
-		glCompileShader( _iShaderID );
-
-#ifdef _DEBUG
-		GLint testVal;
-		GLint length;
-		GLchar buffer[1024];
-		glGetShaderiv( _iShaderID, GL_COMPILE_STATUS, &testVal );
-		ASSERT(testVal == GL_TRUE || "Invalid Shader Program");
-		glGetShaderInfoLog(_iShaderID, 1024, &length, buffer);
-		if (strlen(buffer) > 0)
-		{
-			std::function<const char*(int)> strFunc = [](int _iType) { return _iType == 1 ? "Vertex" :  "Fragment"; };
-			LOG_CONSOLE("Shader Program "<< strFunc(_iTypeShader)  <<":\n"<< (const char*)buffer);
-		}
-#endif
+		return compileStatus;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::initShader( uint& _iShaderID, const uint _iVertexShader, const uint _iFragmentShader )
+	void CRenderGL::initShader( uint& _shaderID, std::vector<uint>& _shaderProgramID )
 	{
-		_iShaderID = glCreateProgram();
+		CShaderGL::initShaderGL(_shaderID, _shaderProgramID);
 
-		glAttachShader( _iShaderID, _iVertexShader );
-		glAttachShader( _iShaderID, _iFragmentShader );
-
-		glBindAttribLocation( _iShaderID, GL_ATTRIBUTE_VERTEX,	"position" );
-		glBindAttribLocation( _iShaderID, GL_ATTRIBUTE_NORMAL,	"normal"   );
-		glBindAttribLocation( _iShaderID, GL_ATTRIBUTE_TEXTURE0,"texCoord0");
-
-		glLinkProgram(_iShaderID );
-		glValidateProgram( _iShaderID );
-
-		GLint positionLocation = glGetAttribLocation(_iShaderID, "position");
-		ASSERT( positionLocation == GL_ATTRIBUTE_VERTEX && "Invalid attribute vertex Index" );
-		GLint normalLocation =	glGetAttribLocation(_iShaderID, "normal");
-		//ASSERT( normalLocation == GL_ATTRIBUTE_NORMAL && "Invalid attribute normal Index" );
-		GLint texCoord0Location = glGetAttribLocation(_iShaderID, "texCoord0");
-		//ASSERT( texCoord0Location == GL_ATTRIBUTE_TEXTURE0 && "Invalid attribute texCoord0 Index" );
-
-#ifdef _DEBUG
-		GLint testVal;
-		GLint length;
-		GLchar buffer[1024];
-		glGetProgramiv( _iShaderID, GL_LINK_STATUS, &testVal );
-		ASSERT(testVal == GL_TRUE && "Invalid Shader");
-		glGetProgramInfoLog( _iShaderID, 1024, &length, buffer);
-		if (strlen(buffer) > 0)
-		{
-			LOG_CONSOLE("Shader: " << (const char*)buffer);
-		}
-#endif
+		printOpenGLError("GLError init Shader: ");
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

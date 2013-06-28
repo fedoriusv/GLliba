@@ -7,6 +7,7 @@
 #include "CRenderGL.h"
 #include "CResourceManager.h"
 #include "CTextureManager.h"
+#include "CShaderProgramManager.h"
 
 CApplication::CApplication()
 {
@@ -20,6 +21,7 @@ CApplication::~CApplication()
 	CSceneManager::freeInstance();
 	CReciever::freeInstance();
 	CResourceManager::freeInstance();
+	CShaderProgramManager::freeInstance();
 	CTextureManager::freeInstance();
 }
 
@@ -38,25 +40,25 @@ void CApplication::init()
 									"data/skybox/jajlands/jajlands1_rt.jpg",
 									"data/skybox/jajlands/jajlands1_up.jpg",
 									"data/skybox/jajlands/jajlands1_dn.jpg", };
-	m_scene->addSkyBox(skybox);
+	//m_scene->addSkyBox(skybox);
 
-	/*CNode* cube1 = m_scene->addCylinder(0,Vector3(-1.0f,1.0f,-2.0f));
+	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 
-	CNode* model0 = m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5));
+	/*CNode* model0 = m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5));
 	model0->setName("cube0");
 	for (int i = 0; i < static_cast<CModel*>(model0)->getMeshCount(); ++i)
 	{
 		static_cast<CModel*>(model0)->getMesh(i)->getMaterial()->setShader("data/shaders/defaultWithFog.vsh","data/shaders/defaultWithFog.psh");
-	}
+	}*/
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));
 	
 	//Camera
 	CNode* Camera0 = m_scene->addFPSCamera(0,Vector3(0,1,0),Vector3(0,0,-3));
 	Camera0->setName("camera0");
 
-	CNode* fog = m_scene->addFog();
+	//CNode* fog = m_scene->addFog();
 	
 	//__asm int 3
 	//__debugbreak();

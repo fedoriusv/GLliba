@@ -11,11 +11,8 @@ namespace glliba
 	{
 	public:
 
-		static void intShaderProgramGL( uint& _shaderID, const uint _typeShader, void* _shaderBody );
-		static void initShaderGL( uint& _shaderID, const uint _vertexShader, const uint _fragmentShader );
-
-		static void bindShader( uint _shaderID );
-		static bool setShaderUniform( SHADER_UNIFORM_TYPE _param, const uint _shaderID, const std::string& _attribute, void* _value );
+		static bool intShaderProgramGL( uint& _shaderID, const uint _typeShader, void* _shaderBody );
+		static void initShaderGL( uint& _shaderID, std::vector<uint>& _shaderProgramID );
 
 		static void deleteShader( const uint _shaderID );
 	};

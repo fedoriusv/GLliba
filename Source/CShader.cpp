@@ -1,6 +1,9 @@
+#include "CObject.h"
 #include "CShader.h"
-#include "CRender.h"
 #include "CShaderUniform.h"
+#include "CShaderProgramManager.h"
+
+#include "CRender.h"
 
 namespace glliba
 {
@@ -9,13 +12,11 @@ namespace glliba
 	CShader::CShader()
 		: m_bEnable(true)
 		, m_bIsActive(false)
-		, m_iShaderID(0)
+		, m_uShaderID(0)
 
 	{
 		m_eTypeObject = OT_SHADER;
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	CShader::~CShader()
 	{
@@ -31,11 +32,25 @@ namespace glliba
 		}
 		m_uniformList.clear();
 
-		RENDERER->deleteShader(m_iShaderID);
-		m_iShaderID = 0;
+		for (auto* ShaderProgram : m_shaderPrograms)
+		{
+			destroyShaderProgram(ShaderProgram);
+		}
+		m_shaderPrograms.clear();
+
+		RENDERER->deleteShader(m_uShaderID);
+		m_uShaderID = 0;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CShader::getShaderIDArray( std::vector<uint>& _shadersId )
+	{
+		for ( uint i = 0; i < m_shaderPrograms.size(); ++i)
+		{
+			_shadersId.push_back(m_shaderPrograms[i]->getShaderProgramID());
+		}
+	}
+	
 
 	bool CShader::loadShader( const std::string& _vertShader, const std::string& _fragShader )
 	{
@@ -45,46 +60,37 @@ namespace glliba
 			return false;
 		}
 
-		m_vertexProgram.loadShaderProgram	( _vertShader, SPT_VERTEX	);
-		m_fragmentProgram.loadShaderProgram	( _fragShader, SPT_FRAGMENT);
+		CShader::addShaderProgram(SHADER_MGR->createShaderProgram(_vertShader, SPT_VERTEX  ));
+		CShader::addShaderProgram(SHADER_MGR->createShaderProgram(_fragShader, SPT_FRAGMENT));
 
-		if ( m_vertexProgram.m_shaderBody == NULL || m_fragmentProgram.m_shaderBody == NULL )
-		{
-			ASSERT( false && "Invalid Shader Read"  );
-			return false;
-		}
-
-		RENDERER->initShader( m_iShaderID, m_vertexProgram.m_iShaderID, m_fragmentProgram.m_iShaderID );
-
-		m_vertexProgram.clearShaderBody();
-		m_fragmentProgram.clearShaderBody();
+		std::vector<uint> _shadersId;
+		CShader::getShaderIDArray( _shadersId );
 		
+		RENDERER->initShader( m_uShaderID, _shadersId );
+		_shadersId.clear();
+
 		return true;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CShader::setEnable( const bool _enable )
 	{
 		m_bEnable = _enable;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CShader::isEnable() const
 	{
 		return m_bEnable;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	uint CShader::getShaderID() const
 	{
-		return m_iShaderID;
+		return m_uShaderID;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CShader::isExistAttribute( const std::string& _attribute )
 	{
 		UniformList::iterator iter = m_uniformList.begin();
@@ -100,121 +106,139 @@ namespace glliba
 		return false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CShader::setUniformInt( const std::string& _attribute, const int _iValue )
+	void CShader::addShaderProgram( CShaderProgram* _shaderProgram )
 	{
-		if ( isExistAttribute(_attribute) )
+		if (_shaderProgram)
 		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_INT, (_attribute), (void*)(&_iValue) );
-		}
-		else
-		{
-			CShaderUniform* uniform = new CShaderUniform();
-
-			uniform->setUniform( SUT_UNIFORM_INT, (_attribute), (void*)(&_iValue) );
-			m_uniformList[_attribute] = uniform;
+			m_shaderPrograms.push_back(_shaderProgram);
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void CShader::destroyShaderProgram( CShaderProgram* _shaderProgram )
+	{
+		if (_shaderProgram)
+		{
+			auto shader = std::find(m_shaderPrograms.begin(),m_shaderPrograms.end(),_shaderProgram);
+			if (shader == m_shaderPrograms.end())
+			{
+				ASSERT(false && "Shader Program not found");
+				return;
+			}
+
+			SHADER_MGR->destroyShaderProgram(*shader);
+		}
+	}
+
 	
-	void CShader::setUniformFloat( const std::string& _attribute, const float _fValue )
+	void CShader::setUniformInt( const std::string& _attribute, const int _value )
 	{
 		if ( isExistAttribute(_attribute) )
 		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_FLOAT, (_attribute), (void*)(&_fValue) );
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_INT, (_attribute), (void*)(&_value) );
 		}
 		else
 		{
 			CShaderUniform* uniform = new CShaderUniform();
 
-			uniform->setUniform( SUT_UNIFORM_FLOAT, (_attribute), (void*)(&_fValue) );
+			uniform->setUniform( SUT_UNIFORM_INT, (_attribute), (void*)(&_value) );
 			m_uniformList[_attribute] = uniform;
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
+		
+	void CShader::setUniformFloat( const std::string& _attribute, const float _value )
+	{
+		if ( isExistAttribute(_attribute) )
+		{
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_FLOAT, (_attribute), (void*)(&_value) );
+		}
+		else
+		{
+			CShaderUniform* uniform = new CShaderUniform();
+
+			uniform->setUniform( SUT_UNIFORM_FLOAT, (_attribute), (void*)(&_value) );
+			m_uniformList[_attribute] = uniform;
+		}
+	}
+
+		
+	void CShader::setUniformVector2( const std::string& _attribute, const Vector2 _vector )
+	{
+		if ( isExistAttribute(_attribute) )
+		{
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR2, (_attribute), (void*)(&_vector) );
+		}
+		else
+		{
+			CShaderUniform* uniform = new CShaderUniform();
+
+			uniform->setUniform( SUT_UNIFORM_VECTOR2, (_attribute), (void*)(&_vector) );
+			m_uniformList[_attribute] = uniform;
+		}
+	}
+
+		
+	void CShader::setUniformVector3( const std::string& _attribute, const Vector3 _vector )
+	{
+		if ( isExistAttribute(_attribute) )
+		{
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR3, (_attribute), (void*)(&_vector) );
+		}
+		else
+		{
+			CShaderUniform* uniform = new CShaderUniform();
+
+			uniform->setUniform( SUT_UNIFORM_VECTOR3, (_attribute), (void*)(&_vector) );
+			m_uniformList[_attribute] = uniform;
+		}
+	}
+
+		
+	void CShader::setUniformVector4( const std::string& _attribute, const Vector4 _vector )
+	{
+		if ( isExistAttribute(_attribute) )
+		{
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR4, (_attribute), (void*)(&_vector) );
+		}
+		else
+		{
+			CShaderUniform* uniform = new CShaderUniform();
+
+			uniform->setUniform( SUT_UNIFORM_VECTOR4, (_attribute), (void*)(&_vector) );
+			m_uniformList[_attribute] = uniform;
+		}
+	}
+
 	
-	void CShader::setUniformVector2( const std::string& _attribute, const Vector2 _v2Vector )
+	void CShader::setUniformMatrix3( const std::string& _attribute, const Matrix3 _matrix )
 	{
 		if ( isExistAttribute(_attribute) )
 		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR2, (_attribute), (void*)(&_v2Vector) );
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX3, (_attribute), (void*)(&_matrix) );
 		}
 		else
 		{
 			CShaderUniform* uniform = new CShaderUniform();
 
-			uniform->setUniform( SUT_UNIFORM_VECTOR2, (_attribute), (void*)(&_v2Vector) );
+			uniform->setUniform( SUT_UNIFORM_MATRIX3, (_attribute), (void*)(&_matrix) );
 			m_uniformList[_attribute] = uniform;
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	void CShader::setUniformVector3( const std::string& _attribute, const Vector3 _v3Vector )
+	void CShader::setUniformMatrix4( const std::string& _attribute, const Vector4 _matrix )
 	{
 		if ( isExistAttribute(_attribute) )
 		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR3, (_attribute), (void*)(&_v3Vector) );
+			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX4, (_attribute), (void*)(&_matrix) );
 		}
 		else
 		{
 			CShaderUniform* uniform = new CShaderUniform();
 
-			uniform->setUniform( SUT_UNIFORM_VECTOR3, (_attribute), (void*)(&_v3Vector) );
-			m_uniformList[_attribute] = uniform;
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	void CShader::setUniformVector4( const std::string& _attribute, const Vector4 _v4Vector )
-	{
-		if ( isExistAttribute(_attribute) )
-		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_VECTOR4, (_attribute), (void*)(&_v4Vector) );
-		}
-		else
-		{
-			CShaderUniform* uniform = new CShaderUniform();
-
-			uniform->setUniform( SUT_UNIFORM_VECTOR4, (_attribute), (void*)(&_v4Vector) );
-			m_uniformList[_attribute] = uniform;
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CShader::setUniformMatrix3( const std::string& _attribute, const Matrix3 _m3Matrix )
-	{
-		if ( isExistAttribute(_attribute) )
-		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX3, (_attribute), (void*)(&_m3Matrix) );
-		}
-		else
-		{
-			CShaderUniform* uniform = new CShaderUniform();
-
-			uniform->setUniform( SUT_UNIFORM_MATRIX3, (_attribute), (void*)(&_m3Matrix) );
-			m_uniformList[_attribute] = uniform;
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CShader::setUniformMatrix4( const std::string& _attribute, const Vector4 _m4Matrix )
-	{
-		if ( isExistAttribute(_attribute) )
-		{
-			m_uniformList[_attribute]->setUniform( SUT_UNIFORM_MATRIX4, (_attribute), (void*)(&_m4Matrix) );
-		}
-		else
-		{
-			CShaderUniform* uniform = new CShaderUniform();
-
-			uniform->setUniform( SUT_UNIFORM_MATRIX4, (_attribute), (void*)(&_m4Matrix) );
+			uniform->setUniform( SUT_UNIFORM_MATRIX4, (_attribute), (void*)(&_matrix) );
 			m_uniformList[_attribute] = uniform;
 		}
 	}

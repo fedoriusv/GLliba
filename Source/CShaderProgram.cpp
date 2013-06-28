@@ -7,47 +7,42 @@ namespace glliba
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	CShaderProgram::CShaderProgram()
-		: m_iShaderID(0)
+		: m_uShaderProgramID(0)
 		, m_eType(SPT_UNKNOWN)
-		, m_CompileStatus(false)
+		, m_bCompileStatus(false)
 		, m_shaderBody(NULL)
 	{
 		m_eTypeObject = OT_SHADER_PROGRAM;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CShaderProgram::~CShaderProgram()
 	{
 		clearShaderBody();
 		
-		RENDERER->deleteShader(m_iShaderID);
-		m_iShaderID = 0;
+		RENDERER->deleteShader(m_uShaderProgramID);
+		m_uShaderProgramID = 0;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	uint CShaderProgram::getShaderID() const
+	
+	uint CShaderProgram::getShaderProgramID() const
 	{
-		return m_iShaderID;
+		return m_uShaderProgramID;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	SHADER_PROGRAM_TYPE CShaderProgram::getShaderType() const
+	
+	SHADER_PROGRAM_TYPE CShaderProgram::getShaderProgramType() const
 	{
 		return m_eType;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CShaderProgram::getCompileStatus() const
 	{
-		return m_CompileStatus;
+		return m_bCompileStatus;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	const char* CShaderProgram::readShader( const std::string& _shaderFileName )
 	{
 		FILE* pFile;
@@ -79,8 +74,7 @@ namespace glliba
 		return content;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CShaderProgram::clearShaderBody()
 	{
 		if (m_shaderBody != NULL)
@@ -90,8 +84,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CShaderProgram::loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _type )
 	{
 		m_shaderBody  = (void*)readShader( _shaderFileName );
@@ -104,11 +97,11 @@ namespace glliba
 			return false;
 		}
 
-		RENDERER->intShaderProgram( m_iShaderID, m_eType, m_shaderBody );
+		m_bCompileStatus = RENDERER->intShaderProgram( m_uShaderProgramID, m_eType, m_shaderBody );
+		CShaderProgram::clearShaderBody();
 
 		return true;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

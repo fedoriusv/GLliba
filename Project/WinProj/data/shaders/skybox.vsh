@@ -11,7 +11,8 @@ layout (location = TEXCOORD0) in vec2 texCoord0;
 struct Transform
 {
 	mat4 modelMatrix;
-    mat4 viewProjectionMatrix;
+	mat4 viewMatrix;
+    mat4 projectionMatrix;
     mat4 normalMatrix;
     vec3 viewPosition;
 };
@@ -24,9 +25,9 @@ void main()
 {
 	TexCoord = texCoord0;
 	
-	mat4 skypos = transform.modelMatrix;
+	mat4 skypos = transform.modelMatrix * transform.viewMatrix;
 	skypos[3].xyz = transform.viewPosition;
 		
-	vec4 viewProjectionModelMatrix = transform.viewProjectionMatrix * skypos * vec4(position, 1.0);
+	vec4 viewProjectionModelMatrix = transform.projectionMatrix * skypos * vec4(position, 1.0);
 	gl_Position = viewProjectionModelMatrix.xyzw;
 }

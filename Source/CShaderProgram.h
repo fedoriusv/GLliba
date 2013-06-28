@@ -2,18 +2,10 @@
 #define _CSHADER_PROGRAM_H_
 
 #include "CObject.h"
+#include "Param.h"
 
 namespace glliba
 {
-
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	enum SHADER_PROGRAM_TYPE
-	{
-		SPT_UNKNOWN = 0,
-		SPT_VERTEX,
-		SPT_FRAGMENT,
-	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,9 +18,9 @@ namespace glliba
 		friend					CShader;
 		friend					CResourceManager;
 
-		uint					m_iShaderID;
+		uint					m_uShaderProgramID;
 		SHADER_PROGRAM_TYPE		m_eType;
-		bool					m_CompileStatus;
+		bool					m_bCompileStatus;
 		void*					m_shaderBody;
 
 		std::string				m_shaderName;
@@ -41,8 +33,8 @@ namespace glliba
 		virtual					~CShaderProgram();
 		bool					loadShaderProgram( const std::string& _shaderFileName, SHADER_PROGRAM_TYPE _type );
 
-		uint					getShaderID() const;
-		SHADER_PROGRAM_TYPE		getShaderType() const;
+		uint					getShaderProgramID() const;
+		SHADER_PROGRAM_TYPE		getShaderProgramType() const;
 		bool					getCompileStatus() const;
 
 	};

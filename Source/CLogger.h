@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cstdarg>
 #include <assert.h>
+#include <iostream>
 
 #ifdef _DEBUG
 #	define LOG_CONSOLE(x)	std::cout << x << "\n"

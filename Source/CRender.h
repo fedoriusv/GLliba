@@ -82,7 +82,7 @@ namespace glliba
 		virtual void		initBufferObjects( 
 								SVertexData&		_vertexData )		= 0;
 		
-		virtual void		intShaderProgram( 
+		virtual bool		intShaderProgram( 
 								uint&				_shaderID,
 								const uint			_iTypeShader,
 								void*				_shaderBody )		= 0;
@@ -95,8 +95,7 @@ namespace glliba
 
 		virtual void		initShader( 
 								uint&				_shaderID,
-								const uint			_vertexShader,
-								const uint			_fragmentShader )	= 0;
+								std::vector<uint>&	_shaderProgramID )	= 0;
 
 		//render objects
 		//----------------------------------------------------------------------------------------

@@ -70,15 +70,14 @@ namespace glliba
 		void			initBufferObjects( 
 							SVertexData&		_vertexData );
 
-		void			intShaderProgram( 
+		bool			intShaderProgram( 
 							uint&				_shaderID,
 							const uint			_typeShader,
 							void*				_shaderBody );
 
 		void			initShader( 
 							uint&				_shaderID,
-							const uint			_vertexShader,
-							const uint			_fragmentShader );
+							std::vector<uint>&	_shaderProgramID );
 
 		//render objects
 		//---------------------------------------------------------------------------------------------
