@@ -43,16 +43,12 @@ smooth out Vertex fragVertex;
 
 void main()
 {
-	vec4 vertex   = transform.modelMatrix * vec4(position, 1.0);
-	vec4 lightDir = light0.position - vertex;
+	vec4 vertex   = transform.modelMatrix * transform.viewMatrix * vec4(position, 1.0);
+	gl_Position = transform.projectionMatrix * vertex;
+	
 	vec4 vNormal  = transform.normalMatrix * vec4(normal, 0.0);
 	
 	fragVertex.normal 		= vNormal.xyz; 
 	fragVertex.texCoord0 	= texCoord0;
-	fragVertex.lightDir 	= vec3(lightDir);
-	fragVertex.viewDir  	= transform.viewPosition - vec3(vertex);
-	fragVertex.distance 	= length(lightDir);
-	fragVertex.viewPos		= transform.modelMatrix * transform.viewMatrix * vec4(position, 1.0);
-	
-	gl_Position = transform.projectionMatrix * transform.viewMatrix * vertex;
+	fragVertex.viewPos		= vertex;
 }

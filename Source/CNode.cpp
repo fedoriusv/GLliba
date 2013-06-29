@@ -60,8 +60,7 @@ namespace glliba
 	void CNode::updateTransform( double _deltaTime )
 	{
 		m_transform = Matrix4::translation(m_position) * Matrix4::rotationDegreesZYX(m_rotation) * Matrix4::scale(m_scale);
-		m_worldMatrix = Matrix4::identity();
-		m_worldMatrix = m_transform * getMorldMatrix();
+		m_worldMatrix = Vectormath::transpose(m_transform * getMorldMatrix());
 
 		//TODO: Not complete!
 		m_offset = m_pivot;

@@ -31,7 +31,8 @@ namespace glliba
 		void			render();
 		void			update( double _deltaTime );
 
-		void			destroySkyBox();
+		void			setShader( CShader* _shader );
+
 	};
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

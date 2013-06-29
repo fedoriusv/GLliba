@@ -8,6 +8,7 @@
 #include "CResourceManager.h"
 #include "CTextureManager.h"
 #include "CShaderManager.h"
+#include "CSkyBox.h"
 
 CApplication::CApplication()
 {
@@ -34,34 +35,35 @@ void CApplication::init()
 {
 	//TODO: Create objects--------------------------------------------------------------------
 	m_scene->setActiveDebug(true);
-	const std::string skybox[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
+
+	const std::string skytex[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
 									"data/skybox/jajlands/jajlands1_bk.jpg",
 									"data/skybox/jajlands/jajlands1_lf.jpg",
 									"data/skybox/jajlands/jajlands1_rt.jpg",
 									"data/skybox/jajlands/jajlands1_up.jpg",
 									"data/skybox/jajlands/jajlands1_dn.jpg", };
-	m_scene->addSkyBox(skybox);
+	CSkyBox* skybox = static_cast<CSkyBox*>(m_scene->addSkyBox(skytex));
 
-	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
+
+	/*CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
-
-	CNode* cube2 = m_scene->addCube(0,Vector3(-1.0f,1.0f,0.0f));
-	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
-
-	/*CNode* model0 = m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5));
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
+	
+	CModel* model0 = static_cast<CModel*>(m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5)));
 	model0->setName("cube0");
-	for (int i = 0; i < static_cast<CModel*>(model0)->getMeshCount(); ++i)
-	{
-		static_cast<CModel*>(model0)->getMesh(i)->getMaterial()->setShader("data/shaders/defaultWithFog.vsh","data/shaders/defaultWithFog.psh");
-	}*/
+	model0->setShaderForAllMesh(SHADER_MGR->createShader(
+		"data/shaders/fogTexture.vsh",
+		"data/shaders/fogTexture.psh",
+		2,"data/shaders/fog.psh",SPT_FRAGMENT)
+		);
+
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));
 	
 	//Camera
 	CNode* Camera0 = m_scene->addFPSCamera(0,Vector3(0,1,0),Vector3(0,0,-3));
 	Camera0->setName("camera0");
 
-	//CNode* fog = m_scene->addFog();
+	CNode* fog = m_scene->addFog();
 	
 	//__asm int 3
 	//__debugbreak();

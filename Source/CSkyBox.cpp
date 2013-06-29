@@ -46,24 +46,15 @@ namespace glliba
 	
 	void CSkyBox::loadSkyBox(const std::string* _fileNames )
 	{
-		if (m_bIsLoad)
+		if (!m_bIsLoad)
 		{
-			destroySkyBox();
+			for ( uint texure = 0; texure < 6U; ++texure )
+			{
+					m_pSkyBoxTexture[texure] = TEXTURE_MGR->createTexture( _fileNames[texure] );
+			}
+
+			m_bIsLoad = true;
 		}
-		
-		for ( uint texure = 0; texure < 6U; ++texure )
-		{
-				m_pSkyBoxTexture[texure] = TEXTURE_MGR->createTexture( _fileNames[texure] );
-		}
-
-		m_bIsLoad = true;
-
-	}
-
-	
-	void CSkyBox::destroySkyBox()
-	{
-
 	}
 
 	
@@ -149,6 +140,18 @@ namespace glliba
 			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
+
+	}
+
+
+	void CSkyBox::setShader( CShader* _shader )
+	{
+		if (m_pShader)
+		{
+			SHADER_MGR->destroyShader(m_pShader);
+		}
+
+		m_pShader = (CShader*)_shader->getRef();
 	}
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////

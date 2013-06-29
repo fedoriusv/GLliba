@@ -428,24 +428,18 @@ namespace glliba
 			return;
 		}
 
-		GLboolean isValid = setShaderUniform(SUT_UNIFORM_MATRIX4,m_iCurrentShader,
-			"transform.projectionMatrix",(void*)&m_projectionMatrix);
+		GLint location = -1;
 
-
-		//Matrix4 viewProjectionMatrix = Vectormath::transpose(m_projectionMatrix);
-		//GLint location = glGetUniformLocation(m_iCurrentShader, "transform.projectionMatrix");
-		//glUniformMatrix4fv(location, 1, GL_TRUE, &viewProjectionMatrix[0][0]);
+		location = glGetUniformLocation(m_iCurrentShader, "transform.projectionMatrix");
+		glUniformMatrix4fv(location, 1, GL_TRUE, &m_projectionMatrix[0][0]);
 		
-		
-		Matrix4 modelMatrix = Vectormath::transpose(_transform);
-		GLint location = glGetUniformLocation(m_iCurrentShader, "transform.modelMatrix");
-		glUniformMatrix4fv(location, 1, GL_TRUE, &modelMatrix[0][0]);
+		location = glGetUniformLocation(m_iCurrentShader, "transform.modelMatrix");
+		glUniformMatrix4fv(location, 1, GL_TRUE, &_transform[0][0]);
 
-		Matrix4 viewMatrix = Vectormath::transpose(m_viewMatrix);
 		location = glGetUniformLocation(m_iCurrentShader, "transform.viewMatrix");
-		glUniformMatrix4fv(location, 1, GL_TRUE, &viewMatrix[0][0]);
+		glUniformMatrix4fv(location, 1, GL_TRUE, &m_viewMatrix[0][0]);
 		
-		Matrix4 normalMatrix = Vectormath::inverse(_transform);
+		Matrix4 normalMatrix = Vectormath::transpose(Vectormath::inverse(_transform));
 		location = glGetUniformLocation(m_iCurrentShader, "transform.normalMatrix");
 		glUniformMatrix4fv(location, 1, GL_TRUE, &normalMatrix[0][0]);
 
@@ -488,7 +482,8 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool CRenderGL::setShaderUniform( SHADER_UNIFORM_TYPE _param, const uint _shaderID, const std::string& _attribute, void* _value )
+	bool CRenderGL::setShaderUniform( SHADER_UNIFORM_TYPE _param, const uint _shaderID,
+		const std::string& _attribute, void* _value )
 	{
 		int location = -1;
 
@@ -588,7 +583,7 @@ namespace glliba
 
 	void CRenderGL::udateCamera( const Vector3& _position, const Vector3& _target, const Vector3& _up )
 	{
-		m_viewMatrix = Matrix4::lookAt(Point3(_position), Point3(_target), _up);
+		m_viewMatrix = Vectormath::transpose(Matrix4::lookAt(Point3(_position), Point3(_target), _up));
 		m_viewPosition = _position;
 		
 		printOpenGLError("GLError Update Camera: ");
@@ -668,7 +663,7 @@ namespace glliba
 
 	void CRenderGL::renderMaterial(  SMaterialData& _sMatrialData )
 	{
-		if (!m_iCurrentShader)
+		if ( !m_iCurrentShader )
 		{
 			return;
 		}
@@ -676,12 +671,16 @@ namespace glliba
 		GLint location = -1;
 		location = glGetUniformLocation(m_iCurrentShader, "material.ambient");
 		glUniform4fv( location,  1, &_sMatrialData._ambient[0] );
+
 		location = glGetUniformLocation(m_iCurrentShader, "material.diffuse");
 		glUniform4fv( location,  1, &_sMatrialData._diffuse[0] );
+
 		location = glGetUniformLocation(m_iCurrentShader, "material.specular");
 		glUniform4fv( location, 1, &_sMatrialData._specular[0]);
+
 		location = glGetUniformLocation(m_iCurrentShader, "material.emission");
 		glUniform4fv( location, 1, &_sMatrialData._emission[0]);
+
 		location = glGetUniformLocation(m_iCurrentShader, "material.shininess");
 		glUniform1fv( location, 1 , &_sMatrialData._iShininess  );
 
@@ -736,18 +735,18 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::drawSimple( const DRAW_MODE& _eMode, SVertexData& _vertexData, 
-		const uint& _iFirstPoint, const uint& _iCount )
+	void CRenderGL::drawSimple( const DRAW_MODE& _mode, SVertexData& _vertexData, 
+		const uint& _firstPoint, const uint& _count )
 	{
 		glBindVertexArray(_vertexData.iVertexArrayID);
 
 		if ( _vertexData.nIndices != 0 )
 		{
-			glDrawElements( _eMode, _vertexData.nIndices, GL_UNSIGNED_INT, NULL );
+			glDrawElements( _mode, _vertexData.nIndices, GL_UNSIGNED_INT, NULL );
 		}
 		else
 		{
-			glDrawArrays( _eMode, _iFirstPoint, (_iCount == 0) ? _vertexData.nVertices : _iCount );
+			glDrawArrays( _mode, _firstPoint, (_count == 0) ? _vertexData.nVertices : _count );
 		}
 
 		glBindVertexArray(NULL);

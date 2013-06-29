@@ -24,13 +24,6 @@ namespace glliba
 {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	bool sortByDepth( CNode* _obj0, CNode* _obj1 )
-	{
-		return  (_obj0->getPriority() > _obj1->getPriority());
-	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
 	CSceneManager::CSceneManager()
 		: m_pCamera(nullptr)
 		, m_pFog(nullptr)
@@ -41,29 +34,25 @@ namespace glliba
 	{
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CSceneManager::~CSceneManager()
 	{
 		CSceneManager::clear();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::addNode( CNode* _object )
 	{
 		m_objects.push_back(_object);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::addSubNode( CNode* _object )
 	{
 		m_subObjects.push_back(_object);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::init()
 	{
 		for (std::vector<CNode*>::iterator iter = m_objects.begin(); iter < m_objects.end(); ++iter )
@@ -73,8 +62,7 @@ namespace glliba
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	void CSceneManager::draw()
 	{
 		CSceneManager::updateDeltaTime();
@@ -98,8 +86,7 @@ namespace glliba
 		CRender::getInstance()->endRender();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::updateDeltaTime()
 	{
 #ifdef _WIN32
@@ -111,15 +98,13 @@ namespace glliba
 		m_dLastTime = m_dCurrentTime;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	double CSceneManager::getDeltaTime() const
 	{
 		return m_dDeltaTime;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::update( double _deltaTime )
 	{
 		for (auto iter = m_objects.begin(); iter < m_objects.end(); ++iter )
@@ -161,8 +146,7 @@ namespace glliba
 			} );
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::clear()
 	{
 		for( CNode* object: m_objects ) 
@@ -181,8 +165,7 @@ namespace glliba
 		m_subObjects.clear();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CSceneManager::drop( CNode* _object )
 	{
 		auto iter = std::find( m_objects.begin(), m_objects.end(), _object );
@@ -199,8 +182,7 @@ namespace glliba
 		return false;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CObject* CSceneManager::getObjectByID( const uint _id )
 	{
 		std::function<bool(const CObject* _obj, const uint _id )> 
@@ -219,10 +201,7 @@ namespace glliba
 		return nullptr;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
+	
 	CObject* CSceneManager::getObjectByName( const std::string& _name )
 	{
 		std::function<bool(const CObject* _obj, const std::string& _name)> 
@@ -241,8 +220,7 @@ namespace glliba
 		return nullptr;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::setActiveCamera( CCamera* _camera )
 	{
 		if (m_pCamera)
@@ -253,15 +231,13 @@ namespace glliba
 		m_pCamera->m_bIsActive = true;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CFog* CSceneManager::getActiveFog() const
 	{
 		return m_pFog;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::setActiveFog( CFog* _fog )
 	{
 		if (m_pFog)
@@ -272,36 +248,31 @@ namespace glliba
 		m_pFog->m_bActive = true;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CCamera* CSceneManager::getActiveCamera() const
 	{
 		return m_pCamera;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSceneManager::setActiveDebug( bool _bIsShowNormals )
 	{
 		CRender::getInstance()->setActiveDebug( _bIsShowNormals );
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CTexture* CSceneManager::addRenderTargetTexture( uint _iWidth, uint _iHeight )
 	{
 		return CResourceManager::getInstance()->createRenderTarget(_iWidth,_iHeight);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	void CSceneManager::setRenderTarget( uint _id, CTexture* _pTexture, Vector3 _fontColor)
 	{
 		CRender::getInstance()->renderToTexture(_id,1);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addLight( CNode* _parent, const std::string _attribute,
 		const Vector3& _pos, const Vector4& _diffuse, const float& _radius )
 	{
@@ -315,8 +286,7 @@ namespace glliba
 		return light;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addFog( const std::string, const Vector4& _color,
 		const float& _start, const float& _end )
 	{
@@ -335,8 +305,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addCamera( CNode* _parent, const Vector3& _pos,
 		const Vector3& _target, const Vector3& _up )
 	{
@@ -355,8 +324,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addFPSCamera( CNode* _parent, const Vector3& _pos,
 		const Vector3& _target, const Vector3& _up )
 	{
@@ -375,8 +343,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addCube( CNode* _parent, const Vector3& _pos, const float& _size )
 	{
 		CCubeShape* obj = new CCubeShape( _parent );
@@ -387,8 +354,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addSphere( CNode* _parent, const Vector3& _pos, const float& _radius)
 	{
 		CSphereShape* obj = new CSphereShape( _parent );
@@ -399,8 +365,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addTorus( CNode* _parent, const Vector3& _pos,
 		const float& _majorRadius, const float& _minorRadius)
 	{
@@ -413,8 +378,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addCylinder( CNode* _parent, const Vector3& _pos,
 		const float& _radius, const float& _height)
 	{
@@ -427,8 +391,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addDisk( CNode* _parent, const Vector3& _pos,
 		const float& _innerRadius, const float& _outerRadius )
 	{
@@ -441,8 +404,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addPlane( CNode* _parent, const Vector3& _pos)
 	{
 		CNode* obj = new CPlaneShape( _parent );
@@ -452,8 +414,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addModel( const std::string& _nameFile, CNode* _parent, const Vector3& _pos )
 	{
 		CNode* obj = ResourceMgr->loadModel(_nameFile);
@@ -464,8 +425,7 @@ namespace glliba
 		return obj;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CNode* CSceneManager::addSkyBox( const std::string _skyBox[6] )
 	{
 		CSkyBox* obj = new CSkyBox();

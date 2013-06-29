@@ -13,8 +13,7 @@ namespace glliba
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CModel::~CModel()
 	{
 		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
@@ -28,30 +27,26 @@ namespace glliba
 		m_pMesh.clear();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CModel::addMesh( CMesh* _mesh )
 	{
 		m_pMesh.push_back( _mesh );
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CMesh* CModel::getMesh( const uint _id ) const
 	{
 		ASSERT( m_pMesh.size() > _id || "Not Mesh initialize" );
 		return m_pMesh.at(_id);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	int CModel::getMeshCount() const
 	{
 		return m_pMesh.size();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CModel::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )
@@ -71,8 +66,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CModel::render()
 	{
 		if ( !m_bIsVisible )
@@ -90,8 +84,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CModel::compareByName( const std::string& _name )
 	{
 		if( m_modelNameFile.compare(_name) == 0 )
@@ -100,6 +93,24 @@ namespace glliba
 		}
 
 		return false;
+	}
+
+
+	void CModel::setShaderForAllMesh( CShader* _shader )
+	{
+		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
+		{
+			(*iter)->getMaterial()->setShader(_shader);
+		}
+	}
+
+
+	void CModel::setShaderForAllMesh( const std::string& _vertShader, const std::string& _fragShader )
+	{
+		for ( std::vector<CMesh*>::iterator iter = m_pMesh.begin(); iter < m_pMesh.end(); ++iter )
+		{
+			(*iter)->getMaterial()->setShader(_vertShader,_fragShader);
+		}
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////

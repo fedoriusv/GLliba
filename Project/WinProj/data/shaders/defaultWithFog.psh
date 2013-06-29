@@ -44,7 +44,7 @@ struct Vertex
 	vec4  viewPos;
 };
 
-in 	Vertex 	fragVertex;
+smooth in Vertex fragVertex;
 out vec4 	FragColor;
 
 float getFogFactor( Fog _params, float _fogCoord )

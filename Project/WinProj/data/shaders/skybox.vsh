@@ -25,9 +25,9 @@ void main()
 {
 	TexCoord = texCoord0;
 	
-	mat4 skypos = transform.modelMatrix * transform.viewMatrix;
+	mat4 skypos = transform.modelMatrix;
 	skypos[3].xyz = transform.viewPosition;
 		
-	vec4 viewProjectionModelMatrix = transform.projectionMatrix * skypos * vec4(position, 1.0);
-	gl_Position = viewProjectionModelMatrix.xyzw;
+	vec4 vertex = skypos * vec4(position, 1.0);
+	gl_Position = transform.projectionMatrix * transform.viewMatrix * vertex;
 }

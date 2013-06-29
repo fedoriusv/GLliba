@@ -32,6 +32,9 @@ namespace glliba
 
 		void					update( double _deltaTime ) final;
 		void					render() final;
+
+		void					setShaderForAllMesh( CShader* _shader );
+		void					setShaderForAllMesh( const std::string& _vertShader, const std::string& _fragShader );
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
