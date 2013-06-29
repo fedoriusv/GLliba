@@ -216,7 +216,7 @@
     <ClCompile Include="..\..\Source\GL\CShaderGL.cpp">
       <Filter>Source Files\GLLiba\GraphLibs\GL</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\CShaderProgramManager.cpp">
+    <ClCompile Include="..\..\Source\CShaderManager.cpp">
       <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -362,7 +362,7 @@
     <ClInclude Include="..\..\Source\GL\CShaderGL.h">
       <Filter>Header Files\GLLiba\GraphLibs\GL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\CShaderProgramManager.h">
+    <ClInclude Include="..\..\Source\CShaderManager.h">
       <Filter>Header Files\GLLiba\Managers</Filter>
     </ClInclude>
   </ItemGroup>

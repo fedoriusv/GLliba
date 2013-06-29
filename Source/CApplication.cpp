@@ -7,7 +7,7 @@
 #include "CRenderGL.h"
 #include "CResourceManager.h"
 #include "CTextureManager.h"
-#include "CShaderProgramManager.h"
+#include "CShaderManager.h"
 
 CApplication::CApplication()
 {
@@ -21,7 +21,7 @@ CApplication::~CApplication()
 	CSceneManager::freeInstance();
 	CReciever::freeInstance();
 	CResourceManager::freeInstance();
-	CShaderProgramManager::freeInstance();
+	CShaderManager::freeInstance();
 	CTextureManager::freeInstance();
 }
 
@@ -40,9 +40,12 @@ void CApplication::init()
 									"data/skybox/jajlands/jajlands1_rt.jpg",
 									"data/skybox/jajlands/jajlands1_up.jpg",
 									"data/skybox/jajlands/jajlands1_dn.jpg", };
-	//m_scene->addSkyBox(skybox);
+	m_scene->addSkyBox(skybox);
 
 	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
+	cube1->setName("cube0");
+
+	CNode* cube2 = m_scene->addCube(0,Vector3(-1.0f,1.0f,0.0f));
 	cube1->setName("cube0");
 	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 

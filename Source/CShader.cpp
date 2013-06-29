@@ -1,9 +1,6 @@
-#include "CObject.h"
 #include "CShader.h"
-#include "CShaderUniform.h"
-#include "CShaderProgramManager.h"
-
 #include "CRender.h"
+#include "CShaderManager.h"
 
 namespace glliba
 {
@@ -52,27 +49,6 @@ namespace glliba
 	}
 	
 
-	bool CShader::loadShader( const std::string& _vertShader, const std::string& _fragShader )
-	{
-		if ( _vertShader.empty() || _fragShader.empty() )
-		{
-			ASSERT( false && "Empty Shader FileName"  );
-			return false;
-		}
-
-		CShader::addShaderProgram(SHADER_MGR->createShaderProgram(_vertShader, SPT_VERTEX  ));
-		CShader::addShaderProgram(SHADER_MGR->createShaderProgram(_fragShader, SPT_FRAGMENT));
-
-		std::vector<uint> _shadersId;
-		CShader::getShaderIDArray( _shadersId );
-		
-		RENDERER->initShader( m_uShaderID, _shadersId );
-		_shadersId.clear();
-
-		return true;
-	}
-
-	
 	void CShader::setEnable( const bool _enable )
 	{
 		m_bEnable = _enable;

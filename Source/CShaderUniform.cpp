@@ -11,8 +11,7 @@ namespace glliba
 	{
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CShaderUniform::~CShaderUniform()
 	{
 		if (m_uniformValue != NULL)
@@ -22,8 +21,7 @@ namespace glliba
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CShaderUniform::setUniform( SHADER_UNIFORM_TYPE _type, const std::string& _attribute, void* _value )
 	{
 		m_eShaderType  = _type;
@@ -31,8 +29,7 @@ namespace glliba
 		m_uniformValue = allocMemory(_type, _value);
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void* CShaderUniform::allocMemory( SHADER_UNIFORM_TYPE _type, void* _value )
 	{
 		if (m_uniformValue != NULL)

@@ -1,7 +1,8 @@
 #include "CSkyBox.h"
 #include "CRender.h"
-#include "CResourceManager.h"
+#include "CShaderManager.h"
 #include "CTextureManager.h"
+#include "CTexture.h"
 
 const std::string vertShaderSkyBox = "data/shaders/skybox.vsh";
 const std::string fragShaderSkyBox = "data/shaders/skybox.psh";
@@ -29,8 +30,7 @@ namespace glliba
 		m_eDrawParam._iDepthFuncMode = DF_LEQUAL;
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	CSkyBox::~CSkyBox()
 	{
 		if ( m_bIsLoad )
@@ -43,8 +43,7 @@ namespace glliba
 		}
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSkyBox::loadSkyBox(const std::string* _fileNames )
 	{
 		if (m_bIsLoad)
@@ -61,18 +60,16 @@ namespace glliba
 
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSkyBox::destroySkyBox()
 	{
 
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSkyBox::init()
 	{
-		m_pShader = ResourceMgr->createShader(vertShaderSkyBox,fragShaderSkyBox);
+		m_pShader = SHADER_MGR->createShader(vertShaderSkyBox,fragShaderSkyBox);
 
 		m_vertices.malloc( 24 );
 
@@ -117,8 +114,7 @@ namespace glliba
 		m_vertices.clear();
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSkyBox::render()
 	{
 		if ( !m_bIsVisible )
@@ -140,8 +136,7 @@ namespace glliba
 		RENDERER->postDrawSimple();
 	}
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CSkyBox::update( double _deltaTime )
 	{
 		if ( !m_bIsVisible )

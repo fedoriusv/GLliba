@@ -265,7 +265,7 @@
     <ClCompile Include="..\..\Source\CRenderTarget.cpp" />
     <ClCompile Include="..\..\Source\CSceneManager.cpp" />
     <ClCompile Include="..\..\Source\CShader.cpp" />
-    <ClCompile Include="..\..\Source\CShaderProgramManager.cpp" />
+    <ClCompile Include="..\..\Source\CShaderManager.cpp" />
     <ClCompile Include="..\..\Source\CShaderProgram.cpp" />
     <ClCompile Include="..\..\Source\CShape.cpp" />
     <ClCompile Include="..\..\Source\CSampler.cpp" />
@@ -329,7 +329,7 @@
     <ClInclude Include="..\..\Source\KeyCodes.h" />
     <ClInclude Include="..\..\Source\CResourceManager.h" />
     <ClInclude Include="..\..\Source\CSingleton.h" />
-    <ClInclude Include="..\..\Source\CShaderProgramManager.h" />
+    <ClInclude Include="..\..\Source\CShaderManager.h" />
     <ClInclude Include="..\..\Source\Types.h" />
     <ClInclude Include="..\..\Source\Vertex.h" />
     <ClInclude Include="..\..\Source\CDiskShape.h" />

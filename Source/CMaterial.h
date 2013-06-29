@@ -56,17 +56,17 @@ namespace glliba
 
 		void				bind();
 
-		void				setTexture( const uint _textureLayer, const std::string& _attribute, const std::string& _nameFile	 );
-		void				setTexture( const uint _textureLayer, const std::string& _attribute, const std::string _nameFiles[6]);
-		void				setTexture( const uint _textureLayer, const std::string& _attribute, CTexture* _pTexture			 );
-		CTexture*			getTexture( const uint _textureLayer ) const;
-		void				destroyTexture( uint _textureLayer );
+		void				setTexture( const uint _layer, const std::string& _attribute, const std::string& _nameFile );
+		void				setTexture( const uint _layer, const std::string& _attribute, const std::string _nameFiles[6] );
+		void				setTexture( const uint _layer, const std::string& _attribute, CTexture* _texture );
+		CTexture*			getTexture( const uint _layer ) const;
+		void				destroyTexture( uint _layer );
 		uint				getTextureCount() const;
 
 		
 		CShader*			getShader() const;
-		void				setShader( CShader* _shader  );
-		void				setShader( const std::string& _vertexShader, const std::string& _fragmentShader );
+		void				setShader( CShader* _shader );
+		void				setShader( const std::string& _vertShader, const std::string& _fragShader );
 		void				destroyShader();
 
 	};

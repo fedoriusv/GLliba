@@ -1,7 +1,6 @@
 #include "CTextureCubeMap.h"
-
 #include "CRender.h"
-#include "CResourceManager.h"
+
 
 namespace glliba
 {
@@ -24,8 +23,7 @@ namespace glliba
 		m_eTarget = TT_TEXTURE_CUBEMAP;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CTextureCubeMap::~CTextureCubeMap()
 	{
 		for ( uint i = 0; i < m_iCOUNT; ++i )
@@ -38,8 +36,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CTextureCubeMap::isValid()
 	{
 		for ( uint i = 0; i < m_iCOUNT; ++i )

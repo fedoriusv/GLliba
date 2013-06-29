@@ -1,7 +1,7 @@
 #include "CMaterial.h"
 
 #include "CRender.h"
-#include "CResourceManager.h"
+#include "CShaderManager.h"
 #include "CTextureManager.h"
 #include "CShaderUniform.h"
 #include "CShader.h"
@@ -33,8 +33,7 @@ namespace glliba
 		CMaterial::init();
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CMaterial::~CMaterial()
 	{
 		for ( uint layer = 0; layer < TL_TEXTURE_MAX; ++layer )
@@ -45,8 +44,7 @@ namespace glliba
 		destroyShader();
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::init()
 	{
 		CMaterial::setShader(
@@ -54,79 +52,68 @@ namespace glliba
 			STR_SIMPLE_FRAGMENT_SHADER);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setAmbientColor( const Vector4& _color )
 	{
 		m_sMaterialData._ambient = _color;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setDiffuseColor( const Vector4& _color )
 	{
 		m_sMaterialData._diffuse = _color;
 		m_sMaterialData._fTransparency = m_sMaterialData._diffuse.getW();
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setSpecularColor( const Vector4& _color )
 	{
 		m_sMaterialData._specular = _color;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setEmissionColor( const Vector4& _color )
 	{
 		m_sMaterialData._emission = _color;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setShininess( const float  _value )
 	{
 		m_sMaterialData._iShininess = _value;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	Vector4 CMaterial::getAmbientColor() const
 	{
 		return m_sMaterialData._ambient;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	Vector4 CMaterial::getDiffuseColor() const
 	{
 		return m_sMaterialData._diffuse;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	Vector4 CMaterial::getSpecularColor() const
 	{
 		return m_sMaterialData._specular;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	Vector4	CMaterial::getEmissionColor() const
 	{
 		return m_sMaterialData._emission;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	float CMaterial::getShininess() const
 	{
 		return m_sMaterialData._iShininess;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::bind()
 	{
 		if ( m_pShader != nullptr && m_pShader->isEnable() )
@@ -157,8 +144,7 @@ namespace glliba
 		}
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	CTexture* CMaterial::getTexture( const uint _layer ) const
 	{
 		if (_layer >= TL_TEXTURE_MAX)
@@ -170,15 +156,13 @@ namespace glliba
 		return m_pTexture[_layer];
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	uint CMaterial::getTextureCount() const
 	{
 		return m_iTextureCount;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, const std::string& _nameFile )
 	{
 		if (_textureLayer >= TL_TEXTURE_MAX )
@@ -204,8 +188,7 @@ namespace glliba
 		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, const std::string _nameFiles[6] )
 	{
 		if (_textureLayer >= TL_TEXTURE_MAX )
@@ -235,8 +218,7 @@ namespace glliba
 		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::destroyTexture( uint _textureLayer )
 	{
 		if (_textureLayer >= TL_TEXTURE_MAX )
@@ -255,9 +237,8 @@ namespace glliba
 		--m_iTextureCount;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, CTexture* _pTexture )
+	
+	void CMaterial::setTexture( const uint _textureLayer, const std::string& _attribute, CTexture* _texture )
 	{
 		if (_textureLayer >= TL_TEXTURE_MAX )
 		{
@@ -272,36 +253,32 @@ namespace glliba
 			--m_iTextureCount;
 		}
 
-		m_pTexture[_textureLayer] = (CTexture*)_pTexture->getRef();
+		m_pTexture[_textureLayer] = (CTexture*)_texture->getRef();
 		++m_iTextureCount;
 
 		m_pTexture[_textureLayer]->setAttributeTexture(_attribute);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setTransparency( const float _value )
 	{
 
 		m_sMaterialData._fTransparency = (_value > 1.0f) ? 1.0f : _value;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	float CMaterial::getTransparency() const
 	{
 		return m_sMaterialData._fTransparency;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CShader* CMaterial::getShader() const
 	{
 		return m_pShader;
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setShader( CShader* _shader )
 	{
 		if (m_pShader)
@@ -312,28 +289,25 @@ namespace glliba
 		m_pShader = (CShader*)_shader->getRef();
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::setShader(  const std::string& _vertexShader, const std::string& _fragmentShader )
 	{
 		if (m_pShader)
 		{
-			//destroyShader();
+			destroyShader();
 		}
 
-		m_pShader = ResourceMgr->createShader(_vertexShader,_fragmentShader);
+		m_pShader = SHADER_MGR->createShader(_vertexShader,_fragmentShader);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CMaterial::destroyShader()
 	{
 		if (m_pShader)
 		{
-			ResourceMgr->destroyShader(m_pShader);
+			SHADER_MGR->destroyShader(m_pShader);
 		}
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

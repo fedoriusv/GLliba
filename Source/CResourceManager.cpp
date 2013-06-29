@@ -32,15 +32,18 @@ namespace glliba
 
 	bool CResourceManager::findShaderByFileName( const CShader* _shader, const std::string& _vertexShader, const std::string& _fragmentShader ) const
 	{
-		return (_shader->m_vertexProgram.m_shaderName.compare(_vertexShader) == 0 &&
-			_shader->m_fragmentProgram.m_shaderName.compare(_fragmentShader) == 0 ? true : false); 
+		//return (_shader->m_vertexProgram.m_shaderName.compare(_vertexShader) == 0 &&
+		//	_shader->m_fragmentProgram.m_shaderName.compare(_fragmentShader) == 0 ? true : false); 
+
+		return true;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	bool CResourceManager::findShaderByShaderID( const CShader* _shader, uint _shaderID ) const
 	{
-		return _shader->m_uShaderID == _shaderID;
+		//return _shader->m_uShaderID == _shaderID;
+		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,23 +55,24 @@ namespace glliba
 
 		if (shaderIter != m_shaderList.end())
 		{
-			return (CShader*)(*shaderIter)->getRef();
+			//return (CShader*)(*shaderIter)->getRef();
 		}
 
 		CShader* newShader = new CShader();
-		newShader->loadShader(_vertShader,_fragShader);
+		//newShader->loadShader(_vertShader,_fragShader/*,2,"shader",SPT_FRAGMENT*/);
 
 		m_shaderList.push_back(newShader);
 		++m_nCountRes;
 
-		return (CShader*)newShader->getRef();
+		//return (CShader*)newShader->getRef();
+		return NULL;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	void CResourceManager::destroyShader( CShader* _shader )
 	{
-		if ( _shader->releaseRef() == 0 )
+		//if ( _shader->releaseRef() == 0 )
 		{
 			std::vector<CShader*>::iterator shaderIter = std::find_if( m_shaderList.begin(), m_shaderList.end(),
 				boost::bind(&CResourceManager::findShaderByShaderID,this,_1,_shader->getShaderID()) );

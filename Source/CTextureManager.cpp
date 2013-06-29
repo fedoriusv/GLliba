@@ -16,8 +16,7 @@ namespace glliba
 	{
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	CTextureManager::~CTextureManager()
 	{
 		for (Texture texturelist : m_textures)
@@ -30,15 +29,13 @@ namespace glliba
 		m_textures.clear();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	void CTextureManager::transformString( std::string& _string,  bool _toLower )
 	{
 		std::transform( _string.begin(), _string.end(), _string.begin(), _toLower ? ::tolower : ::toupper );
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CTextureManager::loadImage( STextureData2D& _textureData, const std::string& _imageFile )
 	{
 #ifdef _USE_DEVIL
@@ -78,15 +75,13 @@ namespace glliba
 	}
 #endif
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CTextureManager::findTextureByID( const Texture _texture, uint _textureID ) const
 	{
 		return _texture.second->m_iTextureID == _textureID;
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CTexture* CTextureManager::createTexture( const std::string& _imageFile )
 	{
 		StringList textureList;
@@ -115,8 +110,7 @@ namespace glliba
 		return (CTexture*)newTexture->getRef();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CTexture* CTextureManager::createCubeMap( const std::string _imageFile[6] )
 	{
 		StringList textureList;
@@ -159,8 +153,7 @@ namespace glliba
 		return (CTexture*)newTexture->getRef();
 	}
 
-	//////////////////////////////////////////////////////////////////////////////////////////////
-	
+		
 	void CTextureManager::destroyTexture( CTexture* _pTexture )
 	{
 		if ( _pTexture->releaseRef() == 0 )

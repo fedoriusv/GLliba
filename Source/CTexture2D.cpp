@@ -1,7 +1,6 @@
 #include "CTexture2D.h"
-
 #include "CRender.h"
-#include "CResourceManager.h"
+
 
 namespace glliba
 {
@@ -19,8 +18,7 @@ namespace glliba
 		m_eTarget = TT_TEXTURE2D;
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	CTexture2D::~CTexture2D()
 	{
 		if (m_sTextureData._data != NULL)
@@ -30,8 +28,7 @@ namespace glliba
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 	bool CTexture2D::isValid()
 	{
 		return ( m_sTextureData._data != NULL && m_sTextureData._iWidth != 0 && m_sTextureData._iHeight != 0 );

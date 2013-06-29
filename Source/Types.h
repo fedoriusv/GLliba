@@ -8,6 +8,8 @@
 namespace glliba
 {
 	typedef unsigned int uint;
+	
+	typedef std::vector<std::string>	StringList;
 }
 
 #endif

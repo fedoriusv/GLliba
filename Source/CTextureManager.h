@@ -4,11 +4,6 @@
 #include "CSingleton.h"
 #include "Types.h"
 
-#include <vector>
-#include <map>
-
-
-
 namespace glliba
 {
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +11,6 @@ namespace glliba
 	class	CTexture;
 	struct	STextureData2D;
 
-	typedef std::vector<std::string>		StringList;
 	typedef std::pair<StringList,CTexture*>	Texture;
 	typedef std::map<StringList, CTexture*>	TextureList; 
 
@@ -49,7 +43,7 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 
-#define TEXTURE_MGR	glliba::CTextureManager::getInstance()
+#define TEXTURE_MGR CTextureManager::getInstance()
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 }
