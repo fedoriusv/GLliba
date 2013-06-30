@@ -44,8 +44,8 @@ namespace glliba
 		void				setDiffuseColor ( const Vector4& _color );
 		void				setSpecularColor( const Vector4& _color );
 		void				setEmissionColor( const Vector4& _color );
-		void				setShininess	( const float   _value  );
-		void				setTransparency ( const float   _value  );
+		void				setShininess	( const float&   _value );
+		void				setTransparency ( const float&   _value );
 
 		Vector4				getAmbientColor() const;
 		Vector4				getDiffuseColor() const;

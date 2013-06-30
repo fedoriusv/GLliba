@@ -140,7 +140,6 @@ namespace glliba
 			CNode::updateTransform( _deltaTime );
 			m_bNeedUpdate = false;
 		}
-
 	}
 
 

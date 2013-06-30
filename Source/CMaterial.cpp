@@ -78,7 +78,7 @@ namespace glliba
 	}
 
 	
-	void CMaterial::setShininess( const float  _value )
+	void CMaterial::setShininess( const float& _value )
 	{
 		m_sMaterialData._iShininess = _value;
 	}
@@ -260,10 +260,10 @@ namespace glliba
 	}
 
 	
-	void CMaterial::setTransparency( const float _value )
+	void CMaterial::setTransparency( const float& _value )
 	{
-
 		m_sMaterialData._fTransparency = (_value > 1.0f) ? 1.0f : _value;
+		m_sMaterialData._diffuse.setW(m_sMaterialData._fTransparency);
 	}
 
 	

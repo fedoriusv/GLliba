@@ -45,18 +45,25 @@ void CApplication::init()
 	CSkyBox* skybox = static_cast<CSkyBox*>(m_scene->addSkyBox(skytex));
 
 
-	/*CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
+	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
 	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+	static_cast<CShape*>(cube1)->getMaterial()->setTransparency(0.0f);
+
+	CNode* cube2 = m_scene->addCube(0,Vector3(-1.0f,1.0f,0.0f));
+	static_cast<CShape*>(cube2)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+
+	CNode* cube3 = m_scene->addCube(0,Vector3(0.0f,1.0f,-3.0f));
+	static_cast<CShape*>(cube3)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 	
-	CModel* model0 = static_cast<CModel*>(m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5)));
+	/*CModel* model0 = static_cast<CModel*>(m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5)));
 	model0->setName("cube0");
 	model0->setShaderForAllMesh(SHADER_MGR->createShader(
 		"data/shaders/fogTexture.vsh",
 		"data/shaders/fogTexture.psh",
 		2,"data/shaders/fog.psh",SPT_FRAGMENT)
 		);
-
+*/
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));
 	
 	//Camera

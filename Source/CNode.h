@@ -46,6 +46,8 @@ namespace glliba
 		GLint		_iDepthFuncMode;
 		GLint		_iPolygonMode;
 		GLboolean	_bUseCullFace;
+		GLboolean	_bUseBlend;
+		GLboolean	_bUseDepthMask;
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -144,6 +144,9 @@ namespace glliba
 							const std::string&	_attribute,
 							void*				_value );
 
+		void			bindBlend( 
+							const bool& _transparent );
+
 		//delete object
 		//--------------------------------------------------------------------------------------------
 

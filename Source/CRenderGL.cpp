@@ -125,7 +125,7 @@ namespace glliba
 		//glEnable(GL_DEPTH);
 		glEnable(GL_DEPTH_TEST);
 		glClearDepth(1.0f);
-		//glDepthFunc(GL_LEQUAL);	
+		//glDepthFunc(GL_LEQUAL);
 		//glShadeModel(GL_SMOOTH);
 
 		glDisable(GL_CULL_FACE);
@@ -142,14 +142,14 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::reshape( uint _iWidth, uint _iHeight )
+	void CRenderGL::reshape( uint _width, uint _height )
 	{
-		if ( _iHeight == 0 )
+		if ( _height == 0 )
 		{
-			_iHeight = 1;
+			_height = 1;
 		}
-		m_iScreenWidth = _iWidth;
-		m_iScreenHeight = _iHeight;
+		m_iScreenWidth = _width;
+		m_iScreenHeight = _height;
 
 		glViewport( 0, 0, m_iScreenWidth, m_iScreenHeight );
 
@@ -403,19 +403,20 @@ namespace glliba
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void bindBlend( bool _transparent )
+	void CRenderGL::bindBlend( const bool& _transparent )
 	{
 		if (_transparent)
 		{
 			glDisable(GL_CULL_FACE);
 			glEnable(GL_BLEND);
-			glDepthMask(FALSE); 
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			//glDepthMask(FALSE); 
 		}
 		else
 		{
 			glEnable(GL_CULL_FACE);
 			glDisable(GL_BLEND);
-			glDepthMask(TRUE); 
+			//glDepthMask(TRUE); 
 		}
 	}
 	
@@ -558,19 +559,19 @@ namespace glliba
 	/*---------------------------------------------GLRender--------------------------------------------*/
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void CRenderGL::bindTexture(const uint& _iTextureID, const uint& _iSamplerID, const uint& _iActiveTexture, 
-		const std::string& _attribute, const TEXTURE_TYPE _iType, Vector2& _scale )
+	void CRenderGL::bindTexture(const uint& _textureID, const uint& _samplerID, const uint& _activeTexture, 
+		const std::string& _attribute, const TEXTURE_TYPE _type, Vector2& _scale )
 	{
-		ASSERT((uint)m_iMaxTextureUnits >= _iActiveTexture || "Not supported count texture units");
+		ASSERT((uint)m_iMaxTextureUnits >= _activeTexture || "Not supported count texture units");
 
-		glActiveTexture(GL_TEXTURE0 + _iActiveTexture);
-		glBindTexture( _iType, _iTextureID );
-		glBindSampler( _iSamplerID, _iTextureID );
+		glActiveTexture(GL_TEXTURE0 + _activeTexture);
+		glBindTexture( _type, _textureID );
+		glBindSampler( _samplerID, _textureID );
 		
 		GLint location = -1;
 		std::string strAttribute = "material." + _attribute;
 		location = glGetUniformLocation( m_iCurrentShader, strAttribute.c_str() );
-		glUniform1i( location, _iActiveTexture );
+		glUniform1i( location, _activeTexture );
 
 		location = glGetUniformLocation( m_iCurrentShader, "material.textureScale" );
 		glUniform2f( location, _scale[0], _scale[1] );
@@ -682,7 +683,9 @@ namespace glliba
 		glUniform4fv( location, 1, &_sMatrialData._emission[0]);
 
 		location = glGetUniformLocation(m_iCurrentShader, "material.shininess");
-		glUniform1fv( location, 1 , &_sMatrialData._iShininess  );
+		glUniform1fv( location, 1 , &_sMatrialData._iShininess );
+
+		CRenderGL::bindBlend((_sMatrialData._diffuse.getW() < 1.0f) ? true : false);
 
 		printOpenGLError("GLError Render Material: ");
 	}
