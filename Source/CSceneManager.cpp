@@ -14,6 +14,7 @@
 #include "CModel3DS.h"
 #include "CModelF3D.h"
 #include "CSkyBox.h"
+#include "CFreeTypeFont.h"
 
 #include "CRender.h"
 
@@ -432,6 +433,16 @@ namespace glliba
 		obj->loadSkyBox( _skyBox );
 
 		CSceneManager::addNode(obj);
+		return obj;
+	}
+
+
+	CNode* CSceneManager::addFreeTypeFont( const std::string& _string, const uint& _posX, const uint& _posY,
+		const uint& _size, const std::string& _fontName )
+	{
+		CFreeTypeFont* obj = new CFreeTypeFont();
+		obj->loadSystemFont(_fontName);
+
 		return obj;
 	}
 

@@ -177,19 +177,17 @@ namespace glliba
 
 	enum IMAGE_FORMAT
 	{
-#ifdef _USE_DEVIL
-		IF_COLOUR_INDEX    = IL_COLOUR_INDEX,
-		IF_COLOR_INDEX     = IL_COLOR_INDEX,
-		IF_ALPHA           = IL_ALPHA,
-		IF_RGB             = IL_RGB,
-		IF_RGBA            = IL_RGBA,
-		IF_BGR             = IL_BGR,
-		IF_BGRA            = IL_BGRA,
-		IF_LUMINANCE       = IL_LUMINANCE,
-		IF_LUMINANCE_ALPHA = IL_LUMINANCE_ALPHA,
-
+#if defined ( _OPENGL ) || defined ( _GLES )
+		IF_COLOR_INDEX     = GL_COLOR_INDEX,
+		IF_ALPHA           = GL_ALPHA,
+		IF_RGB             = GL_RGB,
+		IF_RGBA            = GL_RGBA,
+		IF_BGR             = GL_BGR,
+		IF_BGRA            = GL_BGRA,
+		IF_LUMINANCE       = GL_LUMINANCE,
+		IF_LUMINANCE_ALPHA = GL_LUMINANCE_ALPHA,
+		IF_DEPTH_COMPONENT = GL_DEPTH_COMPONENT,
 #else
-		IF_COLOUR_INDEX,	
 		IF_COLOR_INDEX,		
 		IF_ALPHA,			
 		IF_RGB,				
@@ -197,7 +195,8 @@ namespace glliba
 		IF_BGR,				
 		IF_BGRA	,			
 		IF_LUMIANCE,		
-		IF_LUMINANCE_ALPHA,	
+		IF_LUMINANCE_ALPHA,
+		IF_DEPTH_COMPONENT,
 #endif
 	};
 

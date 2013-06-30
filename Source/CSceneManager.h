@@ -135,6 +135,13 @@ namespace glliba
 		CNode*				addSkyBox( 
 								const std::string _skyBox[6] );
 
+		CNode*				addFreeTypeFont(
+								const std::string& _string,
+								const uint& _posX,
+								const uint& _posY,
+								const uint& _size,
+								const std::string& _fontName );
+
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////////////////

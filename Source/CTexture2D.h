@@ -6,20 +6,23 @@
 namespace glliba
 {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
+	class CFreeTypeFont;
+	class CTextureManager;
+
 	class CTexture2D : public CTexture
 	{
 	protected:
-		friend				CTextureManager;
+		friend			CTextureManager;
+		friend			CFreeTypeFont;
 
-		STextureData2D		m_sTextureData;
+		STextureData2D	m_sTextureData;
 
 	public:
 
 		CTexture2D();
-		virtual				~CTexture2D();
+		virtual			~CTexture2D();
 
-		bool				isValid();
+		bool			isValid();
 	};
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////

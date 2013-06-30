@@ -51,6 +51,7 @@ namespace glliba
 	void CSampler::setWrapType( WRAP_TYPE _type )
 	{
 		m_eWrapType = _type;
+		m_bNeedUpdate = true;
 	}
 
 		
@@ -58,6 +59,7 @@ namespace glliba
 	{
 		m_eMinFilerType = _minType;
 		m_eMagFilerType = _magType;
+		m_bNeedUpdate = true;
 	}
 
 	

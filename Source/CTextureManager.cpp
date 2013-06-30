@@ -177,5 +177,22 @@ namespace glliba
 		}
 	}
 
+
+	CTexture* CTextureManager::createTexture2DFromData( uint _width, uint _hight, IMAGE_FORMAT _format,
+		IMAGE_TYPE _type, void* _data)
+	{
+		CTexture2D* texture = new CTexture2D();
+
+		texture->m_sTextureData._data    = _data;
+		texture->m_sTextureData._iWidth  = _width;
+		texture->m_sTextureData._iHeight = _hight;
+		texture->m_sTextureData._eFormat = _format;
+		texture->m_sTextureData._eType   = _type;
+
+		RENDERER->initTexture2D( texture->m_iTextureID, texture->m_sTextureData, false );
+
+		return texture;
+	}
+
 	//////////////////////////////////////////////////////////////////////////////////////////////
 }

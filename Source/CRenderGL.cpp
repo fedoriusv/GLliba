@@ -216,9 +216,15 @@ namespace glliba
 
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		
-		glTexImage2D( GL_TEXTURE_2D, 0, GL_RGB, _sTextureData._iWidth, _sTextureData._iHeight,
-			0, _sTextureData._eFormat, _sTextureData._eType, _sTextureData._data );
+		std::function<int(int)> formatFunc =
+			[](int _format)
+			{
+				return (_format == GL_RGB || _format == GL_BGR) ? GL_RGB : _format;
+			};
 
+		glTexImage2D( GL_TEXTURE_2D, 0, formatFunc(_sTextureData._eFormat), _sTextureData._iWidth,
+			_sTextureData._iHeight, 0, _sTextureData._eFormat, _sTextureData._eType, _sTextureData._data );
+		
 		if (_bMipMap)
 		{
 			glGenerateMipmap( GL_TEXTURE_2D );

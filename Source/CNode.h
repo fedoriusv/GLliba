@@ -18,6 +18,7 @@ namespace glliba
 		TN_LIGHT,
 		TN_FOG,
 		TN_SKYBOX,
+		TN_FONT,
 
 		TN_COUNT
 	};

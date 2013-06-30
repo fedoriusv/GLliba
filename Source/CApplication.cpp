@@ -55,6 +55,8 @@ void CApplication::init()
 
 	CNode* cube3 = m_scene->addCube(0,Vector3(0.0f,1.0f,-3.0f));
 	static_cast<CShape*>(cube3)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+
+	CNode* font = m_scene->addFreeTypeFont("font",0,0,10,"comic.ttf");
 	
 	/*CModel* model0 = static_cast<CModel*>(m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5)));
 	model0->setName("cube0");

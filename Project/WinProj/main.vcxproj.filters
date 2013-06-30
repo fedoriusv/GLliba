@@ -219,6 +219,9 @@
     <ClCompile Include="..\..\Source\CShaderManager.cpp">
       <Filter>Source Files\GLLiba\Managers</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CFreeTypeFont.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CRender.h">
@@ -364,6 +367,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\CShaderManager.h">
       <Filter>Header Files\GLLiba\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CFreeTypeFont.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
