@@ -3,9 +3,13 @@
 #include "CTextureManager.h"
 #include "CTexture.h"
 #include "CSampler.h"
+#include "CShaderManager.h"
 
 namespace glliba
 {
+	const std::string vertShaderFont2D = "data/shaders/ortho2D.vsh";
+	const std::string fragShaderFont2D = "data/shaders/font2D.psh";
+
 	///////////////////////////////////////////////////////////////////////////////////////////
 
 	inline int next_p2(int _n)
@@ -23,7 +27,8 @@ namespace glliba
 
 	CFreeTypeFont::CFreeTypeFont()
 		: m_bLoaded(false)
-		, m_string("")
+		, m_string("s")
+		, m_color(1.0f)
 	{
 		for ( uint i = 0; i < nSize; ++i )
 		{
@@ -91,26 +96,30 @@ namespace glliba
 		}
 
 		int iPXSize = 32;
+		m_iLoadedPixelSize = iPXSize;
 		FT_Set_Pixel_Sizes(ftFace, iPXSize, iPXSize);
 
-		m_vertices.malloc(4 * 128);
+		FT_UInt num_chars = 128;
+		m_vertices.malloc(4 * num_chars);
 
-		for (uint i = 0; i < 128; ++i)
+		for (uint glyphIndex = 0; glyphIndex < num_chars; ++glyphIndex)
 		{
-			CFreeTypeFont::createChar(ftFace,i);
+			CFreeTypeFont::createChar( ftFace, glyphIndex );
 		}
 		m_bLoaded = true;
 
 		RENDERER->initBufferObjects(m_vertices);
-		m_vertices.clear();
+		//m_vertices.clear();
 
 		FT_Done_Face(ftFace);
 		FT_Done_FreeType(ftLib);
+
+		CFreeTypeFont::init();
 	}
 
-	void CFreeTypeFont::createChar( const FT_Face& _ftFace, uint _index )
+	void CFreeTypeFont::createChar( const FT_Face& _ftFace, FT_UInt _glyphIndex )
 	{
-		FT_Load_Glyph(_ftFace, FT_Get_Char_Index(_ftFace, _index), FT_LOAD_DEFAULT);
+		FT_Load_Glyph(_ftFace, FT_Get_Char_Index(_ftFace, _glyphIndex), FT_LOAD_DEFAULT);
 
 		FT_Render_Glyph(_ftFace->glyph, FT_RENDER_MODE_NORMAL);
 		FT_Bitmap* pBitmap = &_ftFace->glyph->bitmap;
@@ -133,65 +142,84 @@ namespace glliba
 		}
 
 		//texture
-		if (m_pCharTextures[_index])
+		if (m_pCharTextures[_glyphIndex])
 		{
-			delete m_pCharTextures[_index];
-			m_pCharTextures[_index] = nullptr;
+			delete m_pCharTextures[_glyphIndex];
+			m_pCharTextures[_glyphIndex] = nullptr;
 		}
-		m_pCharTextures[_index] = TEXTURE_MGR->createTexture2DFromData(iTW,iTH,IF_DEPTH_COMPONENT,IT_UNSIGNED_BYTE,bData);
-		m_pCharTextures[_index]->getSampler()->setFilterType(FT_LINEAR, FT_LINEAR);
-		m_pCharTextures[_index]->getSampler()->setWrapType(WT_CLAMP_TO_EDGE);
+		m_pCharTextures[_glyphIndex] = TEXTURE_MGR->createTexture2DFromData(iTW,iTH,IF_DEPTH_COMPONENT,IT_UNSIGNED_BYTE,bData);
+		m_pCharTextures[_glyphIndex]->getSampler()->setFilterType(FT_LINEAR, FT_LINEAR);
+		m_pCharTextures[_glyphIndex]->getSampler()->setWrapType(WT_CLAMP_TO_EDGE);
 
 		// Calculate glyph data
-		m_iAdvX[_index] = _ftFace->glyph->advance.x>>6;
-		m_iBearingX[_index] = _ftFace->glyph->metrics.horiBearingX>>6;
-		m_iCharWidth[_index] = _ftFace->glyph->metrics.width>>6;
+		m_iAdvX[_glyphIndex] = _ftFace->glyph->advance.x>>6;
+		m_iBearingX[_glyphIndex] = _ftFace->glyph->metrics.horiBearingX>>6;
+		m_iCharWidth[_glyphIndex] = _ftFace->glyph->metrics.width>>6;
 
-		m_iAdvY[_index] = (_ftFace->glyph->metrics.height - _ftFace->glyph->metrics.horiBearingY)>>6;
-		m_iBearingY[_index] = _ftFace->glyph->metrics.horiBearingY>>6;
-		m_iCharHeight[_index] = _ftFace->glyph->metrics.height>>6;
+		m_iAdvY[_glyphIndex] = (_ftFace->glyph->metrics.height - _ftFace->glyph->metrics.horiBearingY)>>6;
+		m_iBearingY[_glyphIndex] = _ftFace->glyph->metrics.horiBearingY>>6;
+		m_iCharHeight[_glyphIndex] = _ftFace->glyph->metrics.height>>6;
 
 		m_iNewLine = max(m_iNewLine, int(_ftFace->glyph->metrics.height>>6));
 		
 		delete[] bData;
 		
 
-		m_vertices.Vertex.vertices[_index*4].setX(0.0f);
-		m_vertices.Vertex.vertices[_index*4].setY(float(-m_iAdvY[_index]+iTH));
-		m_vertices.Vertex.vertices[_index*4].setZ(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4].setX(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4].setY(float(-m_iAdvY[_glyphIndex]+iTH));
+		m_vertices.Vertex.vertices[_glyphIndex*4].setZ(0.0f);
 
-		m_vertices.Vertex.vertices[_index*4+1].setX(0.0f);
-		m_vertices.Vertex.vertices[_index*4+1].setY(float(-m_iAdvY[_index]));
-		m_vertices.Vertex.vertices[_index*4+1].setZ(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4+1].setX(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4+1].setY(float(-m_iAdvY[_glyphIndex]));
+		m_vertices.Vertex.vertices[_glyphIndex*4+1].setZ(0.0f);
 
-		m_vertices.Vertex.vertices[_index*4+2].setX(float(iTW));
-		m_vertices.Vertex.vertices[_index*4+2].setY(float(-m_iAdvY[_index]+iTH));
-		m_vertices.Vertex.vertices[_index*4+2].setZ(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setX(float(iTW));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setY(float(-m_iAdvY[_glyphIndex]+iTH));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setZ(0.0f);
 
-		m_vertices.Vertex.vertices[_index*4+3].setX(float(iTW));
-		m_vertices.Vertex.vertices[_index*4+3].setY(float(-m_iAdvY[_index])	);
-		m_vertices.Vertex.vertices[_index*4+3].setZ(0.0f);
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setX(float(iTW));
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setY(float(-m_iAdvY[_glyphIndex])	);
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setZ(0.0f);
 
 
-		m_vertices.TexCoord.at(0).vertices[_index*4].setX(0.0f);
-		m_vertices.TexCoord.at(0).vertices[_index*4].setY(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setX(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setY(1.0f);
 
-		m_vertices.TexCoord.at(0).vertices[_index*4+1].setX(0.0f);
-		m_vertices.TexCoord.at(0).vertices[_index*4+1].setY(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+1].setX(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+1].setY(0.0f);
 
-		m_vertices.TexCoord.at(0).vertices[_index*4+2].setX(1.0f);
-		m_vertices.TexCoord.at(0).vertices[_index*4+2].setY(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+2].setX(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+2].setY(1.0f);
 
-		m_vertices.TexCoord.at(0).vertices[_index*4+3].setX(1.0f);
-		m_vertices.TexCoord.at(0).vertices[_index*4+3].setY(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setX(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setY(0.0f);
 	}
 
 	void CFreeTypeFont::render()
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//m_pMaterial->bind();
+		RENDERER->bindShader( m_pShader->getShaderID() );
+		
+		/*for (int i = 0; i < 128; ++i)
+		{
+			RENDERER->bindTexture(m_pCharTextures[i]->getTextureID(),m_pCharTextures[i]->getSamplerID(),
+				0,"texture0",m_pCharTextures[i]->getTarget(),m_pCharTextures[i]->getScale());
+		}*/
+		//RENDERER->updateTransform(m_worldMatrix, m_offset);
 
-		int iCurX = x, iCurY = y;
+		
+
+		
+		int iPXSize = -1;
+		int iCurX = m_position.getX();
+		int iCurY = m_position.getY();
 		if(iPXSize == -1)iPXSize = m_iLoadedPixelSize;
 		float fScale = float(iPXSize)/float(m_iLoadedPixelSize);
 
@@ -199,7 +227,7 @@ namespace glliba
 		{
 			if(m_string[chunk] == '\n')
 			{
-				iCurX = x;
+				iCurX = m_position.getX();
 				iCurY -= m_iNewLine*iPXSize/m_iLoadedPixelSize;
 				continue;
 			}
@@ -207,12 +235,20 @@ namespace glliba
 			iCurX += m_iBearingX[iIndex]*iPXSize/m_iLoadedPixelSize;
 			if(m_string[chunk] != ' ')
 			{
-				m_pCharTextures[iIndex].bindTexture();
-				glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
+				RENDERER->bindTexture(m_pCharTextures[iIndex]->getTextureID(),m_pCharTextures[iIndex]->getSamplerID(),
+				0,"texture0",m_pCharTextures[iIndex]->getTarget(),m_pCharTextures[iIndex]->getScale());
+
+				/*glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
 				mModelView = glm::scale(mModelView, glm::vec3(fScale));
-				shShaderProgram->setUniform("modelViewMatrix", mModelView);
-				// Draw character
-				glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
+				shShaderProgram->setUniform("modelViewMatrix", mModelView);*/
+
+				Matrix4 mModelView = Matrix4::identity();
+				Vector3 pos = Vector3(float(iCurX), float(iCurY), 0.0f);
+				mModelView = Matrix4::translation(pos);
+				
+				RENDERER->updateTransform(mModelView, m_offset);
+				//glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
+				RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, iIndex*4,4);
 			}
 
 			iCurX += (m_iAdvX[iIndex]-m_iBearingX[iIndex])*iPXSize/m_iLoadedPixelSize;
@@ -222,10 +258,21 @@ namespace glliba
 	
 	void CFreeTypeFont::update( double _deltaTime )
 	{
+		if ( !m_bIsVisible )
+		{
+			return;
+		}
+
+		if ( m_bNeedUpdate )
+		{
+			CNode::updateTransform( _deltaTime );
+			m_bNeedUpdate = false;
+		}
 	}
 
 	void CFreeTypeFont::init()
 	{
+		m_pShader = m_pShader = SHADER_MGR->createShader(vertShaderFont2D,fragShaderFont2D);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////

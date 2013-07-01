@@ -443,6 +443,7 @@ namespace glliba
 		CFreeTypeFont* obj = new CFreeTypeFont();
 		obj->loadSystemFont(_fontName);
 
+		CSceneManager::addNode(obj);
 		return obj;
 	}
 

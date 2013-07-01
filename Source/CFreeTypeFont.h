@@ -16,6 +16,7 @@ namespace glliba
 {
 	///////////////////////////////////////////////////////////////////////////////////////////
 	class CTexture;
+	class CShader;
 
 	const uint	nSize = 256U;
 
@@ -26,6 +27,8 @@ namespace glliba
 		SVertexData	m_vertices;
 		
 		CTexture*	m_pCharTextures[nSize];
+		CShader*	m_pShader;
+		Vector4		m_color;
 
 		uint		m_iCharWidth[nSize];
 		uint		m_iCharHeight[nSize];
@@ -35,11 +38,12 @@ namespace glliba
 		int			m_iBearingY[nSize];
 
 		int			m_iNewLine;
+		int			m_iLoadedPixelSize;
 
 		bool		m_bLoaded;
 		std::string m_string;
 
-		void		createChar( const FT_Face& _ftFace, uint _index );
+		void		createChar( const FT_Face& _ftFace, FT_UInt _glyphIndex );
 		void		loadFont( const std::string& _file );
 
 	public:
