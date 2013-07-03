@@ -189,7 +189,8 @@ namespace glliba
 		texture->m_sTextureData._eFormat = _format;
 		texture->m_sTextureData._eType   = _type;
 
-		RENDERER->initTexture2D( texture->m_iTextureID, texture->m_sTextureData, false );
+		RENDERER->initTexture2D( texture->m_iTextureID, texture->m_sTextureData, true );
+		
 
 		return texture;
 	}

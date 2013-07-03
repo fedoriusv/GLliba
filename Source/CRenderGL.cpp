@@ -163,6 +163,7 @@ namespace glliba
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 		glClearColor(m_backColor[0], m_backColor[1], m_backColor[2], 0.0f);
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -452,6 +453,11 @@ namespace glliba
 
 		location = glGetUniformLocation(m_iCurrentShader, "transform.viewPosition");
 		glUniform3fv(location, 1, &m_viewPosition[0]);
+
+
+		Matrix4 ortho = Vectormath::transpose(Matrix4::orthographic(0,m_iScreenWidth,0,m_iScreenHeight,-1,1));
+		location = glGetUniformLocation(m_iCurrentShader, "transform.orthoMatrix");
+		glUniformMatrix4fv(location, 1, GL_TRUE, &ortho[0][0]);
 
 		printOpenGLError("GLError update Transform: ");
 	}

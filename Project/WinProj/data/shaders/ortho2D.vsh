@@ -10,6 +10,7 @@ struct Transform
     mat4 projectionMatrix;
     mat4 normalMatrix;
     vec3 viewPosition;
+	mat4 orthoMatrix;
 };
 uniform Transform transform;
 
@@ -20,8 +21,8 @@ out vec2 TexCoord;
 
 void main()
 {
-	vec4 vertex   = transform.modelMatrix * vec4(position.x, position.y, 0.0 , 1.0);
-	gl_Position = transform.projectionMatrix * transform.viewMatrix* vertex;
+	vec4 vertex   = transform.modelMatrix * vec4(position.xy, 0.0 , 1.0);
+	gl_Position = transform.orthoMatrix * vertex;
 	
-	TexCoord = inCoord;
+	TexCoord = texCoord0;
 }

@@ -27,7 +27,7 @@ namespace glliba
 
 	CFreeTypeFont::CFreeTypeFont()
 		: m_bLoaded(false)
-		, m_string("s")
+		, m_string("string")
 		, m_color(1.0f)
 	{
 		for ( uint i = 0; i < nSize; ++i )
@@ -163,6 +163,7 @@ namespace glliba
 		m_iNewLine = max(m_iNewLine, int(_ftFace->glyph->metrics.height>>6));
 		
 		delete[] bData;
+		bData = nullptr;
 		
 
 		m_vertices.Vertex.vertices[_glyphIndex*4].setX(0.0f);
@@ -178,7 +179,7 @@ namespace glliba
 		m_vertices.Vertex.vertices[_glyphIndex*4+2].setZ(0.0f);
 
 		m_vertices.Vertex.vertices[_glyphIndex*4+3].setX(float(iTW));
-		m_vertices.Vertex.vertices[_glyphIndex*4+3].setY(float(-m_iAdvY[_glyphIndex])	);
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setY(float(-m_iAdvY[_glyphIndex]));
 		m_vertices.Vertex.vertices[_glyphIndex*4+3].setZ(0.0f);
 
 
@@ -204,30 +205,33 @@ namespace glliba
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		//m_pMaterial->bind();
 		RENDERER->bindShader( m_pShader->getShaderID() );
+
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		////m_pMaterial->bind();
 		
-		/*for (int i = 0; i < 128; ++i)
-		{
-			RENDERER->bindTexture(m_pCharTextures[i]->getTextureID(),m_pCharTextures[i]->getSamplerID(),
-				0,"texture0",m_pCharTextures[i]->getTarget(),m_pCharTextures[i]->getScale());
-		}*/
 		//RENDERER->updateTransform(m_worldMatrix, m_offset);
+		//RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices);
+		///*for (int i = 0; i < 128; ++i)
+		//{
+		//	RENDERER->bindTexture(m_pCharTextures[i]->getTextureID(),m_pCharTextures[i]->getSamplerID(),
+		//		0,"texture0",m_pCharTextures[i]->getTarget(),m_pCharTextures[i]->getScale());
+		//}*/
+		////RENDERER->updateTransform(m_worldMatrix, m_offset);
 
-		
-
-		
-		int iPXSize = -1;
-		int iCurX = m_position.getX();
-		int iCurY = m_position.getY();
+		int iFontSize = 24;
+		int y = RENDERER->getHeight() -10-iFontSize;;
+		int x = 20;
+		int iPXSize = iFontSize;
+		int iCurX = x, iCurY = y;
 		if(iPXSize == -1)iPXSize = m_iLoadedPixelSize;
 		float fScale = float(iPXSize)/float(m_iLoadedPixelSize);
 
-		for ( int chunk = 0; chunk < m_string.size(); ++ chunk)
+		for ( int chunk = 0; chunk < m_string.size(); ++chunk)
 		{
 			if(m_string[chunk] == '\n')
 			{
-				iCurX = m_position.getX();
+				iCurX = x;
 				iCurY -= m_iNewLine*iPXSize/m_iLoadedPixelSize;
 				continue;
 			}
@@ -238,22 +242,26 @@ namespace glliba
 				RENDERER->bindTexture(m_pCharTextures[iIndex]->getTextureID(),m_pCharTextures[iIndex]->getSamplerID(),
 				0,"texture0",m_pCharTextures[iIndex]->getTarget(),m_pCharTextures[iIndex]->getScale());
 
+				Matrix4 mModelView = Matrix4::identity();
+				Vector3 pos = Vector3(float(iCurX), float(iCurY), 0.0f);
+				mModelView = Vectormath::transpose(Matrix4::translation(pos));
+
+				RENDERER->updateTransform(mModelView, m_offset);
+
+				RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, iIndex*4,4);
+								
 				/*glm::mat4 mModelView = glm::translate(glm::mat4(1.0f), glm::vec3(float(iCurX), float(iCurY), 0.0f));
 				mModelView = glm::scale(mModelView, glm::vec3(fScale));
 				shShaderProgram->setUniform("modelViewMatrix", mModelView);*/
-
-				Matrix4 mModelView = Matrix4::identity();
-				Vector3 pos = Vector3(float(iCurX), float(iCurY), 0.0f);
-				mModelView = Matrix4::translation(pos);
-				
-				RENDERER->updateTransform(mModelView, m_offset);
+				// Draw character
 				//glDrawArrays(GL_TRIANGLE_STRIP, iIndex*4, 4);
-				RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, iIndex*4,4);
 			}
 
 			iCurX += (m_iAdvX[iIndex]-m_iBearingX[iIndex])*iPXSize/m_iLoadedPixelSize;
 		}
+
 		glDisable(GL_BLEND);
+		//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 	
 	void CFreeTypeFont::update( double _deltaTime )

@@ -36,7 +36,7 @@ void CApplication::init()
 	//TODO: Create objects--------------------------------------------------------------------
 	m_scene->setActiveDebug(true);
 
-	const std::string skytex[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
+	/*const std::string skytex[6] = { "data/skybox/jajlands/jajlands1_ft.jpg",
 									"data/skybox/jajlands/jajlands1_bk.jpg",
 									"data/skybox/jajlands/jajlands1_lf.jpg",
 									"data/skybox/jajlands/jajlands1_rt.jpg",
@@ -54,7 +54,7 @@ void CApplication::init()
 	static_cast<CShape*>(cube2)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 
 	CNode* cube3 = m_scene->addCube(0,Vector3(0.0f,1.0f,-3.0f));
-	static_cast<CShape*>(cube3)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+	static_cast<CShape*>(cube3)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
 
 	CNode* font = m_scene->addFreeTypeFont("font",0,0,10,"comic.ttf");
 	//CNode* font1 = m_scene->addFreeTypeFont("font",0,0,10,"comic.ttf");
