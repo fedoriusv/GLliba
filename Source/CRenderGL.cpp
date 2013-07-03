@@ -163,7 +163,7 @@ namespace glliba
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 		glClearColor(m_backColor[0], m_backColor[1], m_backColor[2], 0.0f);
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -220,11 +220,25 @@ namespace glliba
 		std::function<int(int)> formatFunc =
 			[](int _format)
 			{
-				return (_format == GL_RGB || _format == GL_BGR) ? GL_RGB : _format;
+				switch (_format)
+				{
+					case GL_RGB:
+					case GL_BGR:
+						return GL_RGB;
+					
+					case GL_RED:
+						return GL_R8;
+
+					default:
+						return _format;
+				};
+
+				return _format;
 			};
 
 		glTexImage2D( GL_TEXTURE_2D, 0, formatFunc(_sTextureData._eFormat), _sTextureData._iWidth,
 			_sTextureData._iHeight, 0, _sTextureData._eFormat, _sTextureData._eType, _sTextureData._data );
+
 		
 		if (_bMipMap)
 		{

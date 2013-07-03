@@ -56,7 +56,7 @@ void CApplication::init()
 	CNode* cube3 = m_scene->addCube(0,Vector3(0.0f,1.0f,-3.0f));
 	static_cast<CShape*>(cube3)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");*/
 
-	CNode* font = m_scene->addFreeTypeFont("font",0,0,10,"comic.ttf");
+	CNode* font = m_scene->addFreeTypeFont("font",0,0,10,"arial.ttf");
 	//CNode* font1 = m_scene->addFreeTypeFont("font",0,0,10,"comic.ttf");
 	
 	/*CModel* model0 = static_cast<CModel*>(m_scene->addModel("data/fullscene.f3d", NULL, Vector3(0,0,-5)));
@@ -70,7 +70,7 @@ void CApplication::init()
 	CNode* light = m_scene->addLight(0,"light0",Vector3(0,0,4));
 	
 	//Camera
-	CNode* Camera0 = m_scene->addFPSCamera(0,Vector3(0,1,0),Vector3(0,0,-3));
+	CNode* Camera0 = m_scene->addCamera(0,Vector3(0,1,0),Vector3(0,0,-3));
 	Camera0->setName("camera0");
 
 	//CNode* fog = m_scene->addFog();

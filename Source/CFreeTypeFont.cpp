@@ -27,7 +27,7 @@ namespace glliba
 
 	CFreeTypeFont::CFreeTypeFont()
 		: m_bLoaded(false)
-		, m_string("string")
+		, m_string("string\n d f sd^fejkssdhfherusdvvndfhbdfndfkllbndf\n The glyph image that is loaded in a glyph slot can be converted\n into a bitmap, either by using RENDER when loading it\n, or by calling FT_RenderGlyph. Each time you load a new glyph image, the previous\n one is erased from the glyph slot.")
 		, m_color(1.0f)
 	{
 		for ( uint i = 0; i < nSize; ++i )
@@ -99,10 +99,15 @@ namespace glliba
 		m_iLoadedPixelSize = iPXSize;
 		FT_Set_Pixel_Sizes(ftFace, iPXSize, iPXSize);
 
+		FT_Glyph_StrokeBorder(
+		//ftFace->style_flags = ftFace->style_flags | FT_STYLE_FLAG_ITALIC;
+		//if(FT_Set_Char_Size(m_FontFace, size << 6, size << 6, 96, 96) != 0)
+		//http://www.asciitable.com
+
 		FT_UInt num_chars = 128;
 		m_vertices.malloc(4 * num_chars);
 
-		for (uint glyphIndex = 0; glyphIndex < num_chars; ++glyphIndex)
+		for (uint glyphIndex = 32/*' '*/; glyphIndex < 126/*~*/; ++glyphIndex)
 		{
 			CFreeTypeFont::createChar( ftFace, glyphIndex );
 		}
@@ -120,26 +125,29 @@ namespace glliba
 	void CFreeTypeFont::createChar( const FT_Face& _ftFace, FT_UInt _glyphIndex )
 	{
 		FT_Load_Glyph(_ftFace, FT_Get_Char_Index(_ftFace, _glyphIndex), FT_LOAD_DEFAULT);
-
 		FT_Render_Glyph(_ftFace->glyph, FT_RENDER_MODE_NORMAL);
+		
 		FT_Bitmap* pBitmap = &_ftFace->glyph->bitmap;
 
 		uint width = pBitmap->width;
 		uint hight = pBitmap->rows;
 		
-		uint iTW = next_p2(width);
-		uint iTH = next_p2(hight);
+		//uint iTW = next_p2(width);
+		//uint iTH = next_p2(hight);
 
-		GLubyte* bData = new GLubyte[iTW*iTH];
-		
+		//GLubyte* bData = new GLubyte[iTW*iTH];
 		// Copy glyph data and add dark pixels elsewhere
-		for ( uint ch = 0; ch < iTH; ++ ch)
+		/*for ( uint ch = 0; ch < iTH; ++ ch)
 		{
 			for ( uint cw = 0; cw < iTW; ++cw )
 			{
 				bData[ch*iTW+cw] = (ch >= hight || cw >= width) ? 0 : pBitmap->buffer[(hight-ch-1)*width+cw];
 			}
-		}
+		}*/
+
+		unsigned int * bData = new unsigned int[width*hight];
+		memset(bData, NULL, width * hight * sizeof(unsigned char));
+		memcpy(bData, pBitmap->buffer, sizeof(unsigned char) * width * hight);
 
 		//texture
 		if (m_pCharTextures[_glyphIndex])
@@ -147,7 +155,7 @@ namespace glliba
 			delete m_pCharTextures[_glyphIndex];
 			m_pCharTextures[_glyphIndex] = nullptr;
 		}
-		m_pCharTextures[_glyphIndex] = TEXTURE_MGR->createTexture2DFromData(iTW,iTH,IF_DEPTH_COMPONENT,IT_UNSIGNED_BYTE,bData);
+		m_pCharTextures[_glyphIndex] = TEXTURE_MGR->createTexture2DFromData(width,hight,IF_DEPTH_COMPONENT,IT_UNSIGNED_BYTE,bData);
 		m_pCharTextures[_glyphIndex]->getSampler()->setFilterType(FT_LINEAR, FT_LINEAR);
 		m_pCharTextures[_glyphIndex]->getSampler()->setWrapType(WT_CLAMP_TO_EDGE);
 
@@ -167,23 +175,23 @@ namespace glliba
 		
 
 		m_vertices.Vertex.vertices[_glyphIndex*4].setX(0.0f);
-		m_vertices.Vertex.vertices[_glyphIndex*4].setY(float(-m_iAdvY[_glyphIndex]+iTH));
+		m_vertices.Vertex.vertices[_glyphIndex*4].setY(float(-m_iAdvY[_glyphIndex]+hight));
 		m_vertices.Vertex.vertices[_glyphIndex*4].setZ(0.0f);
 
 		m_vertices.Vertex.vertices[_glyphIndex*4+1].setX(0.0f);
 		m_vertices.Vertex.vertices[_glyphIndex*4+1].setY(float(-m_iAdvY[_glyphIndex]));
 		m_vertices.Vertex.vertices[_glyphIndex*4+1].setZ(0.0f);
 
-		m_vertices.Vertex.vertices[_glyphIndex*4+2].setX(float(iTW));
-		m_vertices.Vertex.vertices[_glyphIndex*4+2].setY(float(-m_iAdvY[_glyphIndex]+iTH));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setX(float(width));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setY(float(-m_iAdvY[_glyphIndex]+hight));
 		m_vertices.Vertex.vertices[_glyphIndex*4+2].setZ(0.0f);
 
-		m_vertices.Vertex.vertices[_glyphIndex*4+3].setX(float(iTW));
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setX(float(width));
 		m_vertices.Vertex.vertices[_glyphIndex*4+3].setY(float(-m_iAdvY[_glyphIndex]));
 		m_vertices.Vertex.vertices[_glyphIndex*4+3].setZ(0.0f);
 
 
-		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setX(0.0f);
+		/*m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setX(0.0f);
 		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setY(1.0f);
 
 		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+1].setX(0.0f);
@@ -193,7 +201,19 @@ namespace glliba
 		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+2].setY(1.0f);
 
 		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setX(1.0f);
-		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setY(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setY(0.0f);*/
+
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setX(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4].setY(0.0f);
+
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+1].setX(0.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+1].setY(1.0f);
+
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+2].setX(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+2].setY(0.0f);
+
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setX(1.0f);
+		m_vertices.TexCoord.at(0).vertices[_glyphIndex*4+3].setY(1.0f);
 	}
 
 	void CFreeTypeFont::render()
@@ -219,7 +239,7 @@ namespace glliba
 		//}*/
 		////RENDERER->updateTransform(m_worldMatrix, m_offset);
 
-		int iFontSize = 24;
+		int iFontSize = 32;
 		int y = RENDERER->getHeight() -10-iFontSize;;
 		int x = 20;
 		int iPXSize = iFontSize;
@@ -243,10 +263,12 @@ namespace glliba
 				0,"texture0",m_pCharTextures[iIndex]->getTarget(),m_pCharTextures[iIndex]->getScale());
 
 				Matrix4 mModelView = Matrix4::identity();
-				Vector3 pos = Vector3(float(iCurX), float(iCurY), 0.0f);
-				mModelView = Vectormath::transpose(Matrix4::translation(pos));
+				m_position = Vector3(float(iCurX), float(iCurY), 0.0f);
+				m_scale = Vector3(fScale,fScale,1.0f);
+				CNode::updateTransform( 0 );
+				//mModelView = Vectormath::transpose(Matrix4::translation(pos));
 
-				RENDERER->updateTransform(mModelView, m_offset);
+				RENDERER->updateTransform(m_worldMatrix, m_offset);
 
 				RENDERER->drawSimple( DM_TRIANGLE_STRIP, m_vertices, iIndex*4,4);
 								
