@@ -1,10 +1,11 @@
 #ifndef _CFREETYPEFONT_H_
 #define _CFREETYPEFONT_H_
 
-#include "CNode.h"
+#include "CFont.h"
 
 #include <ft2build.h> 
 #include FT_FREETYPE_H
+#include FT_STROKER_H
 
 #ifdef _DEBUG
 #	pragma comment(lib, "freetype250_D.lib")
@@ -15,16 +16,32 @@
 namespace glliba
 {
 	///////////////////////////////////////////////////////////////////////////////////////////
+
+	struct SCharDescription
+	{
+		uint	_iCharWidth;
+		uint	_iCharHeight;
+		int		_iAdvX;
+		int		_iAdvY;
+		int		_iBearingX;
+		int		_iBearingY;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////
+
 	class CTexture;
 	class CShader;
 
 	const uint	nSize = 256U;
 
-	class CFreeTypeFont : public CNode
+	class CFreeTypeFont : public CFont
 	{
 	private:
 
 		SVertexData	m_vertices;
+
+		FT_Library	m_Library;
+		FT_Face		m_Face;
 		
 		CTexture*	m_pCharTextures[nSize];
 		CShader*	m_pShader;
@@ -40,15 +57,14 @@ namespace glliba
 		int			m_iNewLine;
 		int			m_iLoadedPixelSize;
 
-		bool		m_bLoaded;
-		std::string m_string;
 
-		void		createChar( const FT_Face& _ftFace, FT_UInt _glyphIndex );
+
+		void		createChar( const  const FT_Face& _ftFace, FT_UInt _glyphIndex );
 		void		loadFont( const std::string& _file );
 
 	public:
 
-		CFreeTypeFont();
+		CFreeTypeFont( CNode* _parent = nullptr );
 		virtual		~CFreeTypeFont();
 
 		void		loadSystemFont( const std::string& _name );
@@ -57,6 +73,7 @@ namespace glliba
 		void		update( double _deltaTime );
 
 		void		init();
+
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////

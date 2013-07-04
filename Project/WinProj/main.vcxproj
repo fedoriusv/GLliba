@@ -247,6 +247,8 @@
     <ClCompile Include="..\..\Source\CCylinderShape.cpp" />
     <ClCompile Include="..\..\Source\CDCCamera.cpp" />
     <ClCompile Include="..\..\Source\CFog.cpp" />
+    <ClCompile Include="..\..\Source\CFont.cpp" />
+    <ClCompile Include="..\..\Source\CFontsManager.cpp" />
     <ClCompile Include="..\..\Source\CFPSCamera.cpp" />
     <ClCompile Include="..\..\Source\CFreeTypeFont.cpp" />
     <ClCompile Include="..\..\Source\CImage.cpp" />
@@ -296,6 +298,7 @@
     <ClInclude Include="..\..\Source\CCylinderShape.h" />
     <ClInclude Include="..\..\Source\CDCCamera.h" />
     <ClInclude Include="..\..\Source\CFog.h" />
+    <ClInclude Include="..\..\Source\CFont.h" />
     <ClInclude Include="..\..\Source\CFPSCamera.h" />
     <ClInclude Include="..\..\Source\CFreeTypeFont.h" />
     <ClInclude Include="..\..\Source\CImage.h" />
@@ -327,12 +330,14 @@
     <ClInclude Include="..\..\Source\CTorusShape.h" />
     <ClInclude Include="..\..\Source\CShader.h" />
     <ClInclude Include="..\..\Source\CWinOpenGL.h" />
+    <ClInclude Include="..\..\Source\CFontsManager.h" />
     <ClInclude Include="..\..\Source\GL\CShaderGL.h" />
     <ClInclude Include="..\..\Source\KeyCodes.h" />
     <ClInclude Include="..\..\Source\CResourceManager.h" />
     <ClInclude Include="..\..\Source\CSingleton.h" />
     <ClInclude Include="..\..\Source\CShaderManager.h" />
     <ClInclude Include="..\..\Source\Types.h" />
+    <ClInclude Include="..\..\Source\Utils.h" />
     <ClInclude Include="..\..\Source\Vertex.h" />
     <ClInclude Include="..\..\Source\CDiskShape.h" />
     <ClInclude Include="..\..\Source\CHeightMap.h" />

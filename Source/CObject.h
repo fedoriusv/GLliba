@@ -1,16 +1,7 @@
 #ifndef _COBJECT_H_
 #define _COBJECT_H_
 
-#include <vector>
-#include <map>
-#include <algorithm>
-#include "VectorMath\vectormath.h"
-
-#include "CLogger.h"
-
-using namespace Vectormath;
-
-typedef unsigned int	uint;
+#include "Types.h"
 
 namespace glliba
 {

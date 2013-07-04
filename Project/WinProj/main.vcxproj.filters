@@ -222,6 +222,12 @@
     <ClCompile Include="..\..\Source\CFreeTypeFont.cpp">
       <Filter>Source Files\GLLiba\Object\Nodes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\CFontsManager.cpp">
+      <Filter>Source Files\GLLiba\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\CFont.cpp">
+      <Filter>Source Files\GLLiba\Object\Nodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\CRender.h">
@@ -369,6 +375,15 @@
       <Filter>Header Files\GLLiba\Managers</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\CFreeTypeFont.h">
+      <Filter>Header Files\GLLiba\Object\Nodes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CFontsManager.h">
+      <Filter>Header Files\GLLiba\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\CFont.h">
       <Filter>Header Files\GLLiba\Object\Nodes</Filter>
     </ClInclude>
   </ItemGroup>

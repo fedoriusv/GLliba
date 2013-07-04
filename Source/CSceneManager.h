@@ -137,10 +137,11 @@ namespace glliba
 
 		CNode*				addFreeTypeFont(
 								const std::string& _string,
-								const uint& _posX,
-								const uint& _posY,
-								const uint& _size,
-								const std::string& _fontName );
+								CNode* _parent = NULL, 
+								const Vector3& _pos = Vector3(0.0f),
+								const uint& _size = 24U,
+								const Vector4& _color = Vector4(1.0f),
+								const std::string& _fontName = "arial" );
 
 	};
 

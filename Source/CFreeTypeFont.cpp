@@ -25,9 +25,8 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////
 
-	CFreeTypeFont::CFreeTypeFont()
-		: m_bLoaded(false)
-		, m_string("string\n d f sd^fejkssdhfherusdvvndfhbdfndfkllbndf\n The glyph image that is loaded in a glyph slot can be converted\n into a bitmap, either by using RENDER when loading it\n, or by calling FT_RenderGlyph. Each time you load a new glyph image, the previous\n one is erased from the glyph slot.")
+	CFreeTypeFont::CFreeTypeFont( CNode* _parent )
+		: CFont(_parent)
 		, m_color(1.0f)
 	{
 		for ( uint i = 0; i < nSize; ++i )
@@ -37,6 +36,10 @@ namespace glliba
 
 		m_eTypeNode = TN_FONT;
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
+
+		CFreeTypeFont::init();
+		m_string = "string\n d f sd^fejkssdhfherusdvvndfhbdfndfkllbndf\n The glyph image that is loaded in a glyph slot can be converted\n into a bitmap, either by using RENDER when loading it\n, or by calling FT_RenderGlyph. Each time you load a new glyph image, the previous\n one is erased from the glyph slot.";
+		
 	}
 
 
@@ -73,17 +76,14 @@ namespace glliba
 			return;
 		}
 
-		FT_Library ftLib;
-		FT_Face ftFace;
-
-		BOOL bError = FT_Init_FreeType( &ftLib );
+			BOOL bError = FT_Init_FreeType( &m_Library );
 		if ( bError )
 		{
 			ASSERT( false || "Error Init Free Type" );
 			return;
 		}
 
-		bError = FT_New_Face(ftLib, _file.c_str(), 0, &ftFace); 
+		bError = FT_New_Face(m_Library, _file.c_str(), 0, &m_Face); 
 		if ( bError == FT_Err_Unknown_File_Format ) 
 		{ 
 			ASSERT( false || "Unknown Font File Format" );
@@ -97,9 +97,8 @@ namespace glliba
 
 		int iPXSize = 32;
 		m_iLoadedPixelSize = iPXSize;
-		FT_Set_Pixel_Sizes(ftFace, iPXSize, iPXSize);
+		FT_Set_Pixel_Sizes(m_Face, iPXSize, iPXSize);
 
-		FT_Glyph_StrokeBorder(
 		//ftFace->style_flags = ftFace->style_flags | FT_STYLE_FLAG_ITALIC;
 		//if(FT_Set_Char_Size(m_FontFace, size << 6, size << 6, 96, 96) != 0)
 		//http://www.asciitable.com
@@ -109,25 +108,32 @@ namespace glliba
 
 		for (uint glyphIndex = 32/*' '*/; glyphIndex < 126/*~*/; ++glyphIndex)
 		{
-			CFreeTypeFont::createChar( ftFace, glyphIndex );
+			CFreeTypeFont::createChar( m_Face, glyphIndex );
 		}
 		m_bLoaded = true;
 
 		RENDERER->initBufferObjects(m_vertices);
 		//m_vertices.clear();
 
-		FT_Done_Face(ftFace);
-		FT_Done_FreeType(ftLib);
+		FT_Done_Face(m_Face);
+		FT_Done_FreeType(m_Library);
 
-		CFreeTypeFont::init();
+		
 	}
 
-	void CFreeTypeFont::createChar( const FT_Face& _ftFace, FT_UInt _glyphIndex )
+	void CFreeTypeFont::createChar( const FT_Face& _ftFace1, FT_UInt _glyphIndex )
 	{
-		FT_Load_Glyph(_ftFace, FT_Get_Char_Index(_ftFace, _glyphIndex), FT_LOAD_DEFAULT);
-		FT_Render_Glyph(_ftFace->glyph, FT_RENDER_MODE_NORMAL);
-		
-		FT_Bitmap* pBitmap = &_ftFace->glyph->bitmap;
+		FT_Load_Glyph(m_Face, FT_Get_Char_Index(m_Face, _glyphIndex), FT_LOAD_DEFAULT);
+		FT_Render_Glyph(m_Face->glyph, FT_RENDER_MODE_NORMAL);
+
+		FT_Stroker stroker;
+		FT_Stroker_New( m_Library, &stroker );
+
+		FT_Glyph glyph;
+		FT_Get_Glyph( m_Face->glyph, &glyph);
+		FT_Glyph_StrokeBorder( &glyph, stroker, 0, 5 );
+
+		FT_Bitmap* pBitmap = &m_Face->glyph->bitmap;
 
 		uint width = pBitmap->width;
 		uint hight = pBitmap->rows;
@@ -160,15 +166,15 @@ namespace glliba
 		m_pCharTextures[_glyphIndex]->getSampler()->setWrapType(WT_CLAMP_TO_EDGE);
 
 		// Calculate glyph data
-		m_iAdvX[_glyphIndex] = _ftFace->glyph->advance.x>>6;
-		m_iBearingX[_glyphIndex] = _ftFace->glyph->metrics.horiBearingX>>6;
-		m_iCharWidth[_glyphIndex] = _ftFace->glyph->metrics.width>>6;
+		m_iAdvX[_glyphIndex] = m_Face->glyph->advance.x>>6;
+		m_iBearingX[_glyphIndex] = m_Face->glyph->metrics.horiBearingX>>6;
+		m_iCharWidth[_glyphIndex] = m_Face->glyph->metrics.width>>6;
 
-		m_iAdvY[_glyphIndex] = (_ftFace->glyph->metrics.height - _ftFace->glyph->metrics.horiBearingY)>>6;
-		m_iBearingY[_glyphIndex] = _ftFace->glyph->metrics.horiBearingY>>6;
-		m_iCharHeight[_glyphIndex] = _ftFace->glyph->metrics.height>>6;
+		m_iAdvY[_glyphIndex] = (m_Face->glyph->metrics.height - m_Face->glyph->metrics.horiBearingY)>>6;
+		m_iBearingY[_glyphIndex] = m_Face->glyph->metrics.horiBearingY>>6;
+		m_iCharHeight[_glyphIndex] = m_Face->glyph->metrics.height>>6;
 
-		m_iNewLine = max(m_iNewLine, int(_ftFace->glyph->metrics.height>>6));
+		m_iNewLine = max(m_iNewLine, int(m_Face->glyph->metrics.height>>6));
 		
 		delete[] bData;
 		bData = nullptr;

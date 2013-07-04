@@ -437,10 +437,14 @@ namespace glliba
 	}
 
 
-	CNode* CSceneManager::addFreeTypeFont( const std::string& _string, const uint& _posX, const uint& _posY,
-		const uint& _size, const std::string& _fontName )
+	CNode* CSceneManager::addFreeTypeFont( const std::string& _string, CNode* _parent, const Vector3& _pos, const uint& _size,
+		const Vector4& _color, const std::string& _fontName )
 	{
-		CFreeTypeFont* obj = new CFreeTypeFont();
+		CFreeTypeFont* obj = new CFreeTypeFont(_parent);
+		obj->setFontString(_string);
+		obj->setPosition(_pos);
+		obj->setFontSize(_size);
+		//obj->setFontColor();
 		obj->loadSystemFont(_fontName);
 
 		CSceneManager::addNode(obj);
