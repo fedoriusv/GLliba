@@ -28,6 +28,10 @@ namespace glliba
 	CFreeTypeFont::CFreeTypeFont( CNode* _parent )
 		: CFont(_parent)
 		, m_color(1.0f)
+		, m_xOffTextures(0)
+		, m_yOffTextures(0)
+		, m_currentTextureIndx(0)
+
 	{
 		for ( uint i = 0; i < nSize; ++i )
 		{
@@ -99,6 +103,11 @@ namespace glliba
 		m_iLoadedPixelSize = iPXSize;
 		FT_Set_Pixel_Sizes(m_Face, iPXSize, iPXSize);
 
+		loadCharToMap('.');
+		loadCharToMap('a');
+		loadCharToMap('b');
+		loadCharToMap('a');
+
 		//ftFace->style_flags = ftFace->style_flags | FT_STYLE_FLAG_ITALIC;
 		//if(FT_Set_Char_Size(m_FontFace, size << 6, size << 6, 96, 96) != 0)
 		//http://www.asciitable.com
@@ -118,8 +127,137 @@ namespace glliba
 		FT_Done_Face(m_Face);
 		FT_Done_FreeType(m_Library);
 
-		
 	}
+
+
+	bool CFreeTypeFont::loadCharToMap( int _char )
+	{
+		if (m_charInfo.find(_char) != m_charInfo.end())
+		{
+			return true;
+		}
+
+		static float	outline_thikness = 0 * 64;
+		FT_Glyph		glyph;
+		FT_GlyphSlot	glyphSlot;
+		FT_Stroker		stroker;
+
+		if (FT_Load_Glyph(m_Face, FT_Get_Char_Index(m_Face, _char), FT_LOAD_DEFAULT))
+		{
+			return false;
+		}
+		glyphSlot = m_Face->glyph;
+		
+		if(FT_Load_Char(m_Face, FT_Get_Char_Index(m_Face, _char), FT_LOAD_RENDER ))
+		{
+			return false;
+		}
+
+		if(FT_Stroker_New( m_Library, &stroker ))
+		{
+			return false;
+		}
+
+		FT_Stroker_Set( stroker, outline_thikness, FT_STROKER_LINECAP_ROUND, FT_STROKER_LINEJOIN_ROUND, 0);
+		if(FT_Get_Glyph( m_Face->glyph, &glyph))
+		{
+			return false;
+		}
+
+		//if(FT_Glyph_StrokeBorder( &glyph, stroker, 0, 1 ))//FT_Glyph_Stroke( &glyph, stroker, 1 ))
+		//{
+		//	return false;
+		//}
+       
+		if(FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL/*FT_RENDER_MODE_LCD*/, 0, 1))
+		{
+			return false;
+		}
+
+		FT_BitmapGlyph ft_bitmap_glyph = (FT_BitmapGlyph) glyph;
+		FT_Stroker_Done(stroker);
+		
+		int scale = 1.0f;
+		int fontHeight = 1.0f;
+
+		SCharDesc charDscr;
+		charDscr._iAdvX = (glyphSlot->advance.x + outline_thikness) / 64 * scale;
+		charDscr._iBearingX = ft_bitmap_glyph->left * scale;
+		charDscr._iBearingY = fontHeight / 1.2 - ft_bitmap_glyph->top * scale;
+
+		int width = next_p2( ft_bitmap_glyph->bitmap.width );
+		int height = next_p2( ft_bitmap_glyph->bitmap.rows );
+		unsigned char* expanded_data = new unsigned char[2 * width * height];
+		for(int j = 0; j < height; j++) 
+		{
+			for(int i = 0; i < width; i++)
+			{
+				expanded_data[2 * (i + j * width)] = expanded_data[2 * (i + j * width) + 1] =
+					(i >= ft_bitmap_glyph->bitmap.width || j >= ft_bitmap_glyph->bitmap.rows) ?
+					0 : ft_bitmap_glyph->bitmap.buffer[i + ft_bitmap_glyph->bitmap.width * j];
+			}
+		}
+
+		CFreeTypeFont::copyToTexture(width,height,expanded_data,&charDscr);
+
+		m_charInfo[_char] = charDscr;
+
+		delete[] expanded_data;
+		FT_Done_Glyph( glyph );
+
+		return true;
+	}
+
+
+	void CFreeTypeFont::copyToTexture( uint _width, uint _height, uchar* _data, SCharDesc* _charDesc )
+	{
+		m_iTexWidth = 1024;
+		m_iTexHight = 1024;
+
+		static int lineHeight;
+		if (lineHeight < _height) lineHeight = _height;
+
+		if (m_xOffTextures + _width >= m_iTexWidth)
+		{
+			m_xOffTextures = 0;
+			m_yOffTextures += lineHeight + 1;
+		}
+
+		if (m_yOffTextures + lineHeight >= m_iTexHight)
+		{
+			m_yOffTextures = 0;
+			m_currentTextureIndx++;
+		}
+
+		if (m_currentTextureIndx >= m_charMaterial.size())
+		{	// Create big texture
+			//char textureId[64];
+			//sprintf(textureId, "textureFont%s%d", m_FontFileName.c_str(), m_currentTextureIndx);
+
+			unsigned char* textureData = new GLubyte[2 * m_iTexWidth * m_iTexHight];
+			memset(textureData, 0, 2 * m_iTexWidth * m_iTexHight);
+
+			CTexture* texture = TEXTURE_MGR->createTexture2DFromData(m_iTexWidth,m_iTexHight,IF_DEPTH_COMPONENT,IT_UNSIGNED_BYTE,textureData);
+			texture->getSampler()->setFilterType(FT_LINEAR, FT_LINEAR);
+			texture->getSampler()->setWrapType(WT_CLAMP_TO_EDGE);
+
+			m_charMaterial.push_back(texture);
+
+			delete[] textureData;
+		}
+
+		RENDERER->copyToTexture2D(m_charMaterial[m_currentTextureIndx]->getTextureID(),m_xOffTextures, m_yOffTextures, _width, _height,_data);
+
+		// Apply texture coord
+		_charDesc->_iBearingX = m_xOffTextures;
+		_charDesc->_iBearingY = m_yOffTextures;
+		_charDesc->_iWidth = _width;
+		_charDesc->_iHeight = _height;
+		_charDesc->_page = m_currentTextureIndx;
+
+		m_xOffTextures += _width + 1;
+	}
+
 
 	void CFreeTypeFont::createChar( const FT_Face& _ftFace1, FT_UInt _glyphIndex )
 	{

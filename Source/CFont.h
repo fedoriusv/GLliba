@@ -19,6 +19,9 @@ namespace glliba
 		std::string	m_string;
 		uint		m_iSize;
 
+		short		m_iTexWidth;
+		short		m_iTexHight;
+
 		virtual void loadFont( const std::string& _file ) = 0;
 
 	public:

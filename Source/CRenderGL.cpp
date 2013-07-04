@@ -278,6 +278,19 @@ namespace glliba
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	void CRenderGL::copyToTexture2D( uint _textureID, int _xOff, int _yOff, int _width, int _height, void* _data)
+	{
+		ASSERT(glIsTexture(_textureID ) || "Invalid texture index");
+		glBindTexture( GL_TEXTURE_2D, _textureID );
+		
+		glTexSubImage2D(GL_TEXTURE_2D, 0, _xOff, _yOff, _width, _height, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, _data);
+
+		glBindTexture( GL_TEXTURE_2D, 0 );
+
+		printOpenGLError( "GLError copy Texture: ");
+	}
+
+
 	void CRenderGL::initRenderTarget( uint& _iFrameBuffID, uint& _itextireID, uint _iWidth, uint _iHeight )
 	{
 		glGenTextures( 1, &_itextireID );

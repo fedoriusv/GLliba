@@ -97,6 +97,8 @@ namespace glliba
 								uint&				_shaderID,
 								std::vector<uint>&	_shaderProgramID )	= 0;
 
+		virtual void		copyToTexture2D( uint _textureID, int _xOff, int _yOff, int _width, int _height, void* _data) = 0;
+
 		//render objects
 		//----------------------------------------------------------------------------------------
 

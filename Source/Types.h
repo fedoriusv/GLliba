@@ -13,7 +13,8 @@ namespace glliba
 {
 	using namespace Vectormath;
 
-	typedef unsigned int uint;
+	typedef unsigned int	uint;
+	typedef unsigned char	uchar;
 	
 	typedef std::vector<std::string>	StringList;
 }

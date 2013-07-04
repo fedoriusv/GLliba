@@ -79,6 +79,8 @@ namespace glliba
 							uint&				_shaderID,
 							std::vector<uint>&	_shaderProgramID );
 
+		void			copyToTexture2D( uint _textureID, int _xOff, int _yOff, int _width, int _height, void* _data);
+
 		//render objects
 		//---------------------------------------------------------------------------------------------
 
