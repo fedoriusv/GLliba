@@ -72,26 +72,26 @@ namespace glliba
 	{
 		if (m_bLoaded)
 		{
-			ASSERT( false || "Already loaded" );
+			ASSERT( false && "Already loaded" );
 			return;
 		}
 
-			BOOL bError = FT_Init_FreeType( &m_Library );
+		BOOL bError = FT_Init_FreeType( &m_Library );
 		if ( bError )
 		{
-			ASSERT( false || "Error Init Free Type" );
+			ASSERT( false && "Error Init Free Type" );
 			return;
 		}
 
 		bError = FT_New_Face(m_Library, _file.c_str(), 0, &m_Face); 
 		if ( bError == FT_Err_Unknown_File_Format ) 
 		{ 
-			ASSERT( false || "Unknown Font File Format" );
+			ASSERT( false && "Unknown Font File Format" );
 			return;
 		} 
 		else if ( bError ) 
 		{ 
-			ASSERT( false || "Font Error" );
+			ASSERT( false && "Font Error" );
 			return;
 		}
 

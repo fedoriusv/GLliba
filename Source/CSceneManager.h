@@ -141,7 +141,7 @@ namespace glliba
 								const Vector3& _pos = Vector3(0.0f),
 								const uint& _size = 24U,
 								const Vector4& _color = Vector4(1.0f),
-								const std::string& _fontName = "arial" );
+								const std::string& _fontName = "arial.ttf" );
 
 	};
 
