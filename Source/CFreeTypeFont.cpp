@@ -40,10 +40,12 @@ namespace glliba
 
 		m_eTypeNode = TN_FONT;
 		LOG_CONSOLE( "Initialize node " << type_node[m_eTypeNode].c_str());
-
+		
+		m_pShader = m_pShader = SHADER_MGR->createShader(vertShaderFont2D,fragShaderFont2D);
 		CFreeTypeFont::init();
 		m_string = "string\n d f sd^fejkssdhfherusdvvndfhbdfndfkllbndf\n The glyph image that is loaded in a glyph slot can be converted\n into a bitmap, either by using RENDER when loading it\n, or by calling FT_RenderGlyph. Each time you load a new glyph image, the previous\n one is erased from the glyph slot.";
 		
+
 	}
 
 
@@ -451,7 +453,37 @@ namespace glliba
 
 	void CFreeTypeFont::init()
 	{
-		m_pShader = m_pShader = SHADER_MGR->createShader(vertShaderFont2D,fragShaderFont2D);
+		m_vertices.malloc(m_charInfo.size()*4);
+
+		int index = -1;
+		std::map<int,SCharDesc>::const_iterator iter = m_charInfo.begin();
+		while (iter != m_charInfo.end())
+		{
+			index++;
+
+			m_vertices.Vertex.vertices[index*4][0] = 0.0f;
+			m_vertices.Vertex.vertices[index*4][1] = float(-m_iAdvY[_glyphIndex]+hight);
+			m_vertices.Vertex.vertices[index*4][2] = 0.0f;
+
+			m_vertices.Vertex.vertices[_glyphIndex*4+1].setX(0.0f);
+			m_vertices.Vertex.vertices[_glyphIndex*4+1].setY(float(-m_iAdvY[_glyphIndex]));
+			m_vertices.Vertex.vertices[_glyphIndex*4+1].setZ(0.0f);
+
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setX(float(width));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setY(float(-m_iAdvY[_glyphIndex]+hight));
+		m_vertices.Vertex.vertices[_glyphIndex*4+2].setZ(0.0f);
+
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setX(float(width));
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setY(float(-m_iAdvY[_glyphIndex]));
+		m_vertices.Vertex.vertices[_glyphIndex*4+3].setZ(0.0f);
+
+
+			(*iter).second.
+		
+			iter++;
+		}
+
+		m_vertices.clear();
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////
