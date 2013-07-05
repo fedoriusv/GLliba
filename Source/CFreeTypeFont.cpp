@@ -103,10 +103,15 @@ namespace glliba
 		m_iLoadedPixelSize = iPXSize;
 		FT_Set_Pixel_Sizes(m_Face, iPXSize, iPXSize);
 
-		loadCharToMap('.');
+		loadCharToMap('A');
 		loadCharToMap('a');
 		loadCharToMap('b');
-		loadCharToMap('a');
+		loadCharToMap('c');
+		loadCharToMap('d');
+		loadCharToMap('e');
+		loadCharToMap('f');
+		loadCharToMap('g');
+		loadCharToMap('h');
 
 		//ftFace->style_flags = ftFace->style_flags | FT_STYLE_FLAG_ITALIC;
 		//if(FT_Set_Char_Size(m_FontFace, size << 6, size << 6, 96, 96) != 0)
@@ -142,13 +147,13 @@ namespace glliba
 		FT_GlyphSlot	glyphSlot;
 		FT_Stroker		stroker;
 
-		if (FT_Load_Glyph(m_Face, FT_Get_Char_Index(m_Face, _char), FT_LOAD_DEFAULT))
+		if (FT_Load_Glyph(m_Face, _char/*FT_Get_Char_Index(m_Face, _char)*/, FT_LOAD_DEFAULT))
 		{
 			return false;
 		}
 		glyphSlot = m_Face->glyph;
 		
-		if(FT_Load_Char(m_Face, FT_Get_Char_Index(m_Face, _char), FT_LOAD_RENDER ))
+		if(FT_Load_Char(m_Face, _char/*FT_Get_Char_Index(m_Face, _char)*/, FT_LOAD_RENDER ))
 		{
 			return false;
 		}
@@ -164,10 +169,10 @@ namespace glliba
 			return false;
 		}
 
-		//if(FT_Glyph_StrokeBorder( &glyph, stroker, 0, 1 ))//FT_Glyph_Stroke( &glyph, stroker, 1 ))
-		//{
-		//	return false;
-		//}
+		if(FT_Glyph_StrokeBorder( &glyph, stroker, 0, 1 ))//FT_Glyph_Stroke( &glyph, stroker, 1 ))
+		{
+//			return false;
+		}
        
 		if(FT_Glyph_To_Bitmap( &glyph, FT_RENDER_MODE_NORMAL/*FT_RENDER_MODE_LCD*/, 0, 1))
 		{
@@ -211,8 +216,8 @@ namespace glliba
 
 	void CFreeTypeFont::copyToTexture( uint _width, uint _height, uchar* _data, SCharDesc* _charDesc )
 	{
-		m_iTexWidth = 1024;
-		m_iTexHight = 1024;
+		m_iTexWidth = 128;
+		m_iTexHight = 128;
 
 		static int lineHeight;
 		if (lineHeight < _height) lineHeight = _height;

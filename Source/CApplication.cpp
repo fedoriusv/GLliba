@@ -42,15 +42,15 @@ void CApplication::init()
 									"data/skybox/jajlands/jajlands1_rt.jpg",
 									"data/skybox/jajlands/jajlands1_up.jpg",
 									"data/skybox/jajlands/jajlands1_dn.jpg", };
-	CSkyBox* skybox = static_cast<CSkyBox*>(m_scene->addSkyBox(skytex));
+	CSkyBox* skybox = static_cast<CSkyBox*>(m_scene->addSkyBox(skytex));*/
 
 
-	CNode* cube1 = m_scene->addCube(0,Vector3(-1.0f,1.0f,-2.0f));
+	CNode* cube1 = m_scene->addCube(0,Vector3(0.0f,0.5f,-2.0f));
 	cube1->setName("cube0");
-	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
+	static_cast<CShape*>(cube1)->getMaterial()->setTexture(0,"texture0","Data/NeHe.bmp");
 	static_cast<CShape*>(cube1)->getMaterial()->setTransparency(0.0f);
 
-	CNode* cube2 = m_scene->addCube(0,Vector3(-1.0f,1.0f,0.0f));
+	/*CNode* cube2 = m_scene->addCube(0,Vector3(-1.0f,1.0f,0.0f));
 	static_cast<CShape*>(cube2)->getMaterial()->setTexture(0,"texture0","Data/Stone.jpg");
 
 	CNode* cube3 = m_scene->addCube(0,Vector3(0.0f,1.0f,-3.0f));

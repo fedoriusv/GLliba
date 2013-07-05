@@ -602,10 +602,10 @@ namespace glliba
 		const std::string& _attribute, const TEXTURE_TYPE _type, Vector2& _scale )
 	{
 		ASSERT((uint)m_iMaxTextureUnits >= _activeTexture || "Not supported count texture units");
-
+		
 		glActiveTexture(GL_TEXTURE0 + _activeTexture);
-		glBindTexture( _type, _textureID );
-		glBindSampler( _samplerID, _textureID );
+		glBindTexture( _type, 2 );
+		glBindSampler( _samplerID, 2 );
 		
 		GLint location = -1;
 		std::string strAttribute = "material." + _attribute;

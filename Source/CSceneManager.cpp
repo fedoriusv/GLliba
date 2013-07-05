@@ -447,7 +447,7 @@ namespace glliba
 		//obj->setFontColor();
 		obj->loadSystemFont(_fontName);
 
-		CSceneManager::addNode(obj);
+		//CSceneManager::addNode(obj);
 		return obj;
 	}
 
